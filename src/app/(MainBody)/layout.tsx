@@ -1,7 +1,6 @@
 "use client";
 import Footer from "@/Layout/Footer/Footer";
 import { SideBar } from "@/Layout/Sidebar/Sidebar";
-import ThemeCustomizer from "@/Layout/ThemeCustomizer";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import Store from "@/Redux/Store";
 import { Provider } from "react-redux";
@@ -55,7 +54,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </div>
       </div>
-      <ThemeCustomizer />
       <ToastContainer />
       <TapTop />
     </Provider>

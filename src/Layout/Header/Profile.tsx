@@ -25,11 +25,7 @@ export const Profile = () => {
         </div>
       </div>
       <ul className="profile-dropdown onhover-show-div">
-        {UserProfileData.map((item, index) => (
-          <li key={index}>
-            <Link href={`/${item.link}`}>{item.icon}<span>{item.title} </span></Link>
-          </li>
-        ))}
+  
         <li onClick={LogOutUser}><Link href={Href}scroll={false} ><LogOut /><span>{Logout} </span></Link></li>
       </ul>
     </li>
