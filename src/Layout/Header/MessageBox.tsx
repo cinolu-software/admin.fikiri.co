@@ -1,7 +1,6 @@
 import SVG from "@/CommonComponent/SVG";
 import { CheckAll, ImagePath, Messages } from "@/Constant";
 import { MessageData } from "@/Data/Layout";
-import { useAppSelector } from "@/Redux/Hooks";
 import Link from "next/link";
 import { Badge } from "reactstrap";
 

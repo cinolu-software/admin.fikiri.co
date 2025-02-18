@@ -6,7 +6,8 @@ $body-color: #f8f8f8;
 $main-body-color: #F4F7F9;
 
 // Theme colors variables
-$primary-color: #7A70BA;
+//$primary-color: #7A70BA;
+$primary-color: #38CAB3;
 $secondary-color: #48A3D7;
 $tertiary-color : #C95E9E;
 $success-color: #0DA759;
@@ -52,13 +53,14 @@ $light-warning: #fbdac9;
 $light-danger: #FEDDDB;
 $light-white: #F9F9FB;
 $light-dark: #EAEBF2;
-$sidebar-color: #2A3650;
+
+/**@MosesModify*/
+$sidebar-color: #F3F2F7;
 $sidebar-font: #CBCCCE;
-$light-sidebar-bg: #374462;
+$light-sidebar-bg: #D2F7EF;
 $header-light-bg: #F4F7F9;
 $card-header-color: #6A7185;
 $light-text-color: #8D8D8D;
-
 
 // gradient colors
 $gradient-primary: linear-gradient(26deg, var(--theme-default) 0%, #a26cf8 100%);
@@ -212,8 +214,6 @@ $card-header-span-color : $theme-body-sub-title-color;
 $card-body-bg-color : $transparent-color;
 $card-footer-bg-color : $white;
 $card-hover-box-shadow : 0 0 40px rgba(8, 21, 66, .05);
-
-
 
 // According settings
 $card-border-width :0px;

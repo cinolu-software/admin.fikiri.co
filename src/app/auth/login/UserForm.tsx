@@ -1,4 +1,4 @@
-import { CreateAccount, DontHaveAccount, EmailAddressLogIn, OrSignInWith, Password, RememberPassword, SignIn, SignInToAccount } from "@/Constant";
+import {EmailAddressLogIn, Password, SignIn, SignInToAccount } from "@/Constant";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import imageOne from "../../../../public/assets/images/logo/logo.png";
 import imageTwo from "../../../../public/assets/images/logo/logo_dark.png";
-import UserSocialApp from "./UserSocialApp";
+
 
 const UserForm = () => {
+
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("test123@gmail.com");
   const [password, setPassword] = useState("Test@123");
@@ -51,19 +52,10 @@ const UserForm = () => {
             </div>
           </FormGroup>
           <FormGroup className="mb-0">
-            <div className="checkbox p-0">
-              <Input id="checkbox1" type="checkbox" />
-              <Label className="text-muted" htmlFor="checkbox1">{RememberPassword}</Label>
-            </div>
             <div className="text-end mt-3">
               <Button color="primary" block className="w-100" onClick={formSubmitHandle}>{SignIn}</Button>
             </div>
           </FormGroup>
-          <h6 className="text-muted mt-4 or">{OrSignInWith}</h6>
-          <UserSocialApp />
-          <p className="mt-4 mb-0 text-center">{DontHaveAccount}
-            <Link className="ms-2" href={`/authentication/registersimple`}>{CreateAccount}</Link>
-          </p>
         </Form>
       </div>
     </div>
