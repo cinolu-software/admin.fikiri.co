@@ -6,10 +6,9 @@ $body-color: #f8f8f8;
 $main-body-color: #F4F7F9;
 
 // Theme colors variables
-//$primary-color: #7A70BA;
-$primary-color: #38CAB3;
-$secondary-color: #48A3D7;
-$tertiary-color : #C95E9E;
+$primary-color: #0E78A9;
+$secondary-color: #162931;
+$tertiary-color : #84A02F;
 $success-color: #0DA759;
 $info-color : #16C7F9;
 $warning-color: #D77748;
@@ -54,10 +53,9 @@ $light-danger: #FEDDDB;
 $light-white: #F9F9FB;
 $light-dark: #EAEBF2;
 
-/**@MosesModify*/
-$sidebar-color: #F3F2F7;
+$sidebar-color: lighten(#162931, 10%);
 $sidebar-font: #CBCCCE;
-$light-sidebar-bg: #D2F7EF;
+$light-sidebar-bg: #0E78A9;
 $header-light-bg: #F4F7F9;
 $card-header-color: #6A7185;
 $light-text-color: #8D8D8D;
@@ -72,7 +70,7 @@ $twitter: #6fa2d8;
 $google-plus: #c64e40;
 $linkedin: #0077B5;
 
-// soical table 
+// social table
 $fb-color: #2F84F4;
 $insta-color: #FC971E;
 $pintrest-color: $secondary-color;
@@ -104,6 +102,8 @@ $dark-editor-document: #2b2b2b;
 $bg-dark-color: #1f2533;
 $dark-datatable-odd: $sidebar-color;
 $dark-datatable-sorting: $sidebar-color;
+$dark-datatable-sorting-even: $light-sidebar-bg;
+$dark-even-hover-sorting: rgba(255, 255, 255, 0.2);
 $dark-datatable-sorting-even: $light-sidebar-bg;
 $dark-even-hover-sorting: rgba(255, 255, 255, 0.2);
 

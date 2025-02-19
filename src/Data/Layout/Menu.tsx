@@ -16,7 +16,6 @@ export const MenuList: MenuItem[] = [
           { path: "/sample_page", type: "link", title: "Sample Page" },
         ],
       },
-      { path: "https://support.pixelstrap.com/", icon: "support-tickets", title: "Support Ticket", type: "link" },
     ]
   },
 ];
