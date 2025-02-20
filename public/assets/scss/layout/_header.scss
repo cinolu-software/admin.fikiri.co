@@ -45,7 +45,6 @@
 
 /*======= Page Header css ends  ======= */
 
-
 /**======Main Header css Start ======**/
 .offcanvas,
 .offcanvas-bookmark {
@@ -99,15 +98,15 @@
     .onhover-show-div {
       @extend %for-animated-hover-box;
     }
-
   }
 }
 
 .onhover-show-div {
   top: 80px;
   position: absolute;
+  z-index: 8;
   background-color: $white;
-  z-index: 8;
+  transition: all linear 0.3s;
   @extend %for-animated-hover;
 
   li {
@@ -124,29 +123,23 @@
   }
 }
 
-
-.onhover-show-d {
-  top: 80px;
-  position: absolute;
-  background-color: #0DA759;
-  z-index: 8;
-  //background-color: $white;
-  @extend %for-animated-hover;
-
-  li {
-    a {
-      svg {
-        margin-top: 0 !important;
-
-        path,
-        line {
-          color: $theme-body-font-color  !important;
-        }
-      }
-    }
-  }
+.profile-img, .profile-info {
+  width: 50px;
+  max-width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border: 2px solid #0E78A9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.profile-info {
+  width: 100px;
+  max-width: 100px;
+  height: 100px;
+}
 
 /**======Main Header css Ends ======**/
 

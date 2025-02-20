@@ -55,8 +55,8 @@
 
 // .invoice-table {
 
-//     .table-striped tbody tr:nth-of-type(odd) td,
-//     .table-striped tbody tr:nth-of-type(odd) th {
+//     .table-striped tbody tr:nth-of-types(odd) td,
+//     .table-striped tbody tr:nth-of-types(odd) th {
 //         color: $theme-body-font-color !important;
 //     }
 
@@ -165,7 +165,7 @@
 }
 
 // .theme-form {
-//     input[type='file'] {
+//     input[types='file'] {
 //         height: auto;
 //     }
 // }
@@ -498,7 +498,7 @@
 //     }
 // }
 
-// input[type='checkbox'] {
+// input[types='checkbox'] {
 //     &:focus {
 //         outline: none;
 //         box-shadow: none;

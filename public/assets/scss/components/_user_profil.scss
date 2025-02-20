@@ -1,0 +1,364 @@
+
+.program-info {
+  background-color: #f9f9f9;
+  border: 1px solid #28a745;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+
+    .label {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .value {
+      color: #6c757d;
+    }
+  }
+}
+
+.program-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .cover-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.program-duration {
+  .date-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    .label {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .value {
+      color: #6c757d;
+    }
+  }
+
+  .duration-info {
+    margin-top: 10px;
+
+    .label {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .value {
+      color: #6c757d;
+    }
+  }
+}
+
+.program-name {
+  background-color: #f9f9f9;
+  border: 1px solid #28a745;
+  padding: 15px;
+  border-radius: 8px;
+  h5 {
+    margin: 0;
+    color: #28a745;
+    font-weight: bold;
+  }
+}
+
+.program-description {
+  background-color: #f9f9f9;
+  border: 1px solid #28a745;
+  padding: 15px;
+  border-radius: 8px;
+
+  p {
+    margin: 0;
+    color: #6c757d;
+  }
+}
+
+
+.svg-wrapper {
+  width: 24px;
+  height: 24px;
+  color: #28a745;
+
+  &.text-success {
+    color: #28a745;
+  }
+}
+
+.profile-header {
+  .block-backgroud {
+    height: 150px;
+    background-color: #f4f4f4;
+    position: relative;
+  }
+
+  .container-avatar {
+    position: absolute;
+    bottom: 150px;
+    left: 25px;
+    width: 15%;
+    max-width: 150px;
+    min-width: 90px;
+    z-index: 5;
+
+    .avatar-profile {
+      background-color: #f3f3f3;
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px #f2f2f2;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .camera-button {
+      position: absolute;
+      bottom: -5px;
+      left: 70%;
+      transform: translateX(-50%);
+      width: 35px;
+      height: 35px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 6;
+
+      &:hover {
+        background-color: #f9f9f9;
+        border-color: #aaa;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .block-info {
+    margin-left: 20px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    h4 {
+      color: #6c757d;
+      font-weight: 300;
+    }
+  }
+}
+
+/*post*/
+.post-list-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  .filter-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+
+      &:hover {
+        border-color: #84a02f;
+      }
+    }
+  }
+
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .post-card {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .post-card-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .post-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 15px;
+      text-align: center;
+      width: 100%;
+
+      .post-card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2b4b20;
+        margin-bottom: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .post-card-excerpt {
+        font-size: 14px;
+        color: #555;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+
+      .post-card-category {
+        font-size: 14px;
+        color: #708241;
+        font-style: italic;
+        margin-top: auto;
+      }
+    }
+
+    .post-card-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      width: 100%;
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 45%;
+
+        svg {
+          font-size: 16px;
+        }
+
+        &.edit-button {
+          color: #4caf50;
+          border: 0.5px solid #4caf50;
+
+          &:hover {
+            background-color: #388e3c;
+            color: #fff;
+          }
+        }
+
+        &.delete-button {
+          color: #f44336;
+          border: 0.5px solid #f44336;
+
+          &:hover {
+            background-color: #d32f2f;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,6 +24,23 @@ export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue:
     }
 );
 
+export const logOut = createAsyncThunk<void, void, {rejectValue: UserGetProfileErrorType}>(
+    "auth/logout",
+    async (_, { rejectWithValue }) => {
+        try{
+            await axiosInstance.post(`${apiBaseUrl}/auth/sign-out`);
+            Cookies.remove("fikiri_token");
+        }catch(e : any){
+            const errorMessage = e.response?.data?.error?.message || "Erreur";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "PROFILE_FETCH_ERROR",
+                statusCode: 500
+            })
+        }
+    }
+)
+
 const initialState : InitialState = {
     userData: null,
     statusAuthentication: "idle",
@@ -50,6 +67,18 @@ const authenticationSlice = createSlice({
             })
             .addCase(getProfile.rejected, (state, action) => {
                 state.statusAuthentication = 'failed';
+                state.UserGetProfileError = action.payload ?? null;
+            })
+            .addCase(logOut.pending, (state)=> {
+                state.statusAuthentication = "loading";
+            })
+            .addCase(logOut.fulfilled, (state)=> {
+                state.statusAuthentication = "succeeded";
+                state.userData= null;
+                state.isAuthenticated = false;
+            })
+            .addCase(logOut.rejected, (state, action)=>{
+                state.statusAuthentication = "failed";
                 state.UserGetProfileError = action.payload ?? null;
             })
     }

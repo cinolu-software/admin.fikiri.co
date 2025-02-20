@@ -129,6 +129,77 @@
     }
 }
 
+
+
 /**=====================
     2.3 Avatars CSS Ends
 ==========================**/
+
+.main-content-body {
+
+    .profile-card {
+        border: none;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        color: #333;
+    }
+
+    .bio-text {
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .experience-section {
+        .section-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .experience-item {
+            .experience-title {
+                font-size: 0.95rem;
+                color: #007bff;
+                margin: 0;
+            }
+
+            .company-name {
+                font-size: 0.85rem;
+                color: #666;
+            }
+
+            .date-range, .experience-description {
+                font-size: 0.85rem;
+                color: #888;
+            }
+        }
+    }
+
+    .statistics {
+        display: flex;
+        gap: 15px;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    .contact-info {
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #555;
+
+            .icon-style {
+                font-size: 1rem;
+                color: #007bff;
+            }
+        }
+    }
+
+}

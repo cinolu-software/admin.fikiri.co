@@ -46,7 +46,7 @@ $close-button-background: #d33333 !default;
 //
 table.dataTable {
 
-  // Styling for the `inline` type
+  // Styling for the `inline` types
   &.dtr-inline.collapsed>tbody {
     >tr {
 
@@ -106,7 +106,7 @@ table.dataTable {
   }
 
 
-  // Styling for the `column` type
+  // Styling for the `column` types
   &.dtr-column>tbody {
 
     >tr>td.control,

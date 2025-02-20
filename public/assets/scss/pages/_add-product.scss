@@ -263,8 +263,8 @@
 // Gallery product
 .sidebar-body {
 
-    // input[type=number]::-webkit-inner-spin-button,
-    // input[type=number]::-webkit-outer-spin-button {
+    // input[types=number]::-webkit-inner-spin-button,
+    // input[types=number]::-webkit-outer-spin-button {
     //     -webkit-appearance: inner-spin-button;
     // }
 
@@ -493,41 +493,41 @@
         }
     }
 
-    // .add-variation {
-    //     .alert-box {
-    //         position: fixed;
-    //         top: 50%;
-    //         left: 50%;
-    //         transform: translate(-50%, -50%);
-    //         width: 300px;
-    //         padding: 20px;
-    //         background-color: #f2f2f2;
-    //         border: 1px solid #ccc;
-    //         display: none;
+     .add-variation {
+         .alert-box {
+             position: fixed;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             width: 300px;
+             padding: 20px;
+             background-color: #f2f2f2;
+             border: 1px solid #ccc;
+             display: none;
 
-    //         [dir="rtl"] & {
-    //             left: unset;
-    //             right: 50%;
-    //         }
-    //     }
+             [dir="rtl"] & {
+                 left: unset;
+                 right: 50%;
+             }
+         }
 
-    //     .close-btn {
-    //         position: absolute;
-    //         top: 10px;
-    //         right: 10px;
-    //         cursor: pointer;
+         .close-btn {
+             position: absolute;
+             top: 10px;
+             right: 10px;
+             cursor: pointer;
 
-    //         [dir="rtl"] & {
-    //             right: unset;
-    //             left: 10px;
-    //         }
-    //     }
-    // }
+             [dir="rtl"] & {
+                 right: unset;
+                 left: 10px;
+             }
+         }
+     }
 }
 
-// .additional-description {
-//     margin-top: 20px;
-// }
+ .additional-description {
+     margin-top: 20px;
+ }
 
 .product-tag {
     .tagify {
@@ -618,6 +618,7 @@
 
 
     .list-product-body {
+
         margin-top: 20px;
         padding: 0px;
         box-shadow: unset;
@@ -627,6 +628,7 @@
             border-color: var(--recent-dashed-border);
             color: var(--text-gray);
         }
+
     }
 
 }
@@ -960,23 +962,48 @@
     background: unset;
 }
 
-// .datatable-search {
-// position: relative;
+ .datatable-search {
+ position: relative;
 
-// .datatable-input {
-//     position: absolute;
-//     content: "\f002";
-//     top: 50%;
-//     right: 10px;
-//     -webkit-transform: translateY(-50%);
-//     transform: translateY(-50%);
-//     border: none;
-//     font-family: "FontAwesome";
-//     font-size: 18px;
-//     margin: 0;
+ .datatable-input {
+     position: absolute;
+     content: "\f002";
+     top: 50%;
+     right: 10px;
+     -webkit-transform: translateY(-50%);
+     transform: translateY(-50%);
+     border: none;
+     font-family: "FontAwesome";
+     font-size: 18px;
+     margin: 0;
 
-// }
-// }
+ }
+
+ }
+.custom-sel {
+    border-radius: 8px;
+    border-color: #15803D;
+    padding: 5px;
+    min-height: 40px;
+    font-size: 14px;
+    color: #15803D;
+
+    option {
+        background-color: #D0DDD5;
+        color: #2B6442;
+
+        &:checked {
+            background-color: #15803D;
+            color: #FFFFFF;
+        }
+
+        &:hover {
+            background-color: #2B6442;
+            color: #FFFFFF;
+        }
+    }
+}
+
 
 
 // Category page
