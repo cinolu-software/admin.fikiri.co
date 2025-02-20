@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  if (path.split("/")[1] !== "auth" && !request.cookies.has("mofi_token")) {
+  if (path.split("/")[1] !== "auth" && !request.cookies.has("fikiri_token")) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
-  if (path.split("/")[1] === "auth" && request.cookies.has("mofi_token")) {
-    return NextResponse.redirect(new URL(`/home`, request.url));
+  if (path.split("/")[1] === "auth" && request.cookies.has("fikiri_token")) {
+    return NextResponse.redirect(new URL(`/general/home`, request.url));
   }
 
   return NextResponse.next();

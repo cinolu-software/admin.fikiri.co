@@ -35,6 +35,16 @@ export const MenuList: MenuItem[] = [
         children: [
           {path: "/admin/administrateurs", type: "link", title: "Liste" },
         ]
+      },
+      {
+        title: "Solutions",
+        id: 4,
+        icon: "file",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/solutions", type: "link", title: "Solutions" },
+        ]
       }
     ]
   },
@@ -47,9 +57,23 @@ export const MenuList: MenuItem[] = [
         title: "Appels",
         id: 1,
         icon: "contact",
-        type: "link",
-        path: "/admin/call",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/call", type: "link", title: "Liste" },
+        ]
+
       },
+      {
+        title: "Rôles",
+        id: 2,
+        icon: "others",
+        type: "sub",
+        active: false,
+        children: [
+            {path: "/admin/role", type: "link", title: "Liste" },
+        ]
+      }
     ]
   }
 ];

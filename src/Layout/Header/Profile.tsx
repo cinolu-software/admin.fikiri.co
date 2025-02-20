@@ -1,5 +1,4 @@
 import { Href, ImagePath, Logout } from "@/Constant";
-import { UserProfileData } from "@/Data/Layout";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,17 +15,19 @@ export const Profile = () => {
   return (
     <li className="profile-nav onhover-dropdown px-0 py-0">
       <div className="d-flex profile-media align-items-center">
-        <img className="img-30" src={`${ImagePath}/dashboard/profile.png`} alt="" />
         <div className="flex-grow-1">
-          <span>Alen Miller</span>
-          <p className="mb-0 font-outfit">
-            UI Designer<i className="fa fa-angle-down"></i>
-          </p>
+            <div className="ps-5">
+                <img className="img-30" src={`${ImagePath}/dashboard/profile.png`} alt="" />
+            </div>
         </div>
+          <div className="ms-1">
+              <i className="fa fa-angle-down mt-2"></i>
+          </div>
       </div>
       <ul className="profile-dropdown onhover-show-div">
-  
-        <li onClick={LogOutUser}><Link href={Href}scroll={false} ><LogOut /><span>{Logout} </span></Link></li>
+        <li onClick={LogOutUser}>
+            <Link href={Href} scroll={false} ><LogOut /><span>{Logout} </span></Link>
+        </li>
       </ul>
     </li>
   );

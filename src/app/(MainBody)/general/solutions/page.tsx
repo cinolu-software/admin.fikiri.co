@@ -1,15 +1,14 @@
 'use client';
 
-
 import {FunctionComponent, useEffect, useState} from "react";
 
-const Innovators = () => {
+const Solutions = () => {
     const [MyAwesomeMap, setMyAwesomeMap] = useState<FunctionComponent>();
 
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import("@/Components/General/Innovators")).default;
+                const newClient = (await import("@/Components/General/Solutions")).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();
@@ -18,4 +17,4 @@ const Innovators = () => {
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
 
-export default Innovators;
+export default Solutions;

@@ -1,5 +1,4 @@
 import { Row } from "reactstrap";
-import { MobileView } from "./MobileView";
 import { BreadCrumbs } from "./BreadCrumbs";
 import { PageHeader } from "./PageHeader";
 import { useEffect } from "react";
@@ -16,7 +15,6 @@ export const Header = () => {
 
   return (
     <Row className={`page-header ${toggleSidebar ? "close_icon" : ""}`} id="page-header">
-      {/* <MobileView /> */}
       <BreadCrumbs />
       <PageHeader />
     </Row>
