@@ -1,15 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import HeaderBookmarkSlice from "./Reducers/HeaderBookmarkSlice";
-import LayoutSlice from "./Reducers/LayoutSlice";
-import ThemeCustomizerSlice from "./Reducers/ThemeCustomizerSlice";
-import authenticationSliceReducer from "./Reducers/AuthenticationSlice";
+import {
+    HeaderBookmarkSlice,
+    ThemeCustomizerSlice,
+    LayoutSlice,
+    authenticationSlice,
+    roleSlice,
+} from "@/Redux/Reducers";
 
 const Store = configureStore({
   reducer: {
     layout: LayoutSlice,
     headerBookMark: HeaderBookmarkSlice,
     themeCustomizer: ThemeCustomizerSlice,
-    authentication: authenticationSliceReducer
+    authentication: authenticationSlice,
+    role: roleSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
