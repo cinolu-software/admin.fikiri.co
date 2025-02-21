@@ -73,6 +73,16 @@ export const MenuList: MenuItem[] = [
         children: [
             {path: "/admin/role", type: "link", title: "Liste" },
         ]
+      },
+      {
+        title: "Organisations",
+        id: 3,
+        icon: "learning",
+        type: "sub",
+        active: false,
+        children: [
+            {path: "/admin/organizations", type: "link", title: "Liste" },
+        ]
       }
     ]
   }

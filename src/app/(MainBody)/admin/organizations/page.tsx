@@ -2,12 +2,12 @@
 
 import {FunctionComponent, useEffect, useState} from "react";
 
-const Roles = () => {
+const Organizations = () => {
     const [MyAwesomeMap, setClient] = useState<FunctionComponent>();
     useEffect(() => {
         (async () => {
             if(typeof window !== "undefined") {
-                const newClient = (await import("@/Components/Admin/Roles")).default;
+                const newClient = (await import("@/Components/Admin/Organizations")).default;
                 setClient(()=> newClient);
             }
         })();
@@ -16,4 +16,4 @@ const Roles = () => {
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
 
-export default Roles;
+export default Organizations;
