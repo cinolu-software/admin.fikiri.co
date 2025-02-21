@@ -5,6 +5,7 @@ import {
     LayoutSlice,
     authenticationSlice,
     roleSlice,
+    organizationSlice,
 } from "@/Redux/Reducers";
 
 const Store = configureStore({
@@ -13,7 +14,8 @@ const Store = configureStore({
     headerBookMark: HeaderBookmarkSlice,
     themeCustomizer: ThemeCustomizerSlice,
     authentication: authenticationSlice,
-    role: roleSlice
+    role: roleSlice,
+    organization: organizationSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

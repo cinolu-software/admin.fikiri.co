@@ -1,40 +1,40 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Button, Col, Input, Label, Modal, ModalBody, ModalFooter} from "reactstrap";
 import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
-import {updateRole, setModalEditRole} from "@/Redux/Reducers/RoleSlice";
+import {updateOrganization, setModalEditOrganization} from "@/Redux/Reducers/OrganizationSlice";
 import {Flip, toast} from "react-toastify";
-import {UpdateRoleType} from "@/Types/Role/RoleType";
+import {UpdateOrganizationType} from "@/Types/Organization/OrganizationType";
 
-const UpdateRoleModal = () => {
+const UpdateOrganizationModal = () => {
     const dispatch = useAppDispatch();
-    const {selectedRole, isOpenModalEditRole} = useAppSelector(state => state.role);
+    const {selectedOrganization, isOpenModalEditOrganization} = useAppSelector(state => state.organization);
     const isEditingRef = useRef<boolean>(false);
-    const [role, setRole] = useState<UpdateRoleType>({name: '', id: ''});
+    const [organization, setOrganization] = useState<UpdateOrganizationType>({name: '', id: ''});
 
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newName = e.target.value;
-        setRole((prev)=>({...prev, name: newName}));
+        setOrganization((prev)=>({...prev, name: newName}));
         isEditingRef.current = true;
     }
 
     useEffect(() => {
         if (!isEditingRef.current) {
-            setRole({
-                id: selectedRole?.id || '',
-                name: selectedRole?.name || '',
+            setOrganization({
+                id: selectedOrganization?.id || '',
+                name: selectedOrganization?.name || '',
             })
         }else{
             isEditingRef.current = false;
         }
-    }, [isEditingRef.current, selectedRole]);
+    }, [isEditingRef.current, selectedOrganization]);
 
     const handleSubmit = async () => {
         try {
-            await dispatch(updateRole(role)).unwrap()
-            dispatch(setModalEditRole({isOpen: false, role: null}))
+            await dispatch(updateOrganization(organization)).unwrap()
+            dispatch(setModalEditOrganization({isOpen: false, organization: null}))
             toast.success(
-                <p className="text-white tx-16 mb-0">{"Rôle mis à jour avec succès"}</p>,
+                <p className="text-white tx-16 mb-0">{"Organisation mis à jour avec succès"}</p>,
                 {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,
@@ -45,7 +45,7 @@ const UpdateRoleModal = () => {
             );
         } catch (error) {
             toast.error(
-                <p className="text-white tx-16 mb-0">{"Erreur survenue lors de la mise à jour du Rôle"}</p>,
+                <p className="text-white tx-16 mb-0">{"Erreur survenue lors de la mise à jour de l'organisation"}</p>,
                 {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,
@@ -61,26 +61,26 @@ const UpdateRoleModal = () => {
     return (
         <Col xs={'12'}>
             <Modal
-                isOpen={isOpenModalEditRole}
-                toggle={() => dispatch(setModalEditRole({isOpen: false, role: null}))}
+                isOpen={isOpenModalEditOrganization}
+                toggle={() => dispatch(setModalEditOrganization({isOpen: false, organization: null}))}
                 size={'lg'}
             >
                 <div className="modal-header">
-                    <h1 className="modal-title fs-5">{"Mettre à jour un type du rôle"}</h1>
+                    <h1 className="modal-title fs-5">{"Mettre à jour de l'organisation"}</h1>
                     <Button close
-                            onClick={() => dispatch(setModalEditRole({isOpen: false, role: null}))}
+                            onClick={() => dispatch(setModalEditOrganization({isOpen: false, organization: null}))}
                     />
                 </div>
                 <ModalBody className="custom-input">
                     <div className="update-category">
                         <Label for="programName" check>
-                            Nom du rôle <span className="txt-danger">*</span>
+                            Nom de l'organisation <span className="txt-danger">*</span>
                         </Label>
                         <Input
                             className="m-0"
                             id="programName"
                             type="text"
-                            value={role.name || ""}
+                            value={organization.name || ""}
                             onChange={handleNameChange}
                             required
                         />
@@ -90,7 +90,7 @@ const UpdateRoleModal = () => {
                 <ModalFooter>
                     <button
                         className="btn btn-outline-light"
-                        onClick={() => dispatch(setModalEditRole({isOpen: false, role: null}))}
+                        onClick={() => dispatch(setModalEditOrganization({isOpen: false, organization: null}))}
                     >
                         {"Annuler"}
                     </button>
@@ -103,4 +103,4 @@ const UpdateRoleModal = () => {
     )
 }
 
-export default UpdateRoleModal;
+export default UpdateOrganizationModal;

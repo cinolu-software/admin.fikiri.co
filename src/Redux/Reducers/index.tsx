@@ -3,6 +3,7 @@ import LayoutSlice from "@/Redux/Reducers/LayoutSlice";
 import ThemeCustomizerSlice from "@/Redux/Reducers/ThemeCustomizerSlice";
 import authenticationSlice from "@/Redux/Reducers/AuthenticationSlice";
 import roleSlice from "@/Redux/Reducers/RoleSlice";
+import organizationSlice from "@/Redux/Reducers/OrganizationSlice";
 
 
 export {
@@ -11,4 +12,5 @@ export {
     ThemeCustomizerSlice,
     authenticationSlice,
     roleSlice,
+    organizationSlice,
 }
