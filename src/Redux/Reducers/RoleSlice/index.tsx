@@ -95,11 +95,11 @@ const roleSlice = createSlice({
         setModalCreateRole: (state, action: PayloadAction<{isOpen: boolean}>) => {
             state.isOpenModalCreateRole = action.payload.isOpen;
         },
-        setModalEditRole: (state, action: PayloadAction<{isOpen: boolean, role: DataGetRoleType}>) => {
+        setModalEditRole: (state, action: PayloadAction<{isOpen: boolean, role: DataGetRoleType | null }>) => {
             state.isOpenModalEditRole = action.payload.isOpen;
             state.selectedRole = action.payload.role;
         },
-        setModalDeleteRole: (state, action: PayloadAction<{isOpen: boolean, role: DataGetRoleType}>) => {
+        setModalDeleteRole: (state, action: PayloadAction<{isOpen: boolean, role: DataGetRoleType | null}>) => {
             state.isOpenModalDeleteRole = action.payload.isOpen;
             state.selectedRole = action.payload.role;
         }
