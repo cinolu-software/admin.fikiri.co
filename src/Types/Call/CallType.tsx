@@ -34,3 +34,8 @@ export interface CallType extends  CallInstance {
     authors: Author;
 }
 
+export interface InitialStateCallType {
+    callData: CallInstance[];
+    statusCall: "idle" | "loading" | "succeeded" | "failed";
+
+}

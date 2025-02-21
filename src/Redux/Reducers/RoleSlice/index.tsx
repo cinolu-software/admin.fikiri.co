@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
 import {CreateRoleType, UpdateRoleType, InitialStateRoleType, DataGetRoleType, DataGetRoleErrorType} from "@/Types/Role/RoleType";
-
-
 const initialState: InitialStateRoleType = {
     dataRoles: [],
     statusRole: 'idle',
@@ -10,7 +8,7 @@ const initialState: InitialStateRoleType = {
     isOpenModalCreateRole: false,
     isOpenModalDeleteRole: false,
     isOpenModalEditRole: false,
-    selectedRole: null
+    selectedRole: null,
 };
 
 export const fetchRole = createAsyncThunk<DataGetRoleType[], void, { rejectValue: DataGetRoleErrorType }>(
