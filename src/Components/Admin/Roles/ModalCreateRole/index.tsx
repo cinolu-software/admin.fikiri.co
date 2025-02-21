@@ -18,6 +18,7 @@ const CreateRoleModal = () => {
         await dispatch(createRole(role)).unwrap()
             .then(() => {
                 dispatch(setModalCreateRole({ isOpen: false }));
+                setRole({name: ''});
                 toast.success(
                     <p className="text-white tx-16 mb-0">{"Role Utilisateur Créé Avec Succès"}</p>,
                     {

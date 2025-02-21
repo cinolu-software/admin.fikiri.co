@@ -28,13 +28,12 @@ export const fetchRole = createAsyncThunk<DataGetRoleType[], void, { rejectValue
     }
 );
 
-
 export const createRole = createAsyncThunk<DataGetRoleType, CreateRoleType, { rejectValue: DataGetRoleErrorType }>(
     "role/createRole",
     async (roleData, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post(`${apiBaseUrl}/roles`, roleData);
-            return response.data as DataGetRoleType;
+            return response.data.data as DataGetRoleType;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la création du rôle";
             return rejectWithValue({
@@ -46,13 +45,12 @@ export const createRole = createAsyncThunk<DataGetRoleType, CreateRoleType, { re
     }
 );
 
-
 export const updateRole = createAsyncThunk<DataGetRoleType, UpdateRoleType, { rejectValue: DataGetRoleErrorType }>(
     "role/updateRole",
     async ({ id, ...roleData }, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.patch(`${apiBaseUrl}/roles/${id}`, roleData);
-            return response.data as DataGetRoleType;
+            return response.data.data as DataGetRoleType;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la mise à jour du rôle";
             return rejectWithValue({
@@ -64,13 +62,12 @@ export const updateRole = createAsyncThunk<DataGetRoleType, UpdateRoleType, { re
     }
 );
 
-
 export const deleteRole = createAsyncThunk<string, string, { rejectValue: DataGetRoleErrorType }>(
     "role/deleteRole",
     async (id, { rejectWithValue }) => {
         try {
             await axiosInstance.delete(`${apiBaseUrl}/roles/${id}`);
-            return id; // On retourne l'ID pour le supprimer du state
+            return id;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la suppression du rôle";
             return rejectWithValue({
@@ -81,7 +78,6 @@ export const deleteRole = createAsyncThunk<string, string, { rejectValue: DataGe
         }
     }
 );
-
 
 const roleSlice = createSlice({
     name: "role",
@@ -104,32 +100,30 @@ const roleSlice = createSlice({
     },
     extraReducers: (builder) => {
 
-        builder.addCase(fetchRole.pending, (state) => {
-            state.statusRole = 'loading';
-        });
-        builder.addCase(fetchRole.fulfilled, (state, action: PayloadAction<DataGetRoleType[]>) => {
-            state.statusRole = 'succeeded';
-            state.dataRoles = action.payload;
-        });
-        builder.addCase(fetchRole.rejected, (state) => {
-            state.statusRole = 'failed';
-        });
-
-
-        builder.addCase(createRole.fulfilled, (state, action: PayloadAction<DataGetRoleType>) => {
-            state.dataRoles.push(action.payload);
-        });
-
-        builder.addCase(updateRole.fulfilled, (state, action: PayloadAction<DataGetRoleType>) => {
-            const index = state.dataRoles.findIndex(role => role.id === action.payload.id);
-            if (index !== -1) {
-                state.dataRoles[index] = action.payload;
-            }
-        });
-
-        builder.addCase(deleteRole.fulfilled, (state, action: PayloadAction<string>) => {
-            state.dataRoles = state.dataRoles.filter(role => role.id !== action.payload);
-        });
+        builder
+            .addCase(fetchRole.pending, (state) => {
+                state.statusRole = 'loading';
+            })
+            .addCase(fetchRole.fulfilled, (state, action: PayloadAction<DataGetRoleType[]>) => {
+                state.statusRole = 'succeeded';
+                state.dataRoles = action.payload;
+            })
+            .addCase(fetchRole.rejected, (state) => {
+                state.statusRole = 'failed';
+            })
+            .addCase(createRole.fulfilled, (state, action: PayloadAction<DataGetRoleType>) => {
+                state.statusRole = 'succeeded';
+                state.dataRoles.push(action.payload);
+            })
+            .addCase(updateRole.fulfilled, (state, action: PayloadAction<DataGetRoleType>) => {
+                const index = state.dataRoles.findIndex(role => role.id === action.payload.id);
+                if (index !== -1) {
+                    state.dataRoles[index] = action.payload;
+                }
+            })
+            .addCase(deleteRole.fulfilled, (state, action: PayloadAction<string>) => {
+                state.dataRoles = state.dataRoles.filter(role => role.id !== action.payload);
+            });
     },
 });
 

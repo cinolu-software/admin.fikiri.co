@@ -14,6 +14,7 @@ const RoleListTableName : React.FC<{name: string}> = ({name}) => {
 }
 
 const RoleListTableAction : React.FC<{role : DataGetRoleType}> = ({role}) =>{
+
     const dispatch = useAppDispatch();
     const handleEdit = () => {
         dispatch(setModalEditRole({isOpen: true, role}));
