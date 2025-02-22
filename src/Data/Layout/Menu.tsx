@@ -17,7 +17,7 @@ export const MenuList: MenuItem[] = [
         ],
       },
       {
-        title: "Innovateurs",
+        title: "Utilisateurs",
         id: 2,
         icon: "user",
         type: "sub",
@@ -26,16 +26,16 @@ export const MenuList: MenuItem[] = [
           {path: "/general/innovators/", type: "link", title: "Liste" },
         ]
       },
-      {
-        title: "Administrateurs",
-        id: 3,
-        icon: "editors",
-        type: "sub",
-        active: false,
-        children: [
-          {path: "/admin/administrateurs", type: "link", title: "Liste" },
-        ]
-      },
+      // {
+      //   title: "Administrateurs",
+      //   id: 3,
+      //   icon: "editors",
+      //   type: "sub",
+      //   active: false,
+      //   children: [
+      //     {path: "/admin/administrateurs", type: "link", title: "Liste" },
+      //   ]
+      // },
       {
         title: "Solutions",
         id: 4,
