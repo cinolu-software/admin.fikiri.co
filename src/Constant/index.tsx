@@ -12,6 +12,7 @@ export const callTitleDeleteModal="Supprimer l'appel";
 export const callWarningDeleteMessage = "Êtes-vous sûr de vouloir supprimer cet appel ?";
 export const callSuccessMessageDelete = "Suppression effectuée avec succès";
 export const callErrorMessageDelete = "Erreur survenue lors de la suppression de l'appel";
+export const AddCall = "Ajouter un Appel";
 
 export const allActivities="Activités";
 export const publishedActivity="Publiée(s)";

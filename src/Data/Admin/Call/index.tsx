@@ -119,10 +119,10 @@ const CallListTableAction: React.FC<{ call: CallType }> = ({ call }) => {
     );
 };
 
-export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
+export const CallListTableDataColumn: TableColumn<CallType>[] = [
     {
         name: "Nom",
-        cell: (row: CallInstance) => (
+        cell: (row: CallType) => (
             <CallListTableName
                 image={row?.cover ? `${imageBaseUrl}/projects/${row.cover}` : '/assets/images/programs/programs.png'}
                 name={row.name}/>
@@ -132,20 +132,20 @@ export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: CallInstance) => row.started_at,
+        selector: (row: CallType) => row.started_at,
         sortable: true,
         grow: 1
     },
     {
         name: "Date de fin",
-        selector: (row: CallInstance) => row.ended_at,
+        selector: (row: CallType) => row.ended_at,
         sortable: true,
         grow: 1
     },
 
     {
         name: "Actions",
-        cell: (row: CallInstance) => <CallListTableAction call={row}/>,
+        cell: (row: CallType) => <CallListTableAction call={row}/>,
         grow: 2
     },
 ];

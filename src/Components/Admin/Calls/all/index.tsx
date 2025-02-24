@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import { ToastContainer} from "react-toastify";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
 import {CallHeader} from "@/Components/Admin/Calls/common/CallHeader";
+import {CallType} from "@/Types/Call/CallType";
 
 
 const CallListContainer = () => {
@@ -33,6 +34,7 @@ const CallListContainer = () => {
     }, [statusCall, dispatch]);
 
 
+
     return (
         <Container fluid>
             <DeleteCallModal />
@@ -49,6 +51,7 @@ const CallListContainer = () => {
                                     <DataTable
                                         className="theme-scrollbar"
                                         data={filteredItems}
+                                        // @ts-ignore
                                         columns={CallListTableDataColumn}
                                         striped
                                         highlightOnHover

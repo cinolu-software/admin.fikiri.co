@@ -1,10 +1,9 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import {setFilterToggle} from "@/Redux/Reducers/CallSlice";
-
 import { Filter } from "react-feather";
 import AddButton from "@/CommonComponent/AddButton";
-import {AddActivity} from "@/Constant";
+import {AddCall} from "@/Constant";
 
 export const CallHeader = () => {
 
@@ -19,7 +18,7 @@ export const CallHeader = () => {
                     <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} />
                 </a>
             </div>
-            <AddButton link={'/project/new'} name={AddActivity} />
+            <AddButton link={'/admin/call/add_call'} name={AddCall} />
         </div>
     );
 };
