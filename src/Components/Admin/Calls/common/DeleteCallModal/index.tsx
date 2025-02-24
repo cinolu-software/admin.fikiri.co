@@ -3,26 +3,26 @@ import { ImagePath } from "@/Constant";
 import { Button, CardBody, Col, Spinner } from "reactstrap";
 import CommonModal from "@/CommonComponent/CommonModalType/CommonModal";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { setModalDeleteProject, deleteProject } from "@/Redux/Reducers/projectSlice/projectSlice";
+import {setModalDeleteCall, deleteCall} from "@/Redux/Reducers/CallSlice";
 import { toast, ToastContainer, Flip } from "react-toastify";
-import {activitySuccessMessageDelete, activityErrorMessageDelete, activityWarningDeleteMessage, deleteBtnModal, closeModal, activityTitleDeleteModal} from "@/Constant";
+import {callSuccessMessageDelete, callErrorMessageDelete, callWarningDeleteMessage, deleteBtnModal, closeModal, callTitleDeleteModal} from "@/Constant";
 
-const DeleteProjectModal = () => {
+const DeleteCallModal = () => {
 
     const dispatch = useAppDispatch();
-    const { isOpenModalDeleteProject, selectedProject, originalProjectData } = useAppSelector((state) => state.project);
-    const selectedProjectData = originalProjectData?.find((item: { id: any; }) => item.id === selectedProject?.id);
+    const {isOpenModalDeleteCall, selectedCall, callData} = useAppSelector(state => state.call);
+    const selectedCallData = callData?.find((item: { id: any; }) => item.id === selectedCall?.id);
 
     const [isLoading, setIsLoading] = useState(false);
 
     const handleDelete = async () => {
-        if (selectedProjectData && selectedProjectData.id !== undefined) {
+        if (selectedCallData && selectedCallData.id !== null ) {
             setIsLoading(true);
             try {
-                await dispatch(deleteProject(selectedProjectData.id)).unwrap();
-                dispatch(setModalDeleteProject({ isOpen: false, project: null }));
+                await dispatch(deleteCall(selectedCallData.id)).unwrap();
+                dispatch(setModalDeleteCall({ isOpen: false, call: null }));
                 toast.success(
-                    <p className="text-white tx-16 mb-0">{activitySuccessMessageDelete}</p>,
+                    <p className="text-white tx-16 mb-0">{callSuccessMessageDelete}</p>,
                     {
                         autoClose: 5000,
                         position: toast.POSITION.TOP_CENTER,
@@ -33,7 +33,7 @@ const DeleteProjectModal = () => {
                 );
             } catch (error) {
                 toast.error(
-                    <p className="text-white tx-16 mb-0">{activityErrorMessageDelete}</p>,
+                    <p className="text-white tx-16 mb-0">{callErrorMessageDelete}</p>,
                     {
                         autoClose: 5000,
                         position: toast.POSITION.TOP_CENTER,
@@ -53,9 +53,9 @@ const DeleteProjectModal = () => {
             <CardBody className="badge-spacing">
                 <CommonModal
                     centered
-                    isOpen={isOpenModalDeleteProject}
-                    toggle={() => dispatch(setModalDeleteProject({ isOpen: false, project: null }))}
-                    title={activityTitleDeleteModal}
+                    isOpen={isOpenModalDeleteCall}
+                    toggle={() => dispatch(setModalDeleteCall({ isOpen: false, call: null }))}
+                    title={callTitleDeleteModal}
                 >
                     <div className="modal-toggle-wrapper">
                         <ul className="modal-img">
@@ -64,13 +64,13 @@ const DeleteProjectModal = () => {
                             </li>
                         </ul>
                         <h4 className="text-center pb-2">
-                            {activityWarningDeleteMessage}
+                            {callWarningDeleteMessage}
                         </h4>
                         <div className="d-flex justify-content-center mt-5">
                             <Button
                                 color="secondary"
                                 className="me-2"
-                                onClick={() => dispatch(setModalDeleteProject({ isOpen: false, project: null }))}
+                                onClick={() => dispatch(setModalDeleteCall({ isOpen: false, call: null }))}
                                 disabled={isLoading}
                             >
                                 {closeModal}
@@ -87,7 +87,7 @@ const DeleteProjectModal = () => {
     );
 };
 
-export default DeleteProjectModal;
+export default DeleteCallModal;
 
 
 

@@ -1,23 +1,21 @@
 import React, { useMemo, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import {  Col, Container, Input, Label, Row } from "reactstrap";
-import {  fetchProjects } from "@/Redux/Reducers/projectSlice/projectSlice";
-import { ProjectListTableDataColumn } from "@/Data/Application/Project/";
-import DeleteProjectModal from "@/Components/Applications/projects/common/DeleteProjectsModal";
+import {fetchCall} from "@/Redux/Reducers/CallSlice";
+import {CallListTableDataColumn} from "@/Data/Admin/Call";
+import DeleteCallModal from "@/Components/Admin/Calls/common/DeleteCallModal";
 import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
-import {RootState} from "@/Redux/Store";
 import { ToastContainer} from "react-toastify";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
-import {ProjectHeader} from "@/Components/Applications/projects/common/ProjectList";
-import {CollapseFilterData} from "@/Components/Applications/projects/common/CollapseFilterData";
+import {CallHeader} from "@/Components/Admin/Calls/common/CallHeader";
 
 
-const ProjectListContainer = () => {
+const CallListContainer = () => {
 
     const [filterText, setFilterText] = useState("");
     const dispatch = useAppDispatch();
-    const {status, originalProjectData} = useAppSelector((state: RootState) => state.project);
-    const filteredItems = originalProjectData?.filter((item: { name: string; })=>item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
+    const {callData, statusCall} = useAppSelector(state => state.call);
+    const filteredItems = callData?.filter((item: { name: string; })=>item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
 
     const subHeaderComponentMemo = useMemo(() => {
         return (
@@ -29,31 +27,29 @@ const ProjectListContainer = () => {
     }, [filterText]);
 
     useEffect(() => {
-        if (status === "idle" || status === "loading") {
-            console.log(status)
-            dispatch(fetchProjects());
+        if (statusCall === "idle" || statusCall === "loading") {
+            dispatch(fetchCall());
         }
-    }, [status, dispatch]);
+    }, [statusCall, dispatch]);
 
 
     return (
         <Container fluid>
-            <DeleteProjectModal />
+            <DeleteCallModal />
             {
-                status !== 'succeeded' ? <TableSkeleton/> : (
+                statusCall !== 'succeeded' ? <TableSkeleton/> : (
                     <Row>
                         <Col sm="12">
 
                             <div className="list-product-header">
-                                <ProjectHeader />
-                                <CollapseFilterData/>
+                                <CallHeader />
                             </div>
                             <div className="list-product">
                                 <div className="table-responsive">
                                     <DataTable
                                         className="theme-scrollbar"
                                         data={filteredItems}
-                                        columns={ProjectListTableDataColumn}
+                                        columns={CallListTableDataColumn}
                                         striped
                                         highlightOnHover
                                         pagination
@@ -71,5 +67,5 @@ const ProjectListContainer = () => {
     );
 };
 
-export default ProjectListContainer;
+export default CallListContainer;
 

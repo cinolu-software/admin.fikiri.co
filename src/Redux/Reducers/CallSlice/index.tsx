@@ -101,8 +101,12 @@ const callSlice = createSlice({
         setTabId: (state, action: PayloadAction<number>) =>{
             state.tabId = action.payload;
         },
-        setFilterToggle: (state, action: PayloadAction<boolean>) =>{
+        setFilterToggle: (state) =>{
             state.filterToggle = !state.filterToggle;
+        },
+        setModalDeleteCall: (state, action: PayloadAction<{isOpen: boolean, call: CallType | null}>) =>{
+            state.isOpenModalDeleteCall = action.payload.isOpen;
+            state.selectedCall = action.payload.call;
         }
     },
     extraReducers: (builder) => {
@@ -119,8 +123,13 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+            .addCase(deleteCall.fulfilled, (state, action : PayloadAction<string>) => {
+                state.callData = state.callData.filter(call => call.id !== action.payload);
+            })
     }
 })
+
+export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId } = callSlice.actions;
 
 export default callSlice.reducer;
 

@@ -1,14 +1,15 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { setFilterToggle } from "@/Redux/Reducers/projectSlice/projectSlice";
+import {setFilterToggle} from "@/Redux/Reducers/CallSlice";
+
 import { Filter } from "react-feather";
 import AddButton from "@/CommonComponent/AddButton";
 import {AddActivity} from "@/Constant";
 
-export const ProjectHeader = () => {
+export const CallHeader = () => {
 
     const dispatch = useAppDispatch();
-    const { filterToggle } = useAppSelector((state) => state.project);
+    const { filterToggle } = useAppSelector((state) => state.call);
 
     return (
         <div>

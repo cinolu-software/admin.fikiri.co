@@ -1,8 +1,164 @@
+//User Profile
+export const userProfileBasicInfo="Informations";
+export const userProfilePersonalInfo="userProfilePersonalInfo";
+export const userProfileSecurity="Sécurité";
+export const userProfileTitle="Mon Compte";
+export const userProfileImage="Image Profile";
+
+//Call
+export const allCall="Appels";
+export const publishedCall = "Publiée(s)";
+export const callTitleDeleteModal="Supprimer l'appel";
+export const callWarningDeleteMessage = "Êtes-vous sûr de vouloir supprimer cet appel ?";
+export const callSuccessMessageDelete = "Suppression effectuée avec succès";
+export const callErrorMessageDelete = "Erreur survenue lors de la suppression de l'appel";
+
+export const allActivities="Activités";
+export const publishedActivity="Publiée(s)";
+export const titleAddActivity = "Ajout d'une activité";
+export const AddActivity = "Ajouter une activité";
+export const ModifyActivity = "Modifier une activité";
+export const CreateActivity= "Créer l'activité";
+export const ModifyActivityTitle = "Modifier l'activité";
+    
+export const activityName="Nom de l'activité";
+export const activityTown="Ville cible";
+export const activityAudience="Audience cible";
+export const activityPrise="A la clé";
+export const activityDescription="Description de l'activité";
+export const activityObjectif="Objectif de l'activité";
+    
+export const activitySelect= "Sélectionner";
+export const activityStepTwoDescription = "le programme au quel sera attaché cette activité";
+export const activityStepTwoClique= "Cliquez sur le programme";
+export const activityStepTwoLoadingProgram="Chargement...";
+export const activityStartDate = "Date de début";
+export const activityEndDate= "Date de fin";
+    
+export const activityStepThreeType="Le type d'activité";
+export const activityStepThreeDescription="Cliquez sur les types de projet qui correspondent à vos besoins.";
+    
+export const activityStepFourCategory="la catégorie";
+export const activityStepFourDescription="Cliquez sur la catégorie du projet qui correspond.";
+    
+export const activityStepFivePartners="Les partenaires du projet";
+export const activityStepFiveDescription="Cliquez sur les partenaires que vous souhaitez associer à ce projet.";
+    
+export const activitySuccessMessageDelete = "Suppression effectuée avec succès";
+export const activityErrorMessageDelete = "Erreur survenue lors de la suppression de l'activité";
+export const activityWarningDeleteMessage = "Êtes-vous sûr de vouloir supprimer cette activité?";
+export const activityTitleDeleteModal="Supprimer l'activité";
+
+export const inputSearch = "Chercher";
+export const editProgramEventDetail= "Détail de l'événement";
+export const editProgramEventImagedeCouverture="Image de couverture";
+
+export const createEventSuccessMessage = "Evénement créé avec succès";
+export const updateEventSuccessMessage = "Evénement modifié avec succès";
+export const errorEventMessage = "Une erreur est survenue";
+export const btncreateEvent = "Créer l'événement";
+export const btnModifyEvent = "Modifier l'événement";
+    //------------------------------------------------------------------------------------------------------------
+export const eventName="Nom de l'événement";
+export const eventType="Type d'événement";
+export const eventSelectType="Sélectionner un type";
+export const eventSelectPhysique="Physique";
+export const eventSelectOnline="En ligne";
+export const eventLocation="Localisation de l'événement";
+export const eventLink="Lien en ligne de l'événement";
+export const eventParticipant = "Nombre de participants attendus";
+export const eventDescription = "Description de l'événement";
+    //-------------------------------------------------------------------------------------------------------------
+export const eventTextDescription = "Cliquez sur les types d'événement qui correspondent à vos besoins."
+export const eventProgram= "le programme au quel sera attaché cet événement";
+export const eventProgramSelect="Sélectionner";
+export const eventProgramClick="Cliquez sur le programme";
+export const eventStartDate="Date de début";
+export const eventEndDate="Date de fin";
+export const eventSelect="Sélectionner";
+export const eventResponsible="le responsable de cet événement";
+export const eventSelectResponsible="Cliquez sur un membre du staff pour le définir comme responsable.";
+export const eventSelectLoading="Chargement des membres du staff...";
+
+export const buttonFinish = "Terminer";
+export const buttonNext = "Suivant";
+export const buttonPrevious = "Précédent";
+
+export const closeModal="Fermer";
+export const deleteBtnModal="Supprimer";
+
+export const titleAddEvent = "Ajout d'un événement";
+export const publishedEvents = "Publié(s)";
+export const allEvents = "Evénements";
+
+export const addProgram = "Ajouter un programme";
+
+export const userDetailTitle = "Détails de l'utilisateur";
+export const userDetailNameLabel = "Nom";
+export const userDetailNamePlaceholder = "Entrer votre nom";
+export const userDetailEmailLabel = "Email";
+export const userDetailEmailPlaceholder = "Entrer votre email";
+export const userDetailPhoneLabel = "Numéro de téléphone";
+export const userDetailPhonePlaceholder = "Entrer votre numéro de téléphone";
+export const userDetailAddressLabel = "Adresse";
+export const userDetailAddressPlaceholder = "Entrer votre adresse";
+export const userDetailUpdateButton = "Modifier";
+export const userDetailLoading = "Chargement...";
+export const personalInfoTitle = "Informations Personnelles";
+export const personalInfoLinkedInLabel = "LinkedIn";
+export const personalInfoLinkedInPlaceholder = "https://";
+export const personalInfoFacebookLabel = "Facebook";
+export const personalInfoFacebookPlaceholder = "https://";
+export const personalInfoBioLabel = "Biographie";
+export const personalInfoBioPlaceholder = "Entrer votre biographie";
+export const staffPositionsLabel = "Positions";
+export const coachExpertisesLabel = "Domaines d'expertise";
+export const updateProfileSuccess = "Mise à jour effectuée avec succès";
+export const updateProfileError = "Erreur lors de la mise à jour du profil";
+export const updateDetailsSuccess = "Détails mis à jour avec succès !";
+export const updateDetailsError = "Erreur lors de la mise à jour des détails !";
+export const updateDetailsButton="Ajouter / Mettre à jour"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const Href = "#javascript";
 export const ImagePath = "/assets/images";
 export const StarColor = "var(--theme-default)";
 export const StarColorTwo = "#D77748";
-
 //Layout
 export const Loading: string = "Loading...";
 export const SearchMofi: string = "Search Mofi ..";
@@ -20,7 +176,6 @@ export const Checkout: string = "Checkout";
 export const Pinned: string = "Pinned";
 export const ErrorMessage = 'Ops!! There are no result found.';
 
-//Ui Kits- Typography
 export const Headings: string = "Headings";
 export const Code: string = "Code";
 export const FontSize: string = "Font-Size";
@@ -757,14 +912,14 @@ export const BlogSingle: string = `Blog Single`;
 export const AddPost: string = "Add Post";
 export const PostEdit: string = "Post Edit";
 export const PostTitle: string = "Title";
-export const PostTitlePlaceholder: string = "Post Title";
-export const PostCategory: string = "Category";
+export const PostTitlePlaceholder: string = "Titre de l'article";
+export const PostCategory: string = "Categorie";
 export const PostType: string = "Type";
 export const PostContent: string = "Content";
 export const PostTypePlaceholder: string = "Select Your Name....";
-export const BlogPostText: string = `Enter text in the area on the left. For more info, click the ? (help) icon in the menu.`;
-export const BlogPostButton: string = "Post";
-export const BlogDiscardButton: string = "Discard";
+export const BlogPostText: string = `Entrer le contenu de l'article`;
+export const BlogPostButton: string = "Créer";
+export const BlogDiscardButton: string = "Annuler";
 export const BlogDropFilesHereOrClickToUpload: string = "Drop files here or click to upload.";
 
 //FAQ
@@ -1188,10 +1343,10 @@ export const InputMasks: string = `Input masks`;
 export const DefaultInputMask: string = "Default Input Mask";
 export const DateFormatHeading: string = "Date Format";
 export const Date: string = "Date";
-export const DateFormatType: string = "Date format type";
+export const DateFormatType: string = "Date format types";
 export const TimeFormatHeading: string = "Time Format";
-export const TimeFormatType: string = "Time format type";
-export const HourMonthType: string = "Hour/month type";
+export const TimeFormatType: string = "Time format types";
+export const HourMonthType: string = "Hour/month types";
 export const CurrencyPlaceholder: string = "hh:mm";
 export const Prefix: string = "Prefix";
 export const PrefixPlaceholder: string = "Prefix-xxxx-xxxx-xxxx";
@@ -1283,7 +1438,7 @@ export const RTLSupport: string = "RTL Support";
 //Clipboard
 export const ClipboardTextInput: string = "Clipboard On Text Input";
 export const Cutandcopytext: string = "Cut/copy from text input";
-export const CutandcopytextPlaceholder: string = "type some text to copy / cut";
+export const CutandcopytextPlaceholder: string = "types some text to copy / cut";
 export const Copy: string = "Copy";
 export const Cut: string = "Cut";
 export const ClipboardOnTextareas: string = "Clipboard On Textarea";
@@ -1386,13 +1541,13 @@ export const PAN: string = "PAN";
 export const ChooseBanks: string = "Choose from these popular banks";
 export const DescribeYourIssue: string = "If no, could you please describe?";
 export const SuccessfullyCompleted: string = "Successfully Completed";
-export const AccountType: string = "Select the type of account";
+export const AccountType: string = "Select the types of account";
 export const AccountName: string = "Account Name";
 export const SelectTeamWith: string = "Select team size with";
 export const Projects: string = "projects";
 export const ContactDetails: string = "Contact details";
 export const OrganizationName: string = "Organization Name";
-export const JoinOrganizationType: string = "Join organization type";
+export const JoinOrganizationType: string = "Join organization types";
 export const OrganizationDescription: string = "Organization description";
 export const CardHolder: string = "Card Holder";
 export const CardHolderPlaceholder: string = "Enter card holder name";
@@ -1464,7 +1619,7 @@ export const OpeningOfLeaflet: string = "Opening of leaflets";
 export const CustomerTransactions: string = "Customer Transaction";
 export const Notifications: string = "Notifications";
 export const UpcomingAppointment: string = "Upcoming Appointments";
-export const ActiveMember: string = "Active Members";
+export const ActiveMember: string = "Active MembersList";
 export const SalesbyProduct: string = "Sales by Product";
 export const SalesStatistics: string = "Sales Statistic";
 export const ShiftsOverviews: string = "Shifts Overview";
@@ -1483,7 +1638,7 @@ export const TodaysTasks: string = "Today’s Tasks";
 export const NFTillustrarionPackage: string = "NFT illustrarion Package";
 export const PodcastlandingPage: string = "Podcast landing Page";
 export const DeliveryFoodApp: string = "Delivery Food App";
-export const RunningEvent: string = "Running Events";
+export const RunningEvent: string = "Running EventsType";
 export const UpgradePlan: string = "Upgrade Plan";
 export const ViewProject: string = "View Project";
 export const OnlineCourseTimelines: string = "Online Course Timeline";
@@ -1524,7 +1679,7 @@ export const MonthlySale: string = "Monthly Sales";
 export const CryptoAnnotation: string = "Crypto Annotations";
 export const OrdersStatus: string = "Order Status";
 export const Uses: string = "Uses";
-export const StudyStatistic: string = "Study Statistics";
+export const StudyStatistic: string = "Statistiques";
 export const UXDesign: string = "UX Design";
 export const Illustrations: string = "Illustrations";
 export const Assignments: string = "Assignments";
@@ -1616,7 +1771,7 @@ export const AddTask: string = "Add Task";
 
 //Calendar
 export const CalendarBasic: string = "Calender Basic";
-export const DraggableEvents: string = "Draggable Events";
+export const DraggableEvents: string = "Draggable EventsType";
 export const RemoveAfterDrop: string = "remove after drop";
 export const CalendarFilter: string = "calendar filter";
 
@@ -1701,8 +1856,8 @@ export const Like: string = "Like";
 export const Company: string = "Company";
 export const AboutMe: string = "About me";
 export const PostalCode: string = "Postal Code";
-export const EditProfile: string = "Edit Profile";
-export const MyProfiles: string = "My Profile";
+export const EditProfile: string = "Modifier";
+export const MyProfiles: string = "Mon Profile";
 export const Designer: string = "DESIGNER";
 export const Bio: string = "Bio";
 export const WebPlaceHolders: string = "http://Uplor.com";
@@ -1731,6 +1886,7 @@ export const CreatedByMe: string = "Created By Me";
 //Chats
 export const Chats: string = "Chats";
 export const Contacts: string = "Contacts";
+export const UserListChat: string = "Users"
 export const NameAndPhoneNumber = "Name and phone number";
 export const SearchHere: string = "Search here..";
 export const RecentChats: string = "Recent chats";
@@ -1948,3 +2104,10 @@ export const SKU= "SKU"
 export const StockAvailability= "Stock Availability"
 export const StockQuantity= "Stock Quantity"
 export const MdeEditorText = `Enter your messages...`;
+
+//Project
+export const AllPrograms = "Tous";
+export const CreateNewProgram = "Créer un Programme";
+export const DoingProgram = "En cour...";
+export const DoneProgram = "Terminé";
+

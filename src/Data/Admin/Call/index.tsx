@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
-import {ReceiveProjectType} from "@/Types/Projects/ProjectType";
+import {CallType, CallInstance} from "@/Types/Call/CallType";
 import RatioImage from "@/CommonComponent/RatioImage";
 import {useAppDispatch} from "@/Redux/Hooks";
-import { publishProject, setSelectedProject, setModalDeleteProject} from "@/Redux/Reducers/projectSlice/projectSlice";
+// import { publishProject, setSelectedProject, setModalDeleteProject} from "@/Redux/Reducers/projectSlice/projectSlice";
+import {setModalDeleteCall} from "@/Redux/Reducers/CallSlice";
 import {TableColumn} from "react-data-table-component";
 import {useRouter} from "next/navigation";
-import {imageBaseUrl} from "@/services/axios";
+import {imageBaseUrl} from "@/Services/axios";
 import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { Flip, toast } from "react-toastify";
 
-const ProjectListTableName: React.FC<{ image: string, name: string }> = ({image, name}) => {
+const CallListTableName: React.FC<{ image: string, name: string }> = ({image, name}) => {
     return (
         <div className="product-names my-2">
             <div className="light-product-box bg-img-cover">
@@ -21,7 +22,7 @@ const ProjectListTableName: React.FC<{ image: string, name: string }> = ({image,
     );
 };
 
-const ProjectListTableAction: React.FC<{ project: ReceiveProjectType }> = ({ project }) => {
+const CallListTableAction: React.FC<{ call: CallType }> = ({ call }) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -31,46 +32,46 @@ const ProjectListTableAction: React.FC<{ project: ReceiveProjectType }> = ({ pro
     const [loadingPublish, setLoadingPublish] = useState(false);
 
     const handleEdit = async () => {
-        setLoadingEdit(true);
-        router.push('/project/edit_project');
-        dispatch(setSelectedProject({project}));
+        // setLoadingEdit(true);
+        // router.push('/project/edit_project');
+        // dispatch(setSelectedProject({project}));
     };
 
     const handleDetail = async () => {
-        setLoadingDetail(true);
-        router.push('/project/detail_project');
-        dispatch(setSelectedProject({project}));
+        // setLoadingDetail(true);
+        // router.push('/project/detail_project');
+        // dispatch(setSelectedProject({project}));
     };
 
     const handleDelete = async () => {
         setLoadingDelete(true);
-        dispatch(setModalDeleteProject({ isOpen: true, project }));
+        dispatch(setModalDeleteCall({ isOpen: true , call }));
         setLoadingDelete(false);
     };
 
     const handlePublish = async () => {
-        try {
-            setLoadingPublish(true);
-            setTimeout(() => {
-                    // @ts-ignore
-                    dispatch(publishProject({projectId: project.id}));
-                    toast.success("Projet publié avec succès", {
-                        autoClose: 5000,
-                        position: toast.POSITION.TOP_CENTER,
-                        transition: Flip,
-                    });
-                    setLoadingPublish(false);
-                }
-                , 1000);
-        }
-        catch (e) {
-            setLoadingPublish(false);
-            toast.error("Une erreur est survenue", {
-                autoClose: 5000,
-                position: toast.POSITION.TOP_CENTER,
-                transition: Flip,
-            });
-        }
+        // try {
+        //     setLoadingPublish(true);
+        //     setTimeout(() => {
+        //             // @ts-ignore
+        //             dispatch(publishProject({projectId: project.id}));
+        //             toast.success("Projet publié avec succès", {
+        //                 autoClose: 5000,
+        //                 position: toast.POSITION.TOP_CENTER,
+        //                 transition: Flip,
+        //             });
+        //             setLoadingPublish(false);
+        //         }
+        //         , 1000);
+        // }
+        // catch (e) {
+        //     setLoadingPublish(false);
+        //     toast.error("Une erreur est survenue", {
+        //         autoClose: 5000,
+        //         position: toast.POSITION.TOP_CENTER,
+        //         transition: Flip,
+        //     });
+        // }
     }
 
 
@@ -118,12 +119,12 @@ const ProjectListTableAction: React.FC<{ project: ReceiveProjectType }> = ({ pro
     );
 };
 
-export const ProjectListTableDataColumn: TableColumn<ReceiveProjectType>[] = [
+export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
     {
         name: "Nom",
-        cell: (row: ReceiveProjectType) => (
-            <ProjectListTableName
-                image={row?.image ? `${imageBaseUrl}/projects/${row.image}` : '/assets/images/programs/programs.png'}
+        cell: (row: CallInstance) => (
+            <CallListTableName
+                image={row?.cover ? `${imageBaseUrl}/projects/${row.cover}` : '/assets/images/programs/programs.png'}
                 name={row.name}/>
         ),
         sortable: true,
@@ -131,25 +132,20 @@ export const ProjectListTableDataColumn: TableColumn<ReceiveProjectType>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: ReceiveProjectType) => row.started_at,
+        selector: (row: CallInstance) => row.started_at,
         sortable: true,
         grow: 1
     },
     {
         name: "Date de fin",
-        selector: (row: ReceiveProjectType) => row.ended_at,
+        selector: (row: CallInstance) => row.ended_at,
         sortable: true,
         grow: 1
     },
-    {
-        name: "Nombre de participants",
-        selector: (row: ReceiveProjectType) => row.report?.["Nombre total de participants"] ?? 0,
-        sortable: true,
-        grow: 1
-    },
+
     {
         name: "Actions",
-        cell: (row: ReceiveProjectType) => <ProjectListTableAction project={row}/>,
+        cell: (row: CallInstance) => <CallListTableAction call={row}/>,
         grow: 2
     },
 ];
