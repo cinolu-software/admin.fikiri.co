@@ -23,7 +23,7 @@ export const MenuList: MenuItem[] = [
         type: "sub",
         active: false,
         children: [
-          {path: "/general/innovators/", type: "link", title: "Liste" },
+          {path: "/general/users/", type: "link", title: "Liste" },
         ]
       },
       // {

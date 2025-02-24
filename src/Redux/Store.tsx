@@ -6,6 +6,7 @@ import {
     authenticationSlice,
     roleSlice,
     organizationSlice,
+    UsersSlice,
 } from "@/Redux/Reducers";
 
 const Store = configureStore({
@@ -15,7 +16,8 @@ const Store = configureStore({
     themeCustomizer: ThemeCustomizerSlice,
     authentication: authenticationSlice,
     role: roleSlice,
-    organization: organizationSlice
+    organization: organizationSlice,
+    user: UsersSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

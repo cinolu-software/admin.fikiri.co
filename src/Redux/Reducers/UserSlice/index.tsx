@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType, UsersListTableColumnType} from "@/Types/User/UserType";
+import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType} from "@/Types/User/UserType";
 
 const initialState: InitialStateUserType = {
     usersData: [],
