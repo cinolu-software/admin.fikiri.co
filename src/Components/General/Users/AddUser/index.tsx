@@ -10,8 +10,8 @@ const CreateUser = () => {
     return (
         <Container fluid>
 
-            <BackButton link={"/users"}/>
-            <UserForm mode="create" />
+            <BackButton link={"/general/users"}/>
+            <UserForm mode="create"/>
             <ToastContainer />
         </Container>
     )

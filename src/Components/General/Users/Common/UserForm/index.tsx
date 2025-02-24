@@ -29,18 +29,12 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
                     dispatch(updateUser({ id: initialData.id, ...formValue }));
                     toast.success("Utilisateur modifié avec succès", { autoClose: 5000, transition: Flip, theme: "colored" });
                 }
-                router.push('/users/admin/list');
+                router.push('/general/users');
             } catch (error) {
                 toast.error("Erreur lors de l'opération", { autoClose: 5000, transition: Flip, theme: "colored" });
             }
         }
     };
-
-    useEffect(() => {
-        if (mode==='create'){
-
-        }
-    }, [mode]);
 
 
     useEffect(() => {

@@ -34,8 +34,45 @@ export interface CallType extends  CallInstance {
     authors: Author;
 }
 
+export interface FormInputType {
+    name: string;
+    type: string;
+    label: string;
+    required: boolean;
+}
+
+export interface DynamicFomType {
+    inputs: FormInputType[];
+}
+
+export interface RequirementType {
+    name: string;
+    description: string;
+}
+
+export interface FormValue{
+    name: string;
+    description: string;
+    started_at: string;
+    ended_at: string;
+    form?: DynamicFomType;
+    requirements?: RequirementType[]
+}
+
 export interface InitialStateCallType {
     callData: CallInstance[];
     statusCall: "idle" | "loading" | "succeeded" | "failed";
-
+    publishedStatus: "idle" | "loading" | "succeeded" | "failed";
+    error: string | null;
+    isOpenModalCreateCall: boolean;
+    isOpenModalEditCall: boolean;
+    isOpenModalDeleteCall: boolean;
+    filterToggle: boolean;
+    selectedCall: CallInstance | null;
+    navId: number;
+    tabId: number;
+    AddFormValue: FormValue;
+    EditFormValue: FormValue;
+    numberLevel: number;
+    showFinish: boolean;
 }
