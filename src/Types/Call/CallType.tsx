@@ -59,20 +59,31 @@ export interface FormValue{
     requirements?: RequirementType[]
 }
 
+export interface CreateCallType extends FormValue {}
+export interface UpdateCallType extends CreateCallType {
+    id: string;
+}
+
+export interface DataGetCallErrorType{
+    message: string;
+    error: string;
+    statusCode: number;
+}
+
 export interface InitialStateCallType {
     callData: CallInstance[];
     statusCall: "idle" | "loading" | "succeeded" | "failed";
     publishedStatus: "idle" | "loading" | "succeeded" | "failed";
-    error: string | null;
+    error: DataGetCallErrorType | null;
     isOpenModalCreateCall: boolean;
     isOpenModalEditCall: boolean;
     isOpenModalDeleteCall: boolean;
     filterToggle: boolean;
-    selectedCall: CallInstance | null;
+    selectedCall: CallInstance | CallType |null;
     navId: number;
     tabId: number;
-    AddFormValue: FormValue;
-    EditFormValue: FormValue;
+    AddFormValue: FormValue | null;
+    EditFormValue: FormValue | null;
     numberLevel: number;
     showFinish: boolean;
 }
