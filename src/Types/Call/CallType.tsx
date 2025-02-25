@@ -30,6 +30,8 @@ export interface Author {
     verified_at: string;
 }
 
+
+
 export interface CallType extends  CallInstance {
     authors: Author;
 }
@@ -55,11 +57,12 @@ export interface FormValue{
     description: string;
     started_at: string;
     ended_at: string;
-    form?: DynamicFomType;
-    requirements?: RequirementType[]
+    form: DynamicFomType | null;
+    requirements: RequirementType[] | null;
 }
 
 export interface CreateCallType extends FormValue {}
+
 export interface UpdateCallType extends CreateCallType {
     id: string;
 }
@@ -82,8 +85,16 @@ export interface InitialStateCallType {
     selectedCall: CallInstance | CallType |null;
     navId: number;
     tabId: number;
-    AddFormValue: FormValue | null;
-    EditFormValue: FormValue | null;
+    AddFormValue: FormValue ;
+    EditFormValue: FormValue ;
     numberLevel: number;
     showFinish: boolean;
 }
+
+export interface StepPropsType{
+    data : FormValue
+}
+
+export type StepperHorizontalPropsType = {
+    level: number;
+};

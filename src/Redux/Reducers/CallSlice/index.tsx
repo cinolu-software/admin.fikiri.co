@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 import {CallType, CallInstance, InitialStateCallType, FormValue, DataGetCallErrorType, CreateCallType, UpdateCallType} from "@/Types/Call/CallType";
+import {ShowError} from "@/utils";
 
 
 const initialState: InitialStateCallType = {
@@ -15,8 +16,22 @@ const initialState: InitialStateCallType = {
     selectedCall: null,
     navId: 1,
     tabId: 1,
-    AddFormValue: null,
-    EditFormValue: null,
+    AddFormValue: {
+        name: "",
+        description: "",
+        started_at: "",
+        ended_at: "",
+        form: null,
+        requirements: null,
+    },
+    EditFormValue: {
+        name: "",
+        description: "",
+        started_at: "",
+        ended_at: "",
+        form: null,
+        requirements: null,
+    },
     numberLevel: 1,
     showFinish: false,
 }
@@ -91,6 +106,38 @@ export const deleteCall = createAsyncThunk<string, string, {rejectValue: DataGet
     }
 );
 
+const validateStep = (state: InitialStateCallType) => {
+    // @ts-ignore
+    const {name, form, requirements, started_at, ended_at, description} = state.AddFormValue;
+    switch(state.numberLevel){
+        case 1:
+            if(!name || !description ){
+                ShowError();
+                return false;
+            }
+            break;
+        case 2:
+            if(!name || !description || !ended_at || !started_at ){
+                ShowError();
+                return false;
+            }
+            break;
+        case 3:
+            if(!name || !description || !ended_at || !started_at || !form ){
+                ShowError();
+                return false;
+            }
+            break;
+        case 4:
+            if(!name || !description || !ended_at || !started_at || !form || !requirements){
+                ShowError();
+                return false;
+            }
+            break;
+    }
+    return true;
+};
+
 const callSlice = createSlice({
     name: "call",
     initialState,
@@ -107,6 +154,40 @@ const callSlice = createSlice({
         setModalDeleteCall: (state, action: PayloadAction<{isOpen: boolean, call: CallType | null}>) =>{
             state.isOpenModalDeleteCall = action.payload.isOpen;
             state.selectedCall = action.payload.call;
+        },
+        setAddFormValue: (state, action: PayloadAction<{field: keyof CreateCallType, value: any}>) => {
+            const {field, value} = action.payload;
+            if( field === "started_at" || field === "ended_at"){
+                state.AddFormValue[field] = new Date(value).toISOString().split("T")[0]
+            }else {
+                state.AddFormValue[field] = value;
+            }
+        },
+        handleBackButton: (state) => {
+            if(state.numberLevel > 1){
+                state.numberLevel--;
+            }
+        },
+        handleNextButton: (state) => {
+            const isValid = validateStep(state);
+            if(isValid){
+                if(state.navId < 5){
+                    state.numberLevel++;
+                }else if(state.numberLevel === 5){
+                    state.showFinish = true;
+                }
+            }
+        },
+        resetFormValue: (state) => {
+            state.AddFormValue = {
+                name: "",
+                description: "",
+                started_at: "",
+                ended_at: "",
+                form: null,
+                requirements: null,
+            }
+            state.numberLevel = 1
         }
     },
     extraReducers: (builder) => {
@@ -126,10 +207,22 @@ const callSlice = createSlice({
             .addCase(deleteCall.fulfilled, (state, action : PayloadAction<string>) => {
                 state.callData = state.callData.filter(call => call.id !== action.payload);
             })
+            .addCase(createCall.pending, (state) => {
+                state.statusCall = 'loading';
+                state.error = null;
+            })
+            .addCase(createCall.fulfilled, (state, action: PayloadAction<CallInstance>) => {
+                state.statusCall = "succeeded";
+                state.callData.push(action.payload);
+            })
+            .addCase(createCall.rejected, (state, action) => {
+                state.statusCall = "failed";
+                state.error = action.payload ?? null;
+            })
     }
 })
 
-export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId } = callSlice.actions;
+export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton } = callSlice.actions;
 
 export default callSlice.reducer;
 

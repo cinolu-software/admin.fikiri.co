@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Col, Form, Label, Row, InputGroup, Card, CardBody } from "reactstrap";
 import { useAppDispatch } from "@/Redux/Hooks";
-import { setNewFormValue } from "@/Redux/Reducers/projectSlice/projectSlice";
 import Calendar from "react-calendar";
+import {setAddFormValue} from "@/Redux/Reducers/CallSlice";
 // @ts-ignore
 import { Value } from "react-calendar/dist/cjs/shared/types";
-import { StepPropsType } from "@/Types/Projects/ProjectType";
+import {StepPropsType} from "@/Types/Call/CallType";
 import { activityStartDate, activityEndDate } from "@/Constant";
 
 const StepTwo: React.FC<StepPropsType> = ({ data }) => {
+
     const dispatch = useAppDispatch();
 
     const parseDate = (dateString: string): Date => {
@@ -23,7 +24,6 @@ const StepTwo: React.FC<StepPropsType> = ({ data }) => {
         return `${year}-${month}-${day}`;
     };
 
-
     const [startDate, setStartDate] = useState<Date | null>(
         data?.started_at ? parseDate(data.started_at) : null
     );
@@ -32,22 +32,21 @@ const StepTwo: React.FC<StepPropsType> = ({ data }) => {
         data?.ended_at ? parseDate(data.ended_at) : null
     );
 
-
     const handleStartDateChange = (value: Value) => {
         if (value instanceof Date) {
             setStartDate(value);
             const formattedDate = formatDate(value);
-            dispatch(setNewFormValue({ field: "started_at", value: formattedDate }));
+            // @ts-ignore
+            dispatch(setAddFormValue({ field: "started_at", value: formattedDate }));
         }
-
     };
-
 
     const handleEndDateChange = (value: Value) => {
         if (value instanceof Date) {
             setEndDate(value);
             const formattedDate = formatDate(value);
-            dispatch(setNewFormValue({ field: "ended_at", value: formattedDate }));
+            // @ts-ignore
+            dispatch(setAddFormValue({ field: "ended_at", value: formattedDate }));
         }
     };
 
