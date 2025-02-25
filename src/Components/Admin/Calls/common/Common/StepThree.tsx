@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Input, Label, Row, FormGroup, Table } from "reactstrap";
-import { useAppDispatch } from "@/Redux/Hooks";
+import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { addFormField, removeFormField } from "@/Redux/Reducers/CallSlice";
 import { StepPropsType } from "@/Types/Call/CallType";
 
 const StepThree: React.FC<StepPropsType> = ({ data }) => {
     const dispatch = useAppDispatch();
+    const { AddFormValue } = useAppSelector((state) => state.call);
     const [newField, setNewField] = useState({
         label: "",
         type: "text",
@@ -27,23 +28,23 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
             <Form className="theme-form theme-form-2 mega-form">
                 <Row className="g-2 mx-5">
                     <Col xs="12">
-                        <h4 className='mb-3'>Champs ajoutés</h4>
-                        <Table bordered>
-                            <thead>
-                            <tr>
-                                <th>Nom du champ</th>
-                                <th>Type</th>
-                                <th>Requis</th>
-                                <th>Action</th>
-                            </tr>
+                        <h4 className="mb-3">Champs ajoutés</h4>
+                        <Table striped>
+                            <thead className="text-center">
+                                <tr>
+                                    <th>Nom du champ</th>
+                                    <th>Type</th>
+                                    <th>Requis</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-center">
                             {data.form?.map((field: any, index: number) => (
                                 <tr key={field.id}>
-                                    <td>{field.label}</td>
-                                    <td>{field.type}</td>
-                                    <td>{field.required ? "Oui" : "Non"}</td>
-                                    <td>
+                                    <td className="align-middle">{field.label}</td>
+                                    <td className="align-middle">{field.type}</td>
+                                    <td className="align-middle text-center">{field.required ? "Oui" : "Non"}</td>
+                                    <td className="align-middle text-center">
                                         <Button color="danger" size="sm" onClick={() => handleRemoveField(index)}>
                                             Supprimer
                                         </Button>
@@ -55,7 +56,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                     </Col>
 
                     <Col xs="12" className="mt-2">
-                        <h4 className='mb-3'>Ajouter un champ</h4>
+                        <h4 className="mb-3">Ajouter un champ</h4>
                         <FormGroup>
                             <Label for="fieldLabel">Nom du champ</Label>
                             <Input
@@ -99,7 +100,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                                                 }}
                                             />
                                         </Col>
-                                        <Col xs="2">
+                                        <Col xs="2" className="text-center">
                                             {newField.options.length > 1 && (
                                                 <Button
                                                     color="danger"
@@ -111,19 +112,19 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                                                         })
                                                     }
                                                 >
-                                                    Supprimer
+                                                    ×
                                                 </Button>
                                             )}
                                         </Col>
                                     </Row>
                                 ))}
-                                <Button color="secondary" size="sm" onClick={() => setNewField({ ...newField, options: [...newField.options, ""] })}>
+                                <Button color="secondary" size="sm" className="mt-2" onClick={() => setNewField({ ...newField, options: [...newField.options, ""] })}>
                                     Ajouter une option
                                 </Button>
                             </FormGroup>
                         )}
 
-                        <FormGroup check>
+                        <FormGroup check className="mt-2">
                             <Label check>
                                 <Input
                                     type="checkbox"
@@ -134,7 +135,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                             </Label>
                         </FormGroup>
 
-                        <Button color="primary" size="sm" onClick={handleAddField} className="mt-2">
+                        <Button color="primary" size="sm" onClick={handleAddField} className="mt-3">
                             Ajouter
                         </Button>
                     </Col>
@@ -145,4 +146,3 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
 };
 
 export default StepThree;
-

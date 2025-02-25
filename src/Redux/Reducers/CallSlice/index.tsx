@@ -202,6 +202,7 @@ const callSlice = createSlice({
                     state.showFinish = true;
                 }
             }
+            console.log("===>|", state.AddFormValue.form);
         },
         resetFormValue: (state) => {
             state.AddFormValue = {
