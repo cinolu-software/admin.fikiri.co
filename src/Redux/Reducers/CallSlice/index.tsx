@@ -155,6 +155,31 @@ const callSlice = createSlice({
             state.isOpenModalDeleteCall = action.payload.isOpen;
             state.selectedCall = action.payload.call;
         },
+        setAddFormField: (state, action) => {
+            const { index, field, value } = action.payload;
+            // @ts-ignore
+            if (state.AddFormValue.form && state.AddFormValue.form[index]) {
+                // @ts-ignore
+                state.AddFormValue.form[index][field] = value;
+            }
+        },
+        addFormField: (state, action) => {
+            // @ts-ignore
+            state.AddFormValue.form = state.AddFormValue.form || [];
+            // @ts-ignore
+            state.AddFormValue.form.push(action.payload);
+        },
+        removeFormField: (state, action) => {
+            const index = action.payload;
+            if (state.AddFormValue.form) {
+                // @ts-ignore
+                state.AddFormValue.form.splice(index, 1);
+            }
+        },
+        resetFormFields: (state) => {
+            // @ts-ignore
+            state.AddFormValue.form = [];
+        },
         setAddFormValue: (state, action: PayloadAction<{field: keyof CreateCallType, value: any}>) => {
             const {field, value} = action.payload;
             if( field === "started_at" || field === "ended_at"){
@@ -222,7 +247,7 @@ const callSlice = createSlice({
     }
 })
 
-export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton } = callSlice.actions;
+export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField } = callSlice.actions;
 
 export default callSlice.reducer;
 

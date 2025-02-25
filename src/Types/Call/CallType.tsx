@@ -30,8 +30,6 @@ export interface Author {
     verified_at: string;
 }
 
-
-
 export interface CallType extends  CallInstance {
     authors: Author;
 }

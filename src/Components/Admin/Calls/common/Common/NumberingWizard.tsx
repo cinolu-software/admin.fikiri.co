@@ -13,7 +13,6 @@ import StepperHorizontal from "@/Components/Admin/Calls/common/Common/StepperHor
 import { CreateActivity, ModifyActivityTitle, buttonFinish, buttonNext, buttonPrevious} from "@/Constant";
 
 
-
 const NumberingWizard = ({ mode = "add", initialValues } : { mode: "add" | "edit"; initialValues?: any; }) => {
 
     const {numberLevel, AddFormValue, showFinish } = useAppSelector(state => state.call)

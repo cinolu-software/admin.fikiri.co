@@ -15,21 +15,9 @@ const StepFour: React.FC<StepPropsType> = ({ data }) => {
 
 
     return (
-        <Col>
-            <section className="main-upgrade">
-                <div>
-                    <h5 className="mb-2">
-                        {activitySelect} <span className="txt-primary">{activityStepFourCategory}</span>
-                    </h5>
-                    <p className="text-muted mb-2">
-                        {activityStepFourDescription}
-                    </p>
-                </div>
-                <div className="variation-box">
+        <div className="sidebar-body">
 
-                </div>
-            </section>
-        </Col>
+        </div>
     );
 };
 
