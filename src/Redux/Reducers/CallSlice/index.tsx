@@ -21,16 +21,16 @@ const initialState: InitialStateCallType = {
         description: "",
         started_at: "",
         ended_at: "",
-        form: null,
-        requirements: null,
+        form: [],
+        requirements: [],
     },
     EditFormValue: {
         name: "",
         description: "",
         started_at: "",
         ended_at: "",
-        form: null,
-        requirements: null,
+        form: [],
+        requirements: [],
     },
     numberLevel: 1,
     showFinish: false,
@@ -155,6 +155,22 @@ const callSlice = createSlice({
             state.isOpenModalDeleteCall = action.payload.isOpen;
             state.selectedCall = action.payload.call;
         },
+        addRequirement: (state, action: PayloadAction<{ name: string; description: string }>) => {
+            // @ts-ignore
+            state.AddFormValue.requirements.push(action.payload);
+        },
+        removeRequirement: (state, action: PayloadAction<number>) => {
+            // @ts-ignore
+            state.AddFormValue.requirements.splice(action.payload, 1);
+        },
+        updateRequirement: (state, action: PayloadAction<{ index: number; field: keyof CreateCallType; value: string }>) => {
+            const { index, field, value } = action.payload;
+            // @ts-ignore
+            if (state.AddFormValue.requirements[index]) {
+                // @ts-ignore
+                state.AddFormValue.requirements[index][field] = value;
+            }
+        },
         setAddFormField: (state, action) => {
             const { index, field, value } = action.payload;
             // @ts-ignore
@@ -210,8 +226,8 @@ const callSlice = createSlice({
                 description: "",
                 started_at: "",
                 ended_at: "",
-                form: null,
-                requirements: null,
+                form: [],
+                requirements: [],
             }
             state.numberLevel = 1
         }
@@ -248,7 +264,7 @@ const callSlice = createSlice({
     }
 })
 
-export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField } = callSlice.actions;
+export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField, addRequirement, removeRequirement, updateRequirement } = callSlice.actions;
 
 export default callSlice.reducer;
 

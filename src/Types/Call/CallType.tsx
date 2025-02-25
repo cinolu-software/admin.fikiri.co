@@ -55,8 +55,8 @@ export interface FormValue{
     description: string;
     started_at: string;
     ended_at: string;
-    form: DynamicFomType | null;
-    requirements: RequirementType[] | null;
+    form: DynamicFomType [];
+    requirements: RequirementType[] ;
 }
 
 export interface CreateCallType extends FormValue {}

@@ -23,6 +23,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
         dispatch(removeFormField(index));
     };
 
+
     return (
         <div className="sidebar-body">
             <Form className="theme-form theme-form-2 mega-form">
@@ -39,7 +40,11 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                                 </tr>
                             </thead>
                             <tbody className="text-center">
-                            {data.form?.map((field: any, index: number) => (
+
+
+                            {
+                                // @ts-ignore
+                                data.form?.map((field: any, index: number) => (
                                 <tr key={field.id}>
                                     <td className="align-middle">{field.label}</td>
                                     <td className="align-middle">{field.type}</td>
