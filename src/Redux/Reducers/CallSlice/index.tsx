@@ -53,6 +53,23 @@ export const fetchCall = createAsyncThunk<CallInstance[], void, {rejectValue: Da
     }
 )
 
+export const fetchCallById = createAsyncThunk<CallInstance, string, {rejectValue: DataGetCallErrorType}>(
+    "call/fetchCallById",
+    async (callId, {rejectWithValue})=>{
+        try{
+            const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/${callId}`);
+            return response.data.data as CallInstance
+        }catch (e: any){
+            const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la récupération d'appels";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+)
+
 export const createCall = createAsyncThunk<CallInstance, CreateCallType, {rejectValue: DataGetCallErrorType}>(
     "call/createCall",
     async(callData, {rejectWithValue}) => {
@@ -258,6 +275,18 @@ const callSlice = createSlice({
                 state.callData.push(action.payload);
             })
             .addCase(createCall.rejected, (state, action) => {
+                state.statusCall = "failed";
+                state.error = action.payload ?? null;
+            })
+            .addCase(fetchCallById.pending, (state) => {
+                state.statusCall = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchCallById.fulfilled, (state, action: PayloadAction<CallInstance>) => {
+                state.statusCall = "succeeded";
+                state.selectedCall = action.payload;
+            })
+            .addCase(fetchCallById.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })

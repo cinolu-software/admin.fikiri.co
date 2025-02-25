@@ -10,18 +10,52 @@ import StepTwo from "@/Components/Admin/Calls/common/Common/StepTwo";
 import StepThree from "@/Components/Admin/Calls/common/Common/StepThree";
 import StepFour from "@/Components/Admin/Calls/common/Common/StepFour";
 import StepperHorizontal from "@/Components/Admin/Calls/common/Common/StepperHorizontal";
-import { CreateActivity, ModifyActivityTitle, buttonFinish, buttonNext, buttonPrevious} from "@/Constant";
+import {
+    CreateActivity,
+    ModifyActivityTitle,
+    buttonFinish,
+    buttonNext,
+    buttonPrevious
+} from "@/Constant";
 
-
-const NumberingWizard = ({ mode = "add", initialValues } : { mode: "add" | "edit"; initialValues?: any; }) => {
-
-    const {numberLevel, AddFormValue, showFinish } = useAppSelector(state => state.call)
+const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"; initialValues?: any }) => {
+    const { numberLevel, AddFormValue, showFinish } = useAppSelector(state => state.call);
     const dispatch = useAppDispatch();
     const router = useRouter();
 
+    useEffect(() => {
+        if (mode === "edit" && initialValues) {
+            Object.keys(initialValues).forEach(key => {
+                const field = key as keyof typeof AddFormValue;
+                dispatch(setAddFormValue({ field, value: initialValues[field] }));
+            });
+        } else if (mode === "add") {
+            dispatch(resetFormValue());
+        }
+    }, [mode, initialValues, dispatch]);
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async () => {
+        try {
+            if (mode === "add") {
+                await dispatch(createCall(AddFormValue)).unwrap();
+                toast.success("Appel créé avec succès", {
+                    autoClose: 5000,
+                    position: toast.POSITION.TOP_CENTER,
+                });
+            } else {
+                await dispatch(updateCall({ id: initialValues.id, ...AddFormValue })).unwrap();
+                toast.success("Appel modifié avec succès", {
+                    autoClose: 5000,
+                    position: toast.POSITION.TOP_CENTER,
+                });
+            }
+            router.push("/admin/call");
+        } catch (error) {
+            toast.error("Erreur lors de la soumission de l'appel", {
+                autoClose: 5000,
+                position: toast.POSITION.TOP_CENTER,
+            });
+        }
     };
 
     const renderStep = () => {
@@ -29,11 +63,11 @@ const NumberingWizard = ({ mode = "add", initialValues } : { mode: "add" | "edit
             case 1:
                 return <StepOne data={AddFormValue} />;
             case 2:
-                return (<StepTwo data={AddFormValue} />)
+                return <StepTwo data={AddFormValue} />;
             case 3:
-                return (<StepThree data={AddFormValue} />)
+                return <StepThree data={AddFormValue} />;
             case 4:
-                return (<StepFour data={AddFormValue} />)
+                return <StepFour data={AddFormValue} />;
             case 5:
                 return (
                     <Form className="stepper-four g-3 needs-validation" noValidate>
@@ -51,10 +85,10 @@ const NumberingWizard = ({ mode = "add", initialValues } : { mode: "add" | "edit
 
     return (
         <Card>
-            <div className={'mt-2'}>
+            <div className={"mt-2"}>
                 <div className="height-equal">
                     <CardBody className="basic-wizard important-validation">
-                        <StepperHorizontal level={numberLevel}/>
+                        <StepperHorizontal level={numberLevel} />
                         <div id="msform">{renderStep()}</div>
                         <div className="wizard-footer d-flex gap-2 justify-content-end mt-4 me-5 mb-4">
                             {numberLevel > 1 && (
@@ -79,7 +113,6 @@ const NumberingWizard = ({ mode = "add", initialValues } : { mode: "add" | "edit
             </div>
         </Card>
     );
-
 };
 
 export default NumberingWizard;
