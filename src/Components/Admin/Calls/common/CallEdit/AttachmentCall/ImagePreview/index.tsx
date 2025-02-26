@@ -5,18 +5,20 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { toast, Flip } from "react-toastify";
-import { updatedAttachmentProjectImage } from "@/Redux/Reducers/projectSlice/projectSlice";
+import {updatedCoverCall} from "@/Redux/Reducers/CallSlice";
 import { CardBody, Col, Spinner } from "reactstrap";
 import { FilePond, registerPlugin } from "react-filepond";
 import { useRouter } from "next/navigation";
 
+
 registerPlugin(FilePondPluginImagePreview, FilePondPluginImageExifOrientation);
 
 const ImagePreview = () => {
+
     const dispatch = useAppDispatch();
     const [files, setFiles] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { selectedProject } = useAppSelector(state => state.project);
+    const { selectedCall } = useAppSelector(state => state.call);
     const router = useRouter();
 
     const handleUpdateImage = () => {
@@ -34,11 +36,12 @@ const ImagePreview = () => {
             return;
         }
 
-        if (selectedProject) {
+        if (selectedCall) {
+
             const imageFile = files[0].file as File;
 
             setIsLoading(true);
-            dispatch(updatedAttachmentProjectImage({ projectId: selectedProject.id, imageFile }))
+            dispatch(updatedCoverCall({ id: selectedCall.id, imageUrl: imageFile }))
                 .unwrap()
                 .then(() => {
                     toast.success(

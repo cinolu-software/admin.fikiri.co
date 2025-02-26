@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import {CallType, CallInstance, InitialStateCallType, FormValue, DataGetCallErrorType, CreateCallType, UpdateCallType} from "@/Types/Call/CallType";
+import {CallType, CallInstance, InitialStateCallType, FormValue, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType} from "@/Types/Call/CallType";
 import {ShowError} from "@/utils";
 
 
@@ -59,7 +59,8 @@ export const fetchCallById = createAsyncThunk<CallInstance, string, {rejectValue
         try{
             const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/${callId}`);
             return response.data.data as CallInstance
-        }catch (e: any){
+        }
+        catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la récupération d'appels";
             return rejectWithValue({
                 message: errorMessage,
@@ -122,6 +123,30 @@ export const deleteCall = createAsyncThunk<string, string, {rejectValue: DataGet
         }
     }
 );
+
+export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallType, {rejectValue: DataGetCallErrorType}>(
+    "call/updateCoverCover",
+    async ({ id, imageUrl }, {rejectWithValue})=>{
+        try{
+            const formData = new FormData();
+            formData.append("cover", imageUrl);
+            const response = await axiosInstance.post(
+                `${apiBaseUrl}/opportunities/${id}`,
+                imageUrl,
+                {headers: {"Content-Type": "multipart/form-data"}}
+            );
+            return response.data.data as CallInstance;
+        }catch(e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de la mise à jour de l'image de l'appel";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_UPDATE_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+)
+
 
 const validateStep = (state: InitialStateCallType) => {
     // @ts-ignore
@@ -287,6 +312,21 @@ const callSlice = createSlice({
                 state.selectedCall = action.payload;
             })
             .addCase(fetchCallById.rejected, (state, action) => {
+                state.statusCall = "failed";
+                state.error = action.payload ?? null;
+            })
+            .addCase(updatedCoverCall.pending, (state) => {
+                state.statusCall = "loading";
+                state.error = null;
+            })
+            .addCase(updatedCoverCall.fulfilled, (state, action : PayloadAction<CallInstance>) => {
+                state.statusCall = "succeeded";
+                const call = state.callData.find(call => call.id === action.payload.id);
+                if(call){
+                    call.cover = action.payload.cover
+                }
+            })
+            .addCase(updatedCoverCall.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })

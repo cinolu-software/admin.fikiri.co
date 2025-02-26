@@ -1,6 +1,6 @@
 import {Card, CardBody, Nav, NavItem, NavLink, Container, Row} from "reactstrap";
 import React, {useState} from 'react'
-import ProjectEditTabContent from "@/Components/Applications/projects/common/CallEdit/ProjectEditTabContent";
+import CallEditTabContent from "@/Components/Admin/Calls/common/CallEdit/CallEditTabContent";
 import BackButton from "@/CommonComponent/BackButton";
 
 const EditProjectTabs = () => {
@@ -9,7 +9,7 @@ const EditProjectTabs = () => {
 
     return (
         <Container fluid>
-            <BackButton link={'/project'}/>
+            <BackButton link={'/admin/call'}/>
             <Row>
                 <Card>
                     <CardBody>
@@ -33,7 +33,7 @@ const EditProjectTabs = () => {
                                 </NavItem>
                             </NavItem>
                         </Nav>
-                        <ProjectEditTabContent activeTab={activeTab}/>
+                        <CallEditTabContent activeTab={activeTab}/>
                     </CardBody>
                 </Card>
             </Row>

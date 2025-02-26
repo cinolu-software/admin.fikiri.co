@@ -1,11 +1,11 @@
 import React from 'react'
 import ImagePreview from './ImagePreview'
 
-const AttachmentProject = () => {
+const AttachmentCall = () => {
     return (
         <div>
             <ImagePreview/>
         </div>
     )
 }
-export default AttachmentProject
+export default AttachmentCall

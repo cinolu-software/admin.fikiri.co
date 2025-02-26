@@ -65,6 +65,11 @@ export interface UpdateCallType extends CreateCallType {
     id: string;
 }
 
+export interface UpdateCoverCallType {
+    id: string;
+    imageUrl: File;
+}
+
 export interface DataGetCallErrorType{
     message: string;
     error: string;
