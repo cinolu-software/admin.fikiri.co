@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 const EditCallContainer = () => {
 
-    const {selectedCall, statusCall} = useAppSelector(state => state.call);
+    const {selectedCall} = useAppSelector(state => state.call);
     const dispatch = useAppDispatch();
     const router = useRouter();
 
@@ -20,14 +20,6 @@ const EditCallContainer = () => {
             }
         }
     }, [selectedCall]);
-
-    if ( statusCall === 'loading') {
-        return (
-            <Container fluid className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <Spinner color="primary" />
-            </Container>
-        );
-    }
 
     return (
         <Container fluid>

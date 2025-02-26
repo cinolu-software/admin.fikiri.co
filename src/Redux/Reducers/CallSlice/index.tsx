@@ -193,7 +193,7 @@ const callSlice = createSlice({
         setFilterToggle: (state) =>{
             state.filterToggle = !state.filterToggle;
         },
-        setModalDeleteCall: (state, action: PayloadAction<{isOpen: boolean, call: CallType | null}>) =>{
+        setModalDeleteCall: (state, action: PayloadAction<{isOpen: boolean, call: CallType | null | CallInstance}>) =>{
             state.isOpenModalDeleteCall = action.payload.isOpen;
             state.selectedCall = action.payload.call;
         },
@@ -226,6 +226,17 @@ const callSlice = createSlice({
             state.AddFormValue.form = state.AddFormValue.form || [];
             // @ts-ignore
             state.AddFormValue.form.push(action.payload);
+        },
+        updateFormField: (state, action) => {
+            const { index, updatedField } = action.payload;
+
+            // @ts-ignore
+            if (state.form && state.form[index] !== undefined) {
+                // @ts-ignore
+                state.form[index] = updatedField;
+            } else {
+                console.error(`Index ${index} invalide dans state.form.`);
+            }
         },
         removeFormField: (state, action) => {
             const index = action.payload;
@@ -272,6 +283,21 @@ const callSlice = createSlice({
                 requirements: [],
             }
             state.numberLevel = 1
+        },
+        setSelectedCall: (state, action: PayloadAction<CallInstance | null>) => {
+            state.selectedCall = action.payload;
+            if(action.payload){
+                state.AddFormValue = {
+                    name: action.payload.name,
+                    description: action.payload.description,
+                    started_at: action.payload.started_at,
+                    ended_at: action.payload.ended_at,
+                    // @ts-ignore
+                    form : action.payload?.form,
+                    // @ts-ignore
+                    requirements : action.payload.requirements,
+                }
+            }
         }
     },
     extraReducers: (builder) => {
@@ -333,7 +359,7 @@ const callSlice = createSlice({
     }
 })
 
-export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField, addRequirement, removeRequirement, updateRequirement } = callSlice.actions;
+export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField, addRequirement, removeRequirement, updateRequirement, setSelectedCall, updateFormField } = callSlice.actions;
 
 export default callSlice.reducer;
 

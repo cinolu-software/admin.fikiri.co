@@ -10,15 +10,10 @@ import StepTwo from "@/Components/Admin/Calls/common/Common/StepTwo";
 import StepThree from "@/Components/Admin/Calls/common/Common/StepThree";
 import StepFour from "@/Components/Admin/Calls/common/Common/StepFour";
 import StepperHorizontal from "@/Components/Admin/Calls/common/Common/StepperHorizontal";
-import {
-    CreateActivity,
-    ModifyActivityTitle,
-    buttonFinish,
-    buttonNext,
-    buttonPrevious
-} from "@/Constant";
+import {CreateActivity, ModifyActivityTitle, buttonFinish, buttonNext, buttonPrevious } from "@/Constant";
 
 const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"; initialValues?: any }) => {
+
     const { numberLevel, AddFormValue, showFinish } = useAppSelector(state => state.call);
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -57,6 +52,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
             });
         }
     };
+
 
     const renderStep = () => {
         switch (numberLevel) {

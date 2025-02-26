@@ -39,6 +39,7 @@ export interface FormInputType {
     type: string;
     label: string;
     required: boolean;
+    options?: string[];
 }
 
 export interface DynamicFomType {

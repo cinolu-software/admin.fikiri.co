@@ -4,7 +4,7 @@ import BackButton from "@/CommonComponent/BackButton";
 import NumberingWizard from "@/Components/Admin/Calls/common/Common/NumberingWizard";
 
 
-const AddProjectNewContainer = () => {
+const AddCallNewContainer = () => {
 
     return (
         <Container fluid>
@@ -16,4 +16,4 @@ const AddProjectNewContainer = () => {
     )
 }
 
-export default AddProjectNewContainer;
+export default AddCallNewContainer;

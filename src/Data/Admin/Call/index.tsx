@@ -2,14 +2,15 @@ import React, {useState} from 'react';
 import {CallType, CallInstance} from "@/Types/Call/CallType";
 import RatioImage from "@/CommonComponent/RatioImage";
 import {useAppDispatch} from "@/Redux/Hooks";
-// import { publishProject, setSelectedProject, setModalDeleteProject} from "@/Redux/Reducers/projectSlice/projectSlice";
-import {setModalDeleteCall} from "@/Redux/Reducers/CallSlice";
+import {setModalDeleteCall, setSelectedCall, } from "@/Redux/Reducers/CallSlice";
 import {TableColumn} from "react-data-table-component";
 import {useRouter} from "next/navigation";
 import {imageBaseUrl} from "@/Services/axios";
 import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { Flip, toast } from "react-toastify";
+
+
 
 const CallListTableName: React.FC<{ image: string, name: string }> = ({image, name}) => {
     return (
@@ -22,7 +23,7 @@ const CallListTableName: React.FC<{ image: string, name: string }> = ({image, na
     );
 };
 
-const CallListTableAction: React.FC<{ call: CallType }> = ({ call }) => {
+const CallListTableAction: React.FC<{ call: CallType | CallInstance }> = ({ call }) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -32,15 +33,15 @@ const CallListTableAction: React.FC<{ call: CallType }> = ({ call }) => {
     const [loadingPublish, setLoadingPublish] = useState(false);
 
     const handleEdit = async () => {
-        // setLoadingEdit(true);
-        // router.push('/project/edit_project');
-        // dispatch(setSelectedProject({project}));
+        setLoadingEdit(true);
+        router.push(`/admin/call/edit_call`);
+        dispatch(setSelectedCall(call));
     };
 
     const handleDetail = async () => {
-        // setLoadingDetail(true);
-        // router.push('/project/detail_project');
-        // dispatch(setSelectedProject({project}));
+        setLoadingDetail(true);
+        router.push(`/admin/call/detail_call`);
+        dispatch(setSelectedCall(call));
     };
 
     const handleDelete = async () => {

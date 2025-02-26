@@ -18,7 +18,7 @@ const EditProjectTabs = () => {
                                 <NavItem>
                                     <NavLink href='#' className={`nav-border txt-secondary ${activeTab === "1" ? "active" : ""}`} onClick={() => setActiveTab("1")}>
                                         <i className="icofont icofont-files"></i>
-                                        <span>Détail du projet</span>
+                                        <span>Détail de l'appel</span>
                                     </NavLink>
                                 </NavItem>
                             </NavItem>
