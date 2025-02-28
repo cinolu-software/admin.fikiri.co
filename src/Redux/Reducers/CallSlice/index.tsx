@@ -1,11 +1,20 @@
-import {createSlice, createAsyncThunk, PayloadAction} from "@reduxjs/toolkit";
-import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import {CallType, CallInstance, InitialStateCallType, FormValue, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType} from "@/Types/Call/CallType";
-import {ShowError} from "@/utils";
-
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axiosInstance, { apiBaseUrl } from "@/Services/axios";
+import {
+    CallType,
+    CallInstance,
+    InitialStateCallType,
+    FormValue,
+    DataGetCallErrorType,
+    CreateCallType,
+    UpdateCallType,
+    UpdateCoverCallType
+} from "@/Types/Call/CallType";
+import { ShowError } from "@/utils";
 
 const initialState: InitialStateCallType = {
     callData: [],
+    publishedCallData: [],
     statusCall: 'idle',
     filterToggle: false,
     publishedStatus: 'idle',
@@ -34,86 +43,100 @@ const initialState: InitialStateCallType = {
     },
     numberLevel: 1,
     showFinish: false,
-}
+};
 
-export const fetchCall = createAsyncThunk<CallInstance[], void, {rejectValue: DataGetCallErrorType } >(
+export const fetchCall = createAsyncThunk<CallInstance[], void, { rejectValue: DataGetCallErrorType }>(
     "call/fetchCall",
-    async(_, {rejectWithValue})=>{
-        try{
+    async (_, { rejectWithValue }) => {
+        try {
             const response = await axiosInstance.get(`${apiBaseUrl}/opportunities`);
             return response.data.data as CallInstance[];
-        }catch (e: any){
+        } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
             return rejectWithValue({
                 message: errorMessage,
                 error: "CALL_FETCH_ERROR",
                 statusCode: e.response?.data?.error?.statusCode || 500
-            })
+            });
         }
     }
-)
+);
 
-export const fetchCallById = createAsyncThunk<CallInstance, string, {rejectValue: DataGetCallErrorType}>(
+export const fetchCallById = createAsyncThunk<CallInstance, string, { rejectValue: DataGetCallErrorType }>(
     "call/fetchCallById",
-    async (callId, {rejectWithValue})=>{
-        try{
+    async (callId, { rejectWithValue }) => {
+        try {
             const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/${callId}`);
-            return response.data.data as CallInstance
-        }
-        catch (e: any) {
+            return response.data.data as CallInstance;
+        } catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la récupération d'appels";
             return rejectWithValue({
                 message: errorMessage,
                 error: "CALL_FETCH_ERROR",
                 statusCode: e.response?.data?.error?.statusCode || 500
-            })
+            });
         }
     }
-)
+);
 
-export const createCall = createAsyncThunk<CallInstance, CreateCallType, {rejectValue: DataGetCallErrorType}>(
+export const fetchPublishedCall = createAsyncThunk<CallType[], void, { rejectValue: DataGetCallErrorType }>(
+    "call/fetchPublishedCall",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/find-published/`);
+            return response.data.data[0] as CallType[];
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+);
+
+export const createCall = createAsyncThunk<CallInstance, CreateCallType, { rejectValue: DataGetCallErrorType }>(
     "call/createCall",
-    async(callData, {rejectWithValue}) => {
-        try{
+    async (callData, { rejectWithValue }) => {
+        try {
             const response = await axiosInstance.post(`${apiBaseUrl}/opportunities`, callData);
-            return response.data.data as CallInstance
-        }catch(e: any){
+            return response.data.data as CallInstance;
+        } catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la création de l'appel";
             return rejectWithValue({
                 message: errorMessage,
                 error: "CALL_CREATE_ERROR",
                 statusCode: e.response?.data?.error?.statusCode || 500
-            })
+            });
         }
     }
-)
+);
 
-export const updateCall = createAsyncThunk<CallInstance, UpdateCallType, {rejectValue: DataGetCallErrorType}>(
+export const updateCall = createAsyncThunk<CallInstance, UpdateCallType, { rejectValue: DataGetCallErrorType }>(
     "call/updateCall",
-    async ({id, ...callData}, {rejectWithValue})=>{
-        try{
+    async ({ id, ...callData }, { rejectWithValue }) => {
+        try {
             const response = await axiosInstance.patch(`${apiBaseUrl}/opportunities/${id}`, callData);
-            return response.data.data as CallInstance
-        }catch(e: any) {
-            const errorMessage = e.responsde?.data?.error?.message || "Erreur lors de la mise à jour de l'appel";
-            return rejectWithValue(
-                {
-                    message: errorMessage,
-                    error: "CALL_UPDATE_ERROR",
-                    statusCode: e.response?.status || 500
-                }
-            )
+            return response.data.data as CallInstance;
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la mise à jour de l'appel";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_UPDATE_ERROR",
+                statusCode: e.response?.status || 500
+            });
         }
     }
-)
+);
 
-export const deleteCall = createAsyncThunk<string, string, {rejectValue: DataGetCallErrorType}>(
+export const deleteCall = createAsyncThunk<string, string, { rejectValue: DataGetCallErrorType }>(
     "call/deleteCall",
-    async(id, {rejectWithValue})=>{
-        try{
+    async (id, { rejectWithValue }) => {
+        try {
             await axiosInstance.delete(`${apiBaseUrl}/opportunities/${id}`);
             return id;
-        }catch(e: any){
+        } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la suppresion de l'appel";
             return rejectWithValue({
                 message: errorMessage,
@@ -124,54 +147,69 @@ export const deleteCall = createAsyncThunk<string, string, {rejectValue: DataGet
     }
 );
 
-export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallType, {rejectValue: DataGetCallErrorType}>(
+export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallType, { rejectValue: DataGetCallErrorType }>(
     "call/updateCoverCover",
-    async ({ id, imageUrl }, {rejectWithValue})=>{
-        try{
+    async ({ id, imageUrl }, { rejectWithValue }) => {
+        try {
             const formData = new FormData();
             formData.append("cover", imageUrl);
             const response = await axiosInstance.post(
                 `${apiBaseUrl}/opportunities/${id}`,
                 imageUrl,
-                {headers: {"Content-Type": "multipart/form-data"}}
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
             return response.data.data as CallInstance;
-        }catch(e: any) {
+        } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de la mise à jour de l'image de l'appel";
             return rejectWithValue({
                 message: errorMessage,
                 error: "CALL_UPDATE_ERROR",
                 statusCode: e.response?.data?.error?.statusCode || 500
-            })
+            });
         }
     }
-)
+);
 
+export const publishCall = createAsyncThunk<CallInstance, { callId: string }, {
+    rejectValue: any
+}>("call/publishCall", async ({callId}, {rejectWithValue}) => {
+    try {
+        const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+        return response.data.data as CallInstance;
+    }
+    catch (e: any) {
+        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
+        return rejectWithValue({
+            message: errorMessage,
+            error: "CALL_FETCH_ERROR",
+            statusCode: e.response?.data?.error?.statusCode || 500
+        })
+    }
+})
 
 const validateStep = (state: InitialStateCallType) => {
-    // @ts-ignore
-    const {name, form, requirements, started_at, ended_at, description} = state.AddFormValue;
-    switch(state.numberLevel){
+    const { name, form, requirements, started_at, ended_at, description } = state.AddFormValue;
+    switch (state.numberLevel) {
         case 1:
-            if(!name || !description ){
+            if (!name || !description) {
                 ShowError();
                 return false;
             }
             break;
         case 2:
-            if(!name || !description || !ended_at || !started_at ){
+            if (!name || !description || !ended_at || !started_at) {
                 ShowError();
                 return false;
             }
             break;
         case 3:
-            if(!name || !description || !ended_at || !started_at || !form ){
+            if (!name || !description || !ended_at || !started_at || !form) {
                 ShowError();
                 return false;
             }
             break;
         case 4:
-            if(!name || !description || !ended_at || !started_at || !form || !requirements){
+            if (!name || !description || !ended_at || !started_at || !form || !requirements) {
                 ShowError();
                 return false;
             }
@@ -184,16 +222,16 @@ const callSlice = createSlice({
     name: "call",
     initialState,
     reducers: {
-        setNavId: (state, action: PayloadAction<number>) =>{
+        setNavId: (state, action: PayloadAction<number>) => {
             state.navId = action.payload;
         },
-        setTabId: (state, action: PayloadAction<number>) =>{
+        setTabId: (state, action: PayloadAction<number>) => {
             state.tabId = action.payload;
         },
-        setFilterToggle: (state) =>{
+        setFilterToggle: (state) => {
             state.filterToggle = !state.filterToggle;
         },
-        setModalDeleteCall: (state, action: PayloadAction<{isOpen: boolean, call: CallType | null | CallInstance}>) =>{
+        setModalDeleteCall: (state, action: PayloadAction<{ isOpen: boolean, call: CallType | null | CallInstance }>) => {
             state.isOpenModalDeleteCall = action.payload.isOpen;
             state.selectedCall = action.payload.call;
         },
@@ -215,16 +253,13 @@ const callSlice = createSlice({
         },
         setAddFormField: (state, action) => {
             const { index, field, value } = action.payload;
-            // @ts-ignore
             if (state.AddFormValue.form && state.AddFormValue.form[index]) {
                 // @ts-ignore
                 state.AddFormValue.form[index][field] = value;
             }
         },
         addFormField: (state, action) => {
-            // @ts-ignore
             state.AddFormValue.form = state.AddFormValue.form || [];
-            // @ts-ignore
             state.AddFormValue.form.push(action.payload);
         },
         updateFormField: (state, action) => {
@@ -241,33 +276,31 @@ const callSlice = createSlice({
         removeFormField: (state, action) => {
             const index = action.payload;
             if (state.AddFormValue.form) {
-                // @ts-ignore
                 state.AddFormValue.form.splice(index, 1);
             }
         },
         resetFormFields: (state) => {
-            // @ts-ignore
             state.AddFormValue.form = [];
         },
-        setAddFormValue: (state, action: PayloadAction<{field: keyof CreateCallType, value: any}>) => {
-            const {field, value} = action.payload;
-            if( field === "started_at" || field === "ended_at"){
-                state.AddFormValue[field] = new Date(value).toISOString().split("T")[0]
-            }else {
+        setAddFormValue: (state, action: PayloadAction<{ field: keyof CreateCallType, value: any }>) => {
+            const { field, value } = action.payload;
+            if (field === "started_at" || field === "ended_at") {
+                state.AddFormValue[field] = new Date(value).toISOString().split("T")[0];
+            } else {
                 state.AddFormValue[field] = value;
             }
         },
         handleBackButton: (state) => {
-            if(state.numberLevel > 1){
+            if (state.numberLevel > 1) {
                 state.numberLevel--;
             }
         },
         handleNextButton: (state) => {
             const isValid = validateStep(state);
-            if(isValid){
-                if(state.navId < 5){
+            if (isValid) {
+                if (state.navId < 5) {
                     state.numberLevel++;
-                }else if(state.numberLevel === 5){
+                } else if (state.numberLevel === 5) {
                     state.showFinish = true;
                 }
             }
@@ -281,22 +314,24 @@ const callSlice = createSlice({
                 ended_at: "",
                 form: [],
                 requirements: [],
-            }
-            state.numberLevel = 1
+            };
+            state.numberLevel = 1;
         },
         setSelectedCall: (state, action: PayloadAction<CallInstance | null>) => {
             state.selectedCall = action.payload;
-            if(action.payload){
+            if (action.payload) {
+
+
                 state.AddFormValue = {
                     name: action.payload.name,
                     description: action.payload.description,
                     started_at: action.payload.started_at,
                     ended_at: action.payload.ended_at,
                     // @ts-ignore
-                    form : action.payload?.form,
+                    form: action.payload?.form || [],
                     // @ts-ignore
-                    requirements : action.payload.requirements,
-                }
+                    requirements: action.payload.requirements || [] ,
+                };
             }
         }
     },
@@ -308,13 +343,13 @@ const callSlice = createSlice({
             })
             .addCase(fetchCall.fulfilled, (state, action: PayloadAction<CallInstance[]>) => {
                 state.statusCall = "succeeded";
-                state.callData = action.payload
+                state.callData = action.payload;
             })
             .addCase(fetchCall.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
-            .addCase(deleteCall.fulfilled, (state, action : PayloadAction<string>) => {
+            .addCase(deleteCall.fulfilled, (state, action: PayloadAction<string>) => {
                 state.callData = state.callData.filter(call => call.id !== action.payload);
             })
             .addCase(createCall.pending, (state) => {
@@ -341,25 +376,54 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+            .addCase(fetchPublishedCall.pending, (state) => {
+                state.publishedStatus = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchPublishedCall.fulfilled, (state, action: PayloadAction<CallType[]>) => {
+                state.publishedStatus = 'succeeded';
+                state.publishedCallData = action.payload;
+            })
+            .addCase(fetchPublishedCall.rejected, (state, action) => {
+                state.statusCall = "failed";
+                state.error = action.payload ?? null;
+            })
             .addCase(updatedCoverCall.pending, (state) => {
                 state.statusCall = "loading";
                 state.error = null;
             })
-            .addCase(updatedCoverCall.fulfilled, (state, action : PayloadAction<CallInstance>) => {
+            .addCase(updatedCoverCall.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.statusCall = "succeeded";
                 const call = state.callData.find(call => call.id === action.payload.id);
-                if(call){
-                    call.cover = action.payload.cover
+                if (call) {
+                    call.cover = action.payload.cover;
                 }
             })
             .addCase(updatedCoverCall.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
-            })
+            });
     }
-})
+});
 
-export const { setFilterToggle, setModalDeleteCall, setTabId, setNavId, resetFormValue, setAddFormValue, handleNextButton, handleBackButton, resetFormFields, addFormField, removeFormField, setAddFormField, addRequirement, removeRequirement, updateRequirement, setSelectedCall, updateFormField } = callSlice.actions;
+export const {
+    setFilterToggle,
+    setModalDeleteCall,
+    setTabId,
+    setNavId,
+    resetFormValue,
+    setAddFormValue,
+    handleNextButton,
+    handleBackButton,
+    resetFormFields,
+    addFormField,
+    removeFormField,
+    setAddFormField,
+    addRequirement,
+    removeRequirement,
+    updateRequirement,
+    setSelectedCall,
+    updateFormField
+} = callSlice.actions;
 
 export default callSlice.reducer;
-

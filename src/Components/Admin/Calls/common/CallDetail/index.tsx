@@ -2,36 +2,30 @@ import React, {useEffect} from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 import BackButton from "@/CommonComponent/BackButton";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
-import ProjectImage from "@/Components/Applications/projects/common/CallDetail/ProjectImage";
-import ProjectTabs from "@/Components/Applications/projects/common/CallDetail/ProjectTabs";
 import {useRouter} from "next/navigation";
-import {fetchProjectById} from "@/Redux/Reducers/projectSlice/projectSlice";
+import CallImage from "@/Components/Admin/Calls/common/CallDetail/CallImage";
+import CallTabs from "@/Components/Admin/Calls/common/CallDetail/CallTabs";
 
+const DetailCallContainer = () => {
 
-const DetailProjectContainer = () => {
-
-    const {selectedProject, projectData} = useAppSelector(state=> state.project);
+    const {selectedCall} = useAppSelector(state=> state.call);
     const router = useRouter();
     const dispatch = useAppDispatch();
 
-
     useEffect(() => {
-        if(selectedProject){
-            dispatch(fetchProjectById(selectedProject.id));
+        if(!selectedCall) {
+            router.push("/admin/call");
         }
-        else {
-            router.push('/project');
-        }
-    }, [selectedProject]);
+    }, [selectedCall]);
 
     return (
         <Container fluid>
-            <BackButton link={'/project'} />
+            <BackButton link={'/admin/call'} />
             {
-                projectData && (
+                selectedCall && (
                     <>
-                        <ProjectImage image={projectData?.image} />
-                        <ProjectTabs/>
+                        {/*<CallImage cover={selectedCall?.cover} />*/}
+                        <CallTabs/>
                     </>
                 )
             }
@@ -39,4 +33,4 @@ const DetailProjectContainer = () => {
     );
 }
 
-export default DetailProjectContainer;
+export default DetailCallContainer;

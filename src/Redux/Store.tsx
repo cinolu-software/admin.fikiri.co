@@ -8,6 +8,7 @@ import {
     organizationSlice,
     UsersSlice,
     callSlice,
+    LetterBoxSlice,
 } from "@/Redux/Reducers";
 
 const Store = configureStore({
@@ -19,7 +20,8 @@ const Store = configureStore({
     role: roleSlice,
     organization: organizationSlice,
     user: UsersSlice,
-      call: callSlice
+    call: callSlice,
+    letterBox: LetterBoxSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

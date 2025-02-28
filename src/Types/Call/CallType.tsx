@@ -56,8 +56,8 @@ export interface FormValue{
     description: string;
     started_at: string;
     ended_at: string;
-    form: DynamicFomType [];
-    requirements: RequirementType[] ;
+    form: DynamicFomType [] | null;
+    requirements: RequirementType[] | null;
 }
 
 export interface CreateCallType extends FormValue {}
@@ -79,6 +79,7 @@ export interface DataGetCallErrorType{
 
 export interface InitialStateCallType {
     callData: CallInstance[];
+    publishedCallData: CallType[];
     statusCall: "idle" | "loading" | "succeeded" | "failed";
     publishedStatus: "idle" | "loading" | "succeeded" | "failed";
     error: DataGetCallErrorType | null;

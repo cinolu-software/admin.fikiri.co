@@ -2,14 +2,13 @@ import React, {useState} from 'react';
 import {CallType, CallInstance} from "@/Types/Call/CallType";
 import RatioImage from "@/CommonComponent/RatioImage";
 import {useAppDispatch} from "@/Redux/Hooks";
-import {setModalDeleteCall, setSelectedCall, } from "@/Redux/Reducers/CallSlice";
+import {setModalDeleteCall, setSelectedCall, publishCall} from "@/Redux/Reducers/CallSlice";
 import {TableColumn} from "react-data-table-component";
 import {useRouter} from "next/navigation";
 import {imageBaseUrl} from "@/Services/axios";
 import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { Flip, toast } from "react-toastify";
-
 
 
 const CallListTableName: React.FC<{ image: string, name: string }> = ({image, name}) => {
@@ -51,28 +50,28 @@ const CallListTableAction: React.FC<{ call: CallType | CallInstance }> = ({ call
     };
 
     const handlePublish = async () => {
-        // try {
-        //     setLoadingPublish(true);
-        //     setTimeout(() => {
-        //             // @ts-ignore
-        //             dispatch(publishProject({projectId: project.id}));
-        //             toast.success("Projet publié avec succès", {
-        //                 autoClose: 5000,
-        //                 position: toast.POSITION.TOP_CENTER,
-        //                 transition: Flip,
-        //             });
-        //             setLoadingPublish(false);
-        //         }
-        //         , 1000);
-        // }
-        // catch (e) {
-        //     setLoadingPublish(false);
-        //     toast.error("Une erreur est survenue", {
-        //         autoClose: 5000,
-        //         position: toast.POSITION.TOP_CENTER,
-        //         transition: Flip,
-        //     });
-        // }
+        try {
+            setLoadingPublish(true);
+            setTimeout(() => {
+                    // @ts-ignore
+                    dispatch(publishCall({callId: call.id}));
+                    toast.success("Appel publié avec succès", {
+                        autoClose: 5000,
+                        position: toast.POSITION.TOP_CENTER,
+                        transition: Flip,
+                    });
+                    setLoadingPublish(false);
+                }
+                , 1000);
+        }
+        catch (e) {
+            setLoadingPublish(false);
+            toast.error("Une erreur est survenue", {
+                autoClose: 5000,
+                position: toast.POSITION.TOP_CENTER,
+                transition: Flip,
+            });
+        }
     }
 
 
@@ -125,7 +124,7 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
         name: "Nom",
         cell: (row: CallType) => (
             <CallListTableName
-                image={row?.cover ? `${imageBaseUrl}/projects/${row.cover}` : '/assets/images/programs/programs.png'}
+                image={row?.cover ? `${imageBaseUrl}/projects/${row.cover}` : '/assets/images/calls/call.jpg'}
                 name={row.name}/>
         ),
         sortable: true,
@@ -150,7 +149,6 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
         grow: 2
     },
 ];
-
 
 export const AddProgram = [
     {
