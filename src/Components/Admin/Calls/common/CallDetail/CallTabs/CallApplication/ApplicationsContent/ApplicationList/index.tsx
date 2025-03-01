@@ -1,25 +1,28 @@
 import { useAppSelector } from "@/Redux/Hooks";
-import InboxEmailContent from "./InboxEmailContent";
-import MailPagination from "./MailPagination";
+import ApplicationInfo from "./ApplicationInfo";
+import ApplicationPagination from "./ApplicationPagination";
 import { TabPane } from "reactstrap";
 
-const InboxContent = () => {
+const ApplicationList = () => {
+
   const { inboxEmail, page } = useAppSelector((state) => state.letterBox);
 
   return (
+
     <TabPane tabId="1" >
       <div className="mail-body-wrapper">
         <ul>
           {inboxEmail.map((data, i) => (
             <li className={`inbox-data ${page ? i < 7 ? "hidden" : "" : i < 7 ? "" : "hidden" }`} key={i}>
-              <InboxEmailContent data={data} ids={i} />
+              <ApplicationInfo data={data} ids={i} />
             </li>
           ))}
         </ul>
-        <MailPagination />
+        <ApplicationPagination />
       </div>
     </TabPane>
+
   );
 };
 
-export default InboxContent;
+export default ApplicationList;

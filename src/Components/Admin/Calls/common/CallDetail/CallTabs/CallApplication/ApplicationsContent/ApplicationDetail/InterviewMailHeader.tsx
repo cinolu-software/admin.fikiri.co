@@ -15,7 +15,7 @@ const InterviewMailHeader = () => {
   };
 
   return (
-    <div className="mail-header-wrapper header-wrapper1">
+    <div className="mail-header-wrapper header-wrapper1 mt-3">
       <div className="mail-header1">
         <div className="light-square" onClick={() => dispatch(handleInterview(false))}>
           <SVG className="btn-email" iconId="back-arrow" />

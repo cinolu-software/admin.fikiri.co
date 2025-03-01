@@ -3,7 +3,7 @@ import { Href } from "@/Constant";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import {setPage} from "@/Redux/Reducers/CallSlice/CallApplication";
 
-const MailPagination = () => {
+const ApplicationPagination = () => {
   const {page} = useAppSelector((state)=> state.letterBox)
   const dispatch = useAppDispatch()
   const handlePagination = (value:boolean) => {
@@ -27,4 +27,4 @@ const MailPagination = () => {
   );
 };
 
-export default MailPagination;
+export default ApplicationPagination;

@@ -4,6 +4,7 @@ import { Search } from "@/Constant";
 import RightDropDown from "./RightDropDown";
 
 const EmailHeader = () => {
+
   return (
     <div className="mail-header-wrapper">
       <div className="mail-header">
