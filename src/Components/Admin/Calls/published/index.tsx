@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Col, Container, Input, Label, Row } from "reactstrap";
 import {fetchPublishedCall} from "@/Redux/Reducers/CallSlice";
-import {CallListTableDataColumn} from "@/Data/Admin/Call";
+import {PublishedCallListTableDataColumn} from "@/Data/Admin/Call";
 import DeleteCallModal from "@/Components/Admin/Calls/common/DeleteCallModal";
 import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import { ToastContainer} from "react-toastify";
@@ -42,14 +42,13 @@ const PublishedCallListContainer = () => {
                     <Row>
                         <Col sm="12">
                             <div className="list-product-header">
-                                {/*<CollapseFilterData/>*/}
                             </div>
                             <div className="list-product">
                                 <div className="table-responsive">
                                     <DataTable
                                         className="theme-scrollbar"
                                         data={filteredItems}
-                                        columns={CallListTableDataColumn}
+                                        columns={PublishedCallListTableDataColumn}
                                         striped
                                         highlightOnHover
                                         pagination
@@ -58,12 +57,10 @@ const PublishedCallListContainer = () => {
                                     />
                                 </div>
                             </div>
-
                         </Col>
                     </Row>
                 )
             }
-            {/*<ToastContainer/>*/}
         </Container>
     );
 };

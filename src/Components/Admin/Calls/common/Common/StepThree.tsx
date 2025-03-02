@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Input, Label, Row, FormGroup, Table } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addFormField, removeFormField, updateFormField } from "@/Redux/Reducers/CallSlice";
+import { setFormField } from "@/Redux/Reducers/CallSlice";
 import { StepPropsType } from "@/Types/Call/CallType";
 import { toast } from "react-toastify";
 
@@ -9,7 +9,8 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
     const dispatch = useAppDispatch();
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editedField, setEditedField] = useState<any>(null);
-    const {AddFormValue} = useAppSelector((state) => state.call);
+    const { AddFormValue } = useAppSelector((state) => state.call);
+    const [fields, setFields] = useState(AddFormValue.form);
 
     const [newField, setNewField] = useState({
         label: "",
@@ -19,12 +20,18 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
     });
 
     const handleAddField = () => {
-        dispatch(addFormField({ ...newField, id: Date.now() }));
+        // @ts-ignore
+        const updatedFields = [...fields, { ...newField, id: Date.now() }];
+        setFields(updatedFields);
+        dispatch(setFormField({ form: updatedFields }));
         setNewField({ label: "", type: "text", required: false, options: [""] });
     };
 
     const handleRemoveField = (id: number) => {
-        dispatch(removeFormField(id));
+        // @ts-ignore
+        const updatedFields = fields.filter((field) => field.id !== id);
+        setFields(updatedFields);
+        dispatch(setFormField({ form: updatedFields }));
     };
 
     const handleEditField = (index: number, field: any) => {
@@ -35,11 +42,13 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
     const handleSaveField = () => {
         try {
             if (editingIndex !== null && editedField) {
-
-                dispatch(updateFormField({ index: editingIndex, updatedField: editedField }));
+                // @ts-ignore
+                const updatedFields = [...fields];
+                updatedFields[editingIndex] = editedField;
+                setFields(updatedFields);
+                dispatch(setFormField({ form: updatedFields }));
                 setEditingIndex(null);
                 setEditedField(null);
-                console.log("Forme=====>", AddFormValue.form)
                 toast.success("Champ mis à jour avec succès", {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,
@@ -52,6 +61,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
             });
         }
     };
+
 
     return (
         <div className="sidebar-body">

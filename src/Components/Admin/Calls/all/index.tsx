@@ -42,7 +42,6 @@ const CallListContainer = () => {
                 statusCall !== 'succeeded' ? <TableSkeleton/> : (
                     <Row>
                         <Col sm="12">
-
                             <div className="list-product-header">
                                 <CallHeader />
                             </div>
@@ -65,7 +64,6 @@ const CallListContainer = () => {
                     </Row>
                 )
             }
-            <ToastContainer/>
         </Container>
     );
 };

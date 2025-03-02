@@ -4,7 +4,6 @@ import {
     CallType,
     CallInstance,
     InitialStateCallType,
-    FormValue,
     DataGetCallErrorType,
     CreateCallType,
     UpdateCallType,
@@ -149,13 +148,14 @@ export const deleteCall = createAsyncThunk<string, string, { rejectValue: DataGe
 
 export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallType, { rejectValue: DataGetCallErrorType }>(
     "call/updateCoverCover",
-    async ({ id, imageUrl }, { rejectWithValue }) => {
+    async ({ id, imageFile }, { rejectWithValue }) => {
         try {
             const formData = new FormData();
-            formData.append("cover", imageUrl);
+            formData.append("cover", imageFile);
+
             const response = await axiosInstance.post(
-                `${apiBaseUrl}/opportunities/${id}`,
-                imageUrl,
+                `${apiBaseUrl}/opportunities/cover/${id}`,
+                formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
             return response.data.data as CallInstance;
@@ -179,6 +179,23 @@ export const publishCall = createAsyncThunk<CallInstance, { callId: string }, {
     }
     catch (e: any) {
         const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
+        return rejectWithValue({
+            message: errorMessage,
+            error: "CALL_FETCH_ERROR",
+            statusCode: e.response?.data?.error?.statusCode || 500
+        })
+    }
+});
+
+export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, {
+    rejectValue: any
+}>("call/unpublishCall", async ({callId}, {rejectWithValue}) => {
+    try {
+        const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+        return response.data.data as CallInstance;
+    }
+    catch (e: any) {
+        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la dépublication de l'appel";
         return rejectWithValue({
             message: errorMessage,
             error: "CALL_FETCH_ERROR",
@@ -251,6 +268,12 @@ const callSlice = createSlice({
                 state.AddFormValue.requirements[index][field] = value;
             }
         },
+        setFormField: (state, action: PayloadAction<{ form: any}>) => {
+            state.AddFormValue.form = action.payload.form;
+        },
+        setRequirementsAction: (state, action: PayloadAction<{ requirements: any}>) => {
+            state.AddFormValue.requirements = action.payload.requirements;
+        },
         setAddFormField: (state, action) => {
             const { index, field, value } = action.payload;
             if (state.AddFormValue.form && state.AddFormValue.form[index]) {
@@ -304,7 +327,6 @@ const callSlice = createSlice({
                     state.showFinish = true;
                 }
             }
-            console.log("===>|", state.AddFormValue.form);
         },
         resetFormValue: (state) => {
             state.AddFormValue = {
@@ -409,21 +431,13 @@ const callSlice = createSlice({
 export const {
     setFilterToggle,
     setModalDeleteCall,
-    setTabId,
-    setNavId,
     resetFormValue,
     setAddFormValue,
     handleNextButton,
     handleBackButton,
-    resetFormFields,
-    addFormField,
-    removeFormField,
-    setAddFormField,
-    addRequirement,
-    removeRequirement,
-    updateRequirement,
     setSelectedCall,
-    updateFormField
+    setFormField,
+    setRequirementsAction
 } = callSlice.actions;
 
 export default callSlice.reducer;

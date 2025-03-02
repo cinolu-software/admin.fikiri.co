@@ -19,7 +19,9 @@ const EditCallContainer = () => {
                 dispatch(fetchCallById(selectedCall?.id));
             }
         }
-    }, [selectedCall]);
+    }, []);
+
+    console.log(selectedCall, "<=====|selectedCall");
 
     return (
         <Container fluid>

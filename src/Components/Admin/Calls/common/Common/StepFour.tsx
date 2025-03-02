@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import { Col, Row, Button, Form, FormGroup, Label, Input, Table } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addRequirement, removeRequirement } from "@/Redux/Reducers/CallSlice";
+import { setRequirementsAction } from "@/Redux/Reducers/CallSlice";
 import { StepPropsType } from "@/Types/Call/CallType";
 
 const StepFour: React.FC<StepPropsType> = ({ data }) => {
     const dispatch = useAppDispatch();
     const { AddFormValue } = useAppSelector((state) => state.call);
+    const [requirements, setRequirements] = useState(AddFormValue.requirements || []); // Garder setRequirements pour l'état local
     const [newRequirement, setNewRequirement] = useState({ name: "", description: "" });
+
 
     const handleAddRequirement = () => {
         if (newRequirement.name.trim() !== "" && newRequirement.description.trim() !== "") {
-            dispatch(addRequirement(newRequirement));
-            setNewRequirement({ name: "", description: "" });
+            const updatedRequirements = [...requirements, newRequirement];
+            setRequirements(updatedRequirements);
+
+            dispatch(setRequirementsAction({ requirements: updatedRequirements })); // Utiliser setRequirementsAction pour dispatcher l'action
+
         }
     };
 
     const handleRemoveRequirement = (index: number) => {
-        dispatch(removeRequirement(index));
+        const updatedRequirements = requirements?.filter((_: any, i: number) => i !== index);
+        setRequirements(updatedRequirements);
+
+        dispatch(setRequirementsAction({ requirements: updatedRequirements })); // Utiliser setRequirementsAction pour dispatcher l'action
     };
 
     return (
@@ -32,7 +40,9 @@ const StepFour: React.FC<StepPropsType> = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                {AddFormValue.requirements.map((requirement: any, index: number) => (
+                {
+                    // @ts-ignore
+                    AddFormValue.requirements.map((requirement: any, index: number) => (
                     <tr key={index}>
                         <td className="align-middle">{requirement.name}</td>
                         <td className="align-middle">{requirement.description}</td>

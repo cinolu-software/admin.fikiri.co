@@ -6,6 +6,7 @@ import {LetterBoxNavContentType} from "@/Types/Call/Application";
 import React from "react";
 
 const ApplicationsContent: React.FC<LetterBoxNavContentType> = ({ navId }) => {
+
   const { interviewEmail } = useAppSelector((state) => state.letterBox);
 
   return (

@@ -29,6 +29,8 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
         }
     }, [mode, initialValues, dispatch]);
 
+    console.log('formValue ===>', AddFormValue)
+
     const handleSubmit = async () => {
         try {
             if (mode === "add") {

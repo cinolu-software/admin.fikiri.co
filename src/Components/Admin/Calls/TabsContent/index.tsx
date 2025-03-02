@@ -1,7 +1,5 @@
 import React from 'react';
 import {TabContent, TabPane} from 'reactstrap';
-// import PublishedProjectListContainer from "@/Components/Applications/projects/published";
-// import ProjectListContainer from "@/Components/Applications/projects/all";
 import PublishedCallListContainer from "@/Components/Admin/Calls/published";
 import CallListContainer from "@/Components/Admin/Calls/all";
 
