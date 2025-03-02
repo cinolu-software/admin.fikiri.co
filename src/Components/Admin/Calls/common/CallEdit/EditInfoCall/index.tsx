@@ -21,8 +21,6 @@ const EditCallContainer = () => {
         }
     }, []);
 
-    console.log(selectedCall, "<=====|selectedCall");
-
     return (
         <Container fluid>
             <Row>

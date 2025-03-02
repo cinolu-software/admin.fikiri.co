@@ -43,6 +43,7 @@
     "classnames": "^2.3.2",
     "cleave.js": "^1.6.0",
     "convert-size": "^1.2.1",
+    "date-fns": "^4.1.0",
     "easymde": "^2.18.0",
     "emoji-mart": "^5.5.2",
     "eslint": "8.49.0",

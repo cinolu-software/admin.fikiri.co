@@ -121,13 +121,19 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: CallType) => row.started_at,
+        selector: (row: CallType) => {
+            const date = new Date(row.started_at);
+            return date.toLocaleDateString();
+        },
         sortable: true,
         grow: 1
     },
     {
         name: "Date de fin",
-        selector: (row: CallType) => row.ended_at,
+        selector: (row: CallType) => {
+            const date = new Date(row.ended_at);
+            return date.toLocaleDateString();
+        },
         sortable: true,
         grow: 1
     },
@@ -153,17 +159,22 @@ export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: CallType) => row.started_at,
+        selector: (row: CallType) => {
+            const date = new Date(row.started_at);
+            return date.toLocaleDateString();
+        },
         sortable: true,
         grow: 1
     },
     {
         name: "Date de fin",
-        selector: (row: CallType) => row.ended_at,
+        selector: (row: CallType) => {
+            const date = new Date(row.ended_at);
+            return date.toLocaleDateString();
+        },
         sortable: true,
         grow: 1
     },
-
     {
         name: "Actions",
         cell: (row: CallType) => <CallListTableAction call={row} isPublished={true} />,

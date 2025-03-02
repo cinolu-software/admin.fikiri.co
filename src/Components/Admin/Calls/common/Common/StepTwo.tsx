@@ -7,36 +7,24 @@ import {setAddFormValue} from "@/Redux/Reducers/CallSlice";
 import { Value } from "react-calendar/dist/cjs/shared/types";
 import {StepPropsType} from "@/Types/Call/CallType";
 import { activityStartDate, activityEndDate } from "@/Constant";
+import { parseISO, format } from 'date-fns';
 
 const StepTwo: React.FC<StepPropsType> = ({ data }) => {
 
     const dispatch = useAppDispatch();
 
-    const parseDate = (dateString: string): Date => {
-        const [year, month, day] = dateString.split("-").map(Number);
-        return new Date(year, month - 1, day);
-    };
-
-    const formatDate = (date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    };
-
     const [startDate, setStartDate] = useState<Date | null>(
-        data?.started_at ? parseDate(data.started_at) : null
+        data?.started_at ? parseISO(data.started_at) : null
     );
 
     const [endDate, setEndDate] = useState<Date | null>(
-        data?.ended_at ? parseDate(data.ended_at) : null
+        data?.ended_at ? parseISO(data.ended_at) : null
     );
 
     const handleStartDateChange = (value: Value) => {
         if (value instanceof Date) {
             setStartDate(value);
-            const formattedDate = formatDate(value);
-            // @ts-ignore
+            const formattedDate = format(value, 'yyyy-MM-dd');
             dispatch(setAddFormValue({ field: "started_at", value: formattedDate }));
         }
     };
@@ -44,8 +32,7 @@ const StepTwo: React.FC<StepPropsType> = ({ data }) => {
     const handleEndDateChange = (value: Value) => {
         if (value instanceof Date) {
             setEndDate(value);
-            const formattedDate = formatDate(value);
-            // @ts-ignore
+            const formattedDate = format(value, 'yyyy-MM-dd');
             dispatch(setAddFormValue({ field: "ended_at", value: formattedDate }));
         }
     };
