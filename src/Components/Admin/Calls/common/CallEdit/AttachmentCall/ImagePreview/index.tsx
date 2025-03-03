@@ -4,7 +4,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-import { toast, Flip,  } from "react-toastify";
+import { toast, Flip} from "react-toastify";
 import {updatedCoverCall} from "@/Redux/Reducers/CallSlice";
 import { CardBody, Col, Spinner } from "reactstrap";
 import { FilePond, registerPlugin } from "react-filepond";
@@ -27,18 +27,16 @@ const ImagePreview = () => {
             showToast("Veuillez sélectionner une image.", "error");
             return;
         }
-
         const imageFile = files[0].file as File;
-
         setIsLoading(true);
         if(selectedCall &&  selectedCall.id) {
-
             try {
                 dispatch(updatedCoverCall({ id: selectedCall?.id, imageFile: imageFile }));
                 showToast("Ajout de l'image de couverture effectué avec succès", "success");
                 setIsLoading(false);
                 router.push("/admin/call");
-            }catch(err) {
+            }
+            catch(err) {
                 showToast("Erreur survenue lors de l'ajout de l'image de couverture");
                 setIsLoading(false);
             }
@@ -57,10 +55,13 @@ const ImagePreview = () => {
                     labelIdle='<span class="filepond--label-action text-danger text-decoration-none">Déposez le fichier ici</span>'
                 />
                 <button className="btn btn-outline-primary" onClick={handleUpdateImage} disabled={isLoading}>
-                    {isLoading ?
-                            (
-                                <><span>Mise à jour en cour</span><Spinner size="sm" color="light" /></>
-                            )
+                    {
+                        isLoading ?
+                        (
+                            <>
+                                <span>Mise à jour en cour</span><Spinner size="sm" color="light" />
+                            </>
+                        )
                         :
                         "Mettre à jour l'image de couverture"
                     }

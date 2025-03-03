@@ -113,7 +113,7 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
         name: "Nom",
         cell: (row: CallType) => (
             <CallListTableName
-                image={row?.document ? `${imageBaseUrl}/opportunities/covers/${row.document}` : '/assets/images/calls/call.jpg'}
+                image={row?.cover ? `${imageBaseUrl}/opportunities/covers/${row.cover}` : '/assets/images/calls/call.jpg'}
                 name={row.name}/>
         ),
         sortable: true,
@@ -151,7 +151,7 @@ export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
         name: "Nom",
         cell: (row: CallType) => (
             <CallListTableName
-                image={row?.document ? `${imageBaseUrl}/opportunities/covers/${row.document}` : '/assets/images/calls/call.jpg'}
+                image={row?.cover ? `${imageBaseUrl}/opportunities/covers/${row.cover}` : '/assets/images/calls/call.jpg'}
                 name={row.name}/>
         ),
         sortable: true,

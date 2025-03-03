@@ -19,15 +19,15 @@ const CallNavTabs = [
         icon: "candidature_call",
         id: "2",
     },
-    // {
-    //     title: "Indicateurs de l'activité",
-    //     icon: "program_criteria",
-    //     id: "3",
-    // },
+    {
+        title: "Candidature",
+        icon: "candidature_curator",
+        id: "3",
+    },
     {
         title: "Rapports",
         icon: "program_report",
-        id: "3",
+        id: "4",
     },
 ];
 

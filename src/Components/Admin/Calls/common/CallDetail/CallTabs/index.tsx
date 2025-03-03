@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {Card, Col, TabContent} from "reactstrap";
-
 import CallInfo from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallInfo";
 import CallApplication from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallApplication";
+import CallCurators from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallCurators";
+
 
 
 import TabsHeader from "@/Components/Admin/Calls/common/CallDetail/CallTabs/TabsHeader";
@@ -19,6 +20,7 @@ const CallTabs = () => {
                     <TabContent  activeTab={navId} id="notifications-pills-tabContent">
                         <CallInfo/>
                         <CallApplication/>
+                        <CallCurators/>
                     </TabContent>
                 </Card>
             </div>

@@ -23,7 +23,6 @@ const DetailCallContainer = () => {
             {
                 selectedCall && (
                     <>
-                        {/*<CallImage cover={selectedCall?.cover} />*/}
                         <CallTabs/>
                     </>
                 )

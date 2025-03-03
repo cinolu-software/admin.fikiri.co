@@ -81,7 +81,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
     };
 
     return (
-        <Card>
+        <>
             <div className={"mt-2"}>
                 <div className="height-equal">
                     <CardBody className="basic-wizard important-validation">
@@ -108,7 +108,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                     </CardBody>
                 </div>
             </div>
-        </Card>
+        </>
     );
 };
 

@@ -170,6 +170,30 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
     }
 );
 
+export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, document: any }, {
+    rejectValue: any
+}>("call/addDocumentCall", async ({callId, document}, {rejectWithValue}) => {
+    try {
+        const formData = new FormData();
+        formData.append("thumb", document);
+
+        const response = await axiosInstance.post(
+            `${apiBaseUrl}/opportunities/document/${callId}`,
+            formData,
+            {headers : { "Content-Type" : 'multipart/form-data' }}
+        );
+        return response.data.data as CallInstance;
+    }
+    catch (e: any) {
+        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de l'ajout du document";
+        return rejectWithValue({
+            message: errorMessage,
+            error: "CALL_ADD_DOCUMENT_ERROR",
+            statusCode: e.response?.data?.error?.statusCode || 500
+        })
+    }
+});
+
 export const publishCall = createAsyncThunk<CallInstance, { callId: string }, {
     rejectValue: any
 }>("call/publishCall", async ({callId}, {rejectWithValue}) => {
