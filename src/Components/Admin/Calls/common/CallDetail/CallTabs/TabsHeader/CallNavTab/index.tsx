@@ -38,7 +38,7 @@ const ProjectNavTab : React.FC<CallNavTabProps> = ({navId, setNavId}) => {
             {
                 CallNavTabs.map((data, i) => (
                     <NavItem key={i}>
-                        <NavLink className={navId === data.id ? "active" : ""} id={data.id} href={Href} onClick={()=>setNavId(data.id)} >
+                        <NavLink className={navId === data.id ? "active" : ""} id={data.id} onClick={()=>setNavId(data.id)} >
                             <SVG className="stroke-icon" iconId={data.icon} />
                             <span>{data.title} </span>
                         </NavLink>

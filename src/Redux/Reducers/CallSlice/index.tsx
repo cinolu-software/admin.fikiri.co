@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction, isRejectedWithValue } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
 import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author, ReceiveDataReviewer} from "@/Types/Call/CallType";
 import { ShowError } from "@/utils";
@@ -224,12 +224,12 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     }
 )
 
-export const addReviewer = createAsyncThunk<ReceiveDataReviewer, {email: string, organization: string, callId: string}, {rejectValue: any}>(
+export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string}, {rejectValue: any}>(
     "call/addReviewer",
     async({email, organization, callId}, {rejectWithValue}) => {
         try{
             const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization});
-            return response.data.data as ReceiveDataReviewer
+            return response.data.data as CallInstance
 
         }catch(error : any){
             const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de l'ajout du curateur";
@@ -241,6 +241,43 @@ export const addReviewer = createAsyncThunk<ReceiveDataReviewer, {email: string,
         }
     }
 )
+
+export const deleteReviewer = createAsyncThunk<CallInstance, {email: string, callId: string}, {rejectValue: any}>(
+    "call/deleteReviewer",
+    async({email, callId}, {rejectWithValue})=>{
+        try{
+            const response = await axiosInstance.delete(`${apiBaseUrl}/opportunities/delete-reviewer/${callId}`, {
+                data: { email }
+            });
+            return response.data.data as CallInstance
+        }catch(error: any){
+            const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la suppression du curateur";
+            return rejectWithValue ({
+                message : errorMessage,
+                error: "DELEE_REVIEWER_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+);
+
+export const resendReviewerLink = createAsyncThunk<{data: string}, {email: string}, {rejectValue: any}>(
+    "call/resendReviewLink",
+    async({email}, { rejectWithValue })=>{
+        try{
+            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/resend-review-link/${email}`)
+            return {data : response.data.data};
+        }catch(error: any){
+            const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la suppression du curateur";
+            return rejectWithValue ({
+                message : errorMessage,
+                error: "DELEE_REVIEWER_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+);
+
 
 const validateStep = (state: InitialStateCallType) => {
     const { name, form, requirements, started_at, ended_at, description } = state.AddFormValue;
@@ -463,10 +500,12 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
-            .addCase(addReviewer.fulfilled, (state, action: PayloadAction<ReceiveDataReviewer>)=>{
-                state.selectedCall = action.payload.opportunity;
-                state.reviewerData = action.payload;
-            }) 
+            .addCase(addReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => {
+                state.selectedCall = action.payload;
+            })
+            .addCase(deleteReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => { 
+                state.selectedCall = action.payload;
+            })
             ;
     }
 });

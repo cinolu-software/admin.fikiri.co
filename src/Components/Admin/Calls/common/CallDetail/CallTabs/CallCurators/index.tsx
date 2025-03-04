@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { TabPane } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addReviewer } from "@/Redux/Reducers/CallSlice";
+import { addReviewer, deleteReviewer, resendReviewerLink } from "@/Redux/Reducers/CallSlice";
 import { useRouter } from "next/navigation";
 import { fetchOrganization } from "@/Redux/Reducers/OrganizationSlice";
+import { showToast } from "@/utils";
 
 const CallCurators = () => {
     const { selectedCall } = useAppSelector(state => state.call);
@@ -34,11 +35,38 @@ const CallCurators = () => {
                     organization,
                     callId: selectedCall.id
                 }));
+                showToast("Le curateur a été ajouté avec succès", "success");
                 setEmail("");
                 setOrganization("");
             } catch (error) {
+                showToast("Erreur lors de l'ajout du curateur", "error");
                 console.error("Error adding reviewer:", error);
             }
+        }
+    };
+
+    const handleDeleteReviewer = async (email: string) => {
+        if (selectedCall) {
+            try {
+                await dispatch(deleteReviewer({
+                    email,
+                    callId: selectedCall.id
+                }));
+                showToast("Le curateur a été supprimé avec succès", "success");
+            } catch (error) {
+                showToast("Erreur lors de la suppression du curateur", "error");
+                console.error("Error deleting reviewer:", error);
+            }
+        }
+    };
+
+    const handleResendLink = async (email: string) => {
+        try {
+            await dispatch(resendReviewerLink({ email }));
+            showToast("Le lien a été renvoyé avec succès", "success");
+        } catch (error) {
+            showToast("Erreur lors du renvoi du lien", "error");
+            console.error("Error resending link:", error);
         }
     };
 
@@ -109,7 +137,7 @@ const CallCurators = () => {
                                                 <tr>
                                                     <th>Email</th>
                                                     <th>Organisation</th>
-                                                    <th>Status</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -118,9 +146,18 @@ const CallCurators = () => {
                                                         <td>{reviewer.email}</td>
                                                         <td>{getOrganizationName(reviewer.organization)}</td>
                                                         <td>
-                                                            <span className={`badge bg-${reviewer.status === 'active' ? 'success' : 'warning'}`}>
-                                                                {reviewer.status}
-                                                            </span>
+                                                            <button
+                                                                className="btn btn-danger btn-sm me-2"
+                                                                onClick={() => handleDeleteReviewer(reviewer.email)}
+                                                            >
+                                                                Supprimer
+                                                            </button>
+                                                            <button
+                                                                className="btn btn-primary btn-sm"
+                                                                onClick={() => handleResendLink(reviewer.email)}
+                                                            >
+                                                                Renvoye le lien
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 ))}
