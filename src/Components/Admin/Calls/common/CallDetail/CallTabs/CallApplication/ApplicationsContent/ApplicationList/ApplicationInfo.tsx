@@ -1,51 +1,161 @@
-import React from "react";
-import SVG from '@/CommonComponent/SVG';
-import { ImagePath } from '@/Constant';
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from '@/Redux/Hooks';
-import {addToFavorites, handleInterview, handleEnvelope, removeItems} from "@/Redux/Reducers/CallSlice/CallApplication";
-import {CommonDataType} from "@/Types/Call/Application";
-import { Badge, Input, Label } from 'reactstrap';
+import { handleInterview, fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
+import { imageBaseUrl } from "@/Services/axios";
+import { ImagePath } from '@/Constant';
+import { useRouter } from "next/navigation";
+import DataTable from 'react-data-table-component';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
-const ApplicationInfo :React.FC<CommonDataType> = ({data,ids}) => {
+const ApplicationInfo = () => {
+  const { applicationData, applicationStatus } = useAppSelector((state) => state.application);
+  const { selectedCall } = useAppSelector((state) => state.call);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    if(!selectedCall) {
+      router.push('/admin/call');
+    }
+  }, []);
+
+  useEffect(() => {
+    if(selectedCall) {
+      if(applicationStatus === "idle") {
+        dispatch(fetchApplicationsByCall({callId: selectedCall.id}));
+      }
+    }
+  }, [applicationStatus, selectedCall]);
+
+  const baseColumns = [
+    {
+      name: 'Candidat',
+      cell: (row: any) => (
+        <div className="d-flex align-items-center gap-2">
+          <div style={{ width: "40px", height: "40px" }}>
+            <img
+              className="rounded-circle w-100 h-100"
+              src={
+                row.applicant?.profile
+                  ? `${imageBaseUrl}/profiles/${row.applicant.profile}`
+                  : row.applicant?.google_image
+                    ? row.applicant.google_image
+                    : `${ImagePath}/avtar/avatar_.jpg`
+              }
+              alt={row.applicant.name}
+            />
+          </div>
+          <div>
+            <h6 className="mb-0">{row.applicant.name}</h6>
+            <small className="text-muted">{row.applicant.email}</small>
+          </div>
+        </div>
+      ),
+      sortable: true,
+      minWidth: '250px',
+    }
+  ];
 
 
-  const {faIcon } = useAppSelector((state) => state.letterBox);
-  const dispatch = useAppDispatch()
-  const handleValue= ()=> dispatch(handleInterview(true))
-  const handleRemoveEmail = (id:number) => {
-    dispatch(removeItems(id));    
+  const dynamicColumns = selectedCall?.form?.map(field => ({
+    name: field.label,
+    cell: (row: any) => {
+      const value = row.responses[field.label];
+      
+      switch (field.type) {
+        case 'textarea':
+          return (
+            <div style={{ maxWidth: "300px" }}>
+              {value?.substring(0, 50)}...
+            </div>
+          );
+        case 'file':
+          return value ? (
+            <a href={`${imageBaseUrl}/documents/${value}`} target="_blank" rel="noopener noreferrer">
+              Voir le fichier
+            </a>
+          ) : "Aucun fichier";
+        case 'select':
+          return value;
+        case 'date':
+          return value ? format(new Date(value), 'dd/MM/yyyy') : "";
+        default:
+          return value;
+      }
+    },
+    sortable: true,
+    minWidth: field.type === 'textarea' ? '300px' : '150px',
+  }));
+
+
+  const endColumns = [
+    {
+      name: "Date de soumission",
+      cell: (row: any) => (
+        format(new Date(row.created_at), 'dd MMMM yyyy', { locale: fr })
+      ),
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row: any) => (
+        <button 
+          className="btn btn-outline-primary btn-sm"
+          onClick={() => dispatch(handleInterview(true))}
+        >
+          Voir détails
+        </button>
+      ),
+      center: true,
+    }
+  ];
+
+
+  const columns = [...baseColumns, ...(dynamicColumns || []), ...endColumns];
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: '72px',
+      }
+    },
+    headCells: {
+      style: {
+        paddingLeft: '8px',
+        paddingRight: '8px',
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: '8px',
+        paddingRight: '8px',
+      },
+    },
+  };
+
+  if (!selectedCall) {
+    return null;
   }
 
-    return (
-      <>
-        <div className="inbox-user">
-          <div className="rounded-border">
-            {data.image && <img src={`${ImagePath}/user/${data.image}`} alt="user" />}
-            {data.shortName && <div className={data.color === "success" ? "circle-success" : ""}>
-              <p className={`txt-${data.color}`}>{data.shortName}</p>
-            </div>}
+  return (
+    <div className="p-3">
+      <DataTable
+        columns={columns}
+        data={applicationData || []}
+        pagination
+        responsive
+        striped
+        highlightOnHover
+        customStyles={customStyles}
+        noDataComponent={
+          <div className="p-4 text-center text-muted">
+            Aucune candidature trouvée
           </div>
-          <p>{data.name}</p>
-        </div>
-        <div className="inbox-message">
-          <div className="email-data" onClick={handleValue}>
-            <span>
-              {data.message}
-              <span>{data.subMessage}</span>
-            </span>
-            <div className="inbox-width d-flex gap-2">
-              {data.badge &&
-                data.badge.map((item, i) => (
-                  <Badge color="" className={`badge-width badge-light-${item.color} text-${item.color === "light" ? "light-dark" : item.color }`} key={i}>{item.title}</Badge>
-              ))}
-            </div>
-          </div>
-          <div className="email-timing">
-            <span>{data.time}</span>
-          </div>
-        </div>
-      </>
-    );
+        }
+      />
+    </div>
+  );
 }
 
-export default ApplicationInfo
+export default ApplicationInfo;

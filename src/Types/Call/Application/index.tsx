@@ -1,4 +1,26 @@
+import { Author } from "../CallType";
+
+export interface ApplicationInstance {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    response : Object;
+    document: string | null;
+    applicant: Author
+}
+
+export interface ErrorType{
+    message: string;
+    error: string;
+    statusCode: number;
+}
+
 export interface InitialStateType {
+    applicationData: ApplicationInstance[];
+    selectedApplication: ApplicationInstance | null;
+    applicationStatus: "idle" | "loading" | "succeeded" | "failed";
+    error : ErrorType | null,
     modal: boolean;
     composeEmail: boolean;
     faIcon: boolean;
@@ -53,3 +75,4 @@ export interface LetterBoxNavContentType {
 export interface MailPropsType {
     handlePrintData: () => void;
 }
+

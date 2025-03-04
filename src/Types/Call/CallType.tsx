@@ -3,16 +3,17 @@ export interface CallType {
     name: string;
     created_at: string;
     updated_at: string;
-    deleted_at: string;
+    deleted_at: string | null;
     description: string;
     ended_at: string;
     started_at: string;
     published_at: string;
     cover: string | null;
     document: string | null;
-    form: [] | null;
-    reviewers: [] | null;
-    requirements: [] | null;
+    form: FormField[];
+    reviewers: Reviewer[];
+    requirements: Requirement[];
+    applications?: Application[];
 }
 
 export interface Author {
@@ -30,7 +31,36 @@ export interface Author {
     verified_at: string;
 }
 
+export interface Applicant {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    email: string;
+    name: string;
+    password: string | null;
+    phone_number: string | null;
+    address: string | null;
+    google_image: string | null;
+    profile: string | null;
+    verified_at: string;
+}
 
+export interface Application {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    responses: Record<string, string>;
+    document: string | null;
+    applicant: Applicant;
+}
+
+export interface Reviewer {
+    email: string;
+    organization: string;
+    status?: 'active' | 'pending';
+}
 
 export interface CallInstance extends  CallType {
     authors: Author;
@@ -113,8 +143,10 @@ export type StepperHorizontalPropsType = {
 };
 
 export interface FormField {
-    id: string | number;
+    id: number | string;
+    type: 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'file' | 'date';
     label: string;
+    options: string[];
     required: boolean;
 }
 

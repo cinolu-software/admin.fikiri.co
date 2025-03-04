@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import {setPage} from "@/Redux/Reducers/CallSlice/CallApplication";
 
 const ApplicationPagination = () => {
-  const {page} = useAppSelector((state)=> state.letterBox)
+  const {page} = useAppSelector((state)=> state.application);
   const dispatch = useAppDispatch()
   const handlePagination = (value:boolean) => {
     dispatch(setPage(value))

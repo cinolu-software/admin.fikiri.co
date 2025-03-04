@@ -5,7 +5,7 @@ import { useReactToPrint } from "react-to-print";
 import { useAppSelector } from "@/Redux/Hooks";
 
 const ApplicationDetail = () => {
-  const {interviewEmail} = useAppSelector((state)=>state.letterBox)
+  const {interviewEmail} = useAppSelector((state)=>state.application)
   const componentRef = useRef<HTMLDivElement | null>(null);
 
   const handlePrintData = useReactToPrint({

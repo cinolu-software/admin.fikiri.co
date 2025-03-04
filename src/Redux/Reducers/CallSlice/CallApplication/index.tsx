@@ -1,8 +1,14 @@
 import {InboxEmailData} from "@/Data/Admin/Call/Application";
-import {InitialStateType} from "@/Types/Call/Application";
+import {InitialStateType, ApplicationInstance, ErrorType} from "@/Types/Call/Application";
 import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 
 const initialState: InitialStateType = {
+    applicationData: [],
+    selectedApplication: null,
+    applicationStatus: 'idle',
+    error: null,
     modal : false,
     composeEmail : false,
     faIcon :false,
@@ -12,8 +18,26 @@ const initialState: InitialStateType = {
     emailValidation: false,
 };
 
-const LetterBoxSlice = createSlice({
-    name: "LetterBox",
+
+export const fetchApplicationsByCall = createAsyncThunk<ApplicationInstance[] ,{callId: string}, {rejectValue: ErrorType}>(
+    "application/fetchApplicationByCall",
+    async ({callId}, {rejectWithValue}) =>{
+        try{
+            const response = await axiosInstance.get(`${apiBaseUrl}/applications/for/${callId}`);
+            return response.data.data as ApplicationInstance[]
+        }catch(e: any){
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+)
+
+const ApplicationsSlice = createSlice({
+    name: "Applications",
     initialState,
     reducers: {
         setModal:(state,action)=>{
@@ -60,9 +84,24 @@ const LetterBoxSlice = createSlice({
             };
             state.inboxEmail = [emailTemp, ...state.inboxEmail];
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchApplicationsByCall.pending, (state) => {
+                state.applicationStatus = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchApplicationsByCall.fulfilled, (state, action: PayloadAction<ApplicationInstance[]>) => {
+                state.applicationStatus = 'succeeded';
+                state.applicationData = action.payload;
+            })
+            .addCase(fetchApplicationsByCall.rejected, (state, action) => {
+                state.applicationStatus = 'failed';
+                state.error = action.payload ?? null;
+            })
     }
 })
 
-export const {setModal,setComposeEmail,setPage,handleEnvelope,handleInterview,removeItems,addToFavorites,removeFromFavorite,setEmailValidation,addNewEmail} = LetterBoxSlice.actions
+export const {setModal,setComposeEmail,setPage,handleEnvelope,handleInterview,removeItems,addToFavorites,removeFromFavorite,setEmailValidation,addNewEmail} = ApplicationsSlice.actions
 
-export default LetterBoxSlice.reducer
+export default ApplicationsSlice.reducer

@@ -5,18 +5,12 @@ import { TabPane } from "reactstrap";
 
 const ApplicationList = () => {
 
-  const { inboxEmail, page } = useAppSelector((state) => state.letterBox);
-
   return (
 
     <TabPane tabId="1" >
       <div className="mail-body-wrapper">
         <ul>
-          {inboxEmail.map((data, i) => (
-            <li className={`inbox-data ${page ? i < 7 ? "hidden" : "" : i < 7 ? "" : "hidden" }`} key={i}>
-              <ApplicationInfo data={data} ids={i} />
-            </li>
-          ))}
+          <ApplicationInfo />
         </ul>
         <ApplicationPagination />
       </div>

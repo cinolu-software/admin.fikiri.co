@@ -1,13 +1,14 @@
+import React from "react";
 import { Col, TabContent } from "reactstrap";
 import ApplicationList from "./ApplicationList";
 import ApplicationDetail from "./ApplicationDetail";
 import {useAppSelector} from "@/Redux/Hooks";
 import {LetterBoxNavContentType} from "@/Types/Call/Application";
-import React from "react";
+
 
 const ApplicationsContent: React.FC<LetterBoxNavContentType> = ({ navId }) => {
 
-  const { interviewEmail } = useAppSelector((state) => state.letterBox);
+  const { interviewEmail } = useAppSelector((state) => state.application);
 
   return (
     <Col className="box-col-12">

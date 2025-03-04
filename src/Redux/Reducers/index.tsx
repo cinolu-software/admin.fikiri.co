@@ -6,7 +6,7 @@ import roleSlice from "@/Redux/Reducers/RoleSlice";
 import organizationSlice from "@/Redux/Reducers/OrganizationSlice";
 import UsersSlice from "@/Redux/Reducers/UserSlice";
 import callSlice from "@/Redux/Reducers/CallSlice";
-import LetterBoxSlice from "@/Redux/Reducers/CallSlice/CallApplication"
+import ApplicationsSlice from "@/Redux/Reducers/CallSlice/CallApplication"
 
 
 export {
@@ -18,5 +18,5 @@ export {
     organizationSlice,
     UsersSlice,
     callSlice,
-    LetterBoxSlice,
+    ApplicationsSlice,
 }
