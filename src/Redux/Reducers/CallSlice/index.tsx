@@ -1,14 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
-import {
-    CallType,
-    CallInstance,
-    InitialStateCallType,
-    DataGetCallErrorType,
-    CreateCallType,
-    UpdateCallType,
-    UpdateCoverCallType
-} from "@/Types/Call/CallType";
+import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author} from "@/Types/Call/CallType";
 import { ShowError } from "@/utils";
 
 const initialState: InitialStateCallType = {
@@ -170,63 +162,84 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
     }
 );
 
-export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, document: any }, {
-    rejectValue: any
-}>("call/addDocumentCall", async ({callId, document}, {rejectWithValue}) => {
-    try {
-        const formData = new FormData();
-        formData.append("thumb", document);
+export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, document: any }, {rejectValue: any}>(
+    "call/addDocumentCall", 
+    async ({callId, document}, {rejectWithValue}) => {
+        try {
+            const formData = new FormData();
+            formData.append("thumb", document);
 
-        const response = await axiosInstance.post(
-            `${apiBaseUrl}/opportunities/document/${callId}`,
-            formData,
-            {headers : { "Content-Type" : 'multipart/form-data' }}
-        );
-        return response.data.data as CallInstance;
+            const response = await axiosInstance.post(
+                `${apiBaseUrl}/opportunities/document/${callId}`,
+                formData,
+                {headers : { "Content-Type" : 'multipart/form-data' }}
+            );
+            return response.data.data as CallInstance;
+        }
+        catch (e: any) {
+            const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de l'ajout du document";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_ADD_DOCUMENT_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }
     }
-    catch (e: any) {
-        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de l'ajout du document";
-        return rejectWithValue({
-            message: errorMessage,
-            error: "CALL_ADD_DOCUMENT_ERROR",
-            statusCode: e.response?.data?.error?.statusCode || 500
-        })
-    }
-});
+);
 
-export const publishCall = createAsyncThunk<CallInstance, { callId: string }, {
-    rejectValue: any
-}>("call/publishCall", async ({callId}, {rejectWithValue}) => {
-    try {
-        const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
-        return response.data.data as CallInstance;
+export const publishCall = createAsyncThunk<CallInstance, { callId: string }, { rejectValue: any}>(
+    "call/publishCall", 
+    async ({callId}, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+            return response.data.data as CallInstance;
+        }
+        catch (e: any) {
+            const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }
     }
-    catch (e: any) {
-        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
-        return rejectWithValue({
-            message: errorMessage,
-            error: "CALL_FETCH_ERROR",
-            statusCode: e.response?.data?.error?.statusCode || 500
-        })
-    }
-});
+);
 
-export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, {
-    rejectValue: any
-}>("call/unpublishCall", async ({callId}, {rejectWithValue}) => {
-    try {
-        const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
-        return response.data.data as CallInstance;
+export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, { rejectValue: any}>(
+    "call/unpublishCall",
+     async ({callId}, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+            return response.data.data as CallInstance;
+        }
+        catch (e: any) {
+            const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la dépublication de l'appel";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }   
     }
-    catch (e: any) {
-        const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la dépublication de l'appel";
-        return rejectWithValue({
-            message: errorMessage,
-            error: "CALL_FETCH_ERROR",
-            statusCode: e.response?.data?.error?.statusCode || 500
-        })
+)
+
+export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string}, {rejectValue: any}>(
+    "call/addReviewer",
+    async({email, organization, callId}, {rejectWithValue}) => {
+        try{
+            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization});
+            return response.data.data as CallInstance
+
+        }catch(error : any){
+            const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de l'ajout du curateur";
+            return rejectWithValue ({
+                message : errorMessage,
+                error: "REVIEWER_ADDING_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            })
+        }
     }
-})
+)
 
 const validateStep = (state: InitialStateCallType) => {
     const { name, form, requirements, started_at, ended_at, description } = state.AddFormValue;
@@ -448,7 +461,11 @@ const callSlice = createSlice({
             .addCase(updatedCoverCall.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
-            });
+            })
+            .addCase(addReviewer.fulfilled, (state, action: PayloadAction<CallType>)=>{
+                state.selectedCall = action.payload
+            }) 
+            ;
     }
 });
 

@@ -14,14 +14,22 @@ import {
 } from 'reactstrap';
 import { Calendar, FileText, Tag, User, Target } from 'react-feather';
 import { useAppSelector } from "@/Redux/Hooks";
+import { Call, FormField, Requirement, CallType, RequirementType, FormInputType } from '@/Types/Call/CallType';
 
 const CallInfo = () => {
 
     const { selectedCall } = useAppSelector(state => state.call);
 
     if (!selectedCall) {
-        return <p className="text-center text-muted">Aucun appel sélectionné.</p>;
+
+        return (
+            <p className="text-center text-muted">
+                Aucun appel sélectionné.
+            </p>
+        )
+        
     }
+
 
     return (
         <TabPane tabId={"1"}>
@@ -56,10 +64,8 @@ const CallInfo = () => {
                                 </CardTitle>
                                 <ListGroup flush>
                                     {
-                                        // @ts-ignore
-                                        selectedCall?.requirements?.length > 0 ? (
-                                            // @ts-ignore
-                                            selectedCall?.requirements.map((req, index) => (
+                                        selectedCall.requirements && selectedCall.requirements.length > 0 ? (
+                                            selectedCall.requirements.map((req: RequirementType, index) => (
                                                 <ListGroupItem key={index}>
                                                     <strong>{req.name} :</strong> {req.description}
                                                 </ListGroupItem>
@@ -79,10 +85,8 @@ const CallInfo = () => {
                                 </CardTitle>
                                 <ListGroup flush>
                                     {
-                                        // @ts-ignore
-                                        selectedCall.form?.length > 0 ? (
-                                            // @ts-ignore
-                                            selectedCall.form.map((field) => (
+                                        selectedCall.form && selectedCall.form.length > 0 ? (
+                                            selectedCall.form.map((field: FormInputType) => (
                                                 <ListGroupItem key={field.id} className="d-flex justify-content-between">
                                                     <span>{field.label}</span>
                                                     {field.required && <Badge color="danger">Obligatoire</Badge>}
@@ -104,25 +108,21 @@ const CallInfo = () => {
                                 <ListGroup flush>
                                     <ListGroupItem>
                                         <strong>Nom :</strong> {
-                                        // @ts-ignore
                                         selectedCall.author?.name || "Inconnu"
                                     }
                                     </ListGroupItem>
                                     <ListGroupItem>
                                         <strong>Email :</strong> {
-                                        // @ts-ignore
                                         selectedCall.author?.email || "Non spécifié"
                                     }
                                     </ListGroupItem>
                                     <ListGroupItem>
                                         <strong>Téléphone :</strong> {
-                                        // @ts-ignore
                                         selectedCall.author?.phone_number || "Non spécifié"
                                     }
                                     </ListGroupItem>
                                     <ListGroupItem>
                                         <strong>Adresse :</strong> {
-                                        // @ts-ignore
                                         selectedCall.author?.address || "Non spécifié"
                                     }
                                     </ListGroupItem>

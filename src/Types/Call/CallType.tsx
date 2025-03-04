@@ -1,4 +1,4 @@
-export interface CallInstance {
+export interface CallType {
     id: string;
     name: string;
     created_at: string;
@@ -10,9 +10,9 @@ export interface CallInstance {
     published_at: string;
     cover: string | null;
     document: string | null;
-    form: Object | null;
-    reviewers: string | null;
-    requirements: Object | null;
+    form: [] | null;
+    reviewers: [] | null;
+    requirements: [] | null;
 }
 
 export interface Author {
@@ -30,7 +30,7 @@ export interface Author {
     verified_at: string;
 }
 
-export interface CallType extends  CallInstance {
+export interface CallInstance extends  CallType {
     authors: Author;
 }
 
@@ -103,3 +103,29 @@ export interface StepPropsType{
 export type StepperHorizontalPropsType = {
     level: number;
 };
+
+export interface FormField {
+    id: string | number;
+    label: string;
+    required: boolean;
+}
+
+export interface Requirement {
+    name: string;
+    description: string;
+}
+
+export interface Call {
+    name: string;
+    description: string;
+    started_at: string;
+    ended_at: string;
+    requirements: Requirement[];
+    form: FormField[];
+    author?: {
+        name: string;
+        email: string;
+        phone_number: string;
+        address: string;
+    };
+}

@@ -20,7 +20,7 @@ const CallNavTabs = [
         id: "2",
     },
     {
-        title: "Candidature",
+        title: "Curateur",
         icon: "candidature_curator",
         id: "3",
     },
