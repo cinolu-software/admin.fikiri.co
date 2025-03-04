@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
-import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author} from "@/Types/Call/CallType";
+import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author, ReceiveDataReviewer} from "@/Types/Call/CallType";
 import { ShowError } from "@/utils";
 
 const initialState: InitialStateCallType = {
     callData: [],
     publishedCallData: [],
+    reviewerData: null,
     statusCall: 'idle',
     filterToggle: false,
     publishedStatus: 'idle',
@@ -223,12 +224,12 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     }
 )
 
-export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string}, {rejectValue: any}>(
+export const addReviewer = createAsyncThunk<ReceiveDataReviewer, {email: string, organization: string, callId: string}, {rejectValue: any}>(
     "call/addReviewer",
     async({email, organization, callId}, {rejectWithValue}) => {
         try{
             const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization});
-            return response.data.data as CallInstance
+            return response.data.data as ReceiveDataReviewer
 
         }catch(error : any){
             const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de l'ajout du curateur";
@@ -462,8 +463,9 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
-            .addCase(addReviewer.fulfilled, (state, action: PayloadAction<CallType>)=>{
-                state.selectedCall = action.payload
+            .addCase(addReviewer.fulfilled, (state, action: PayloadAction<ReceiveDataReviewer>)=>{
+                state.selectedCall = action.payload.opportunity;
+                state.reviewerData = action.payload;
             }) 
             ;
     }

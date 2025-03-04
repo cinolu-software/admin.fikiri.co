@@ -30,8 +30,15 @@ export interface Author {
     verified_at: string;
 }
 
+
+
 export interface CallInstance extends  CallType {
     authors: Author;
+}
+
+export interface ReceiveDataReviewer {
+    opportunity:  CallInstance;
+    token: string;
 }
 
 export interface FormInputType {
@@ -88,6 +95,7 @@ export interface InitialStateCallType {
     isOpenModalDeleteCall: boolean;
     filterToggle: boolean;
     selectedCall: CallInstance | CallType |null;
+    reviewerData: ReceiveDataReviewer | null
     navId: number;
     tabId: number;
     AddFormValue: FormValue ;
