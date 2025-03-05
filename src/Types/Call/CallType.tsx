@@ -14,6 +14,7 @@ export interface CallType {
     reviewers: Reviewer[];
     requirements: Requirement[];
     applications?: Application[];
+    author?: Author;
 }
 
 export interface Author {

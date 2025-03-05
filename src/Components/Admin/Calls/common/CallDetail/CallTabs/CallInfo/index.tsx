@@ -65,7 +65,7 @@ const CallInfo = () => {
                                 <ListGroup flush>
                                     {
                                         selectedCall.requirements && selectedCall.requirements.length > 0 ? (
-                                            selectedCall.requirements.map((req: RequirementType, index) => (
+                                            selectedCall.requirements.map((req: Requirement, index) => (
                                                 <ListGroupItem key={index}>
                                                     <strong>{req.name} :</strong> {req.description}
                                                 </ListGroupItem>
@@ -86,7 +86,7 @@ const CallInfo = () => {
                                 <ListGroup flush>
                                     {
                                         selectedCall.form && selectedCall.form.length > 0 ? (
-                                            selectedCall.form.map((field: FormInputType) => (
+                                            selectedCall.form.map((field: FormField) => (
                                                 <ListGroupItem key={field.id} className="d-flex justify-content-between">
                                                     <span>{field.label}</span>
                                                     {field.required && <Badge color="danger">Obligatoire</Badge>}

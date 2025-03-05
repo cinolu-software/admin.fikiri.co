@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import { ToastContainer} from "react-toastify";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
 import {CollapseFilterData} from "@/Components/Admin/Calls/common/CollapseFilterData";
+import { CallInstance } from "@/Types/Call/CallType";
 
 
 const PublishedCallListContainer = () => {
@@ -48,7 +49,7 @@ const PublishedCallListContainer = () => {
                                     <DataTable
                                         className="theme-scrollbar"
                                         data={filteredItems}
-                                        columns={PublishedCallListTableDataColumn}
+                                        columns={PublishedCallListTableDataColumn as CallInstance[]}
                                         striped
                                         highlightOnHover
                                         pagination

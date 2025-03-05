@@ -22,7 +22,7 @@ const CallListTableName: React.FC<{ image: string, name: string }> = ({image, na
     );
 };
 
-const CallListTableAction: React.FC<{ call: CallType | CallInstance, isPublished?: boolean }> = ({ call, isPublished }) => {
+const CallListTableAction: React.FC<{ call:  CallInstance, isPublished?: boolean }> = ({ call, isPublished }) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -108,10 +108,10 @@ const CallListTableAction: React.FC<{ call: CallType | CallInstance, isPublished
     );
 };
 
-export const CallListTableDataColumn: TableColumn<CallType>[] = [
+export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
     {
         name: "Nom",
-        cell: (row: CallType) => (
+        cell: (row: CallInstance) => (
             <CallListTableName
                 image={row?.cover ? `${imageBaseUrl}/opportunities/covers/${row.cover}` : '/assets/images/calls/call.jpg'}
                 name={row.name}/>
@@ -121,7 +121,7 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: CallType) => {
+        selector: (row: CallInstance) => {
             const date = new Date(row.started_at);
             return date.toLocaleDateString();
         },
@@ -130,7 +130,7 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de fin",
-        selector: (row: CallType) => {
+        selector: (row: CallInstance) => {
             const date = new Date(row.ended_at);
             return date.toLocaleDateString();
         },
@@ -140,16 +140,16 @@ export const CallListTableDataColumn: TableColumn<CallType>[] = [
 
     {
         name: "Actions",
-        cell: (row: CallType) => <CallListTableAction call={row} />,
+        cell: (row: CallInstance) => <CallListTableAction call={row} />,
         grow: 2
     },
 ];
 
 
-export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
+export const PublishedCallListTableDataColumn: TableColumn<CallInstance>[] = [
     {
         name: "Nom",
-        cell: (row: CallType) => (
+        cell: (row: CallInstance) => (
             <CallListTableName
                 image={row?.cover ? `${imageBaseUrl}/opportunities/covers/${row.cover}` : '/assets/images/calls/call.jpg'}
                 name={row.name}/>
@@ -159,7 +159,7 @@ export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de début",
-        selector: (row: CallType) => {
+        selector: (row: CallInstance) => {
             const date = new Date(row.started_at);
             return date.toLocaleDateString();
         },
@@ -168,7 +168,7 @@ export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Date de fin",
-        selector: (row: CallType) => {
+        selector: (row: CallInstance) => {
             const date = new Date(row.ended_at);
             return date.toLocaleDateString();
         },
@@ -177,7 +177,7 @@ export const PublishedCallListTableDataColumn: TableColumn<CallType>[] = [
     },
     {
         name: "Actions",
-        cell: (row: CallType) => <CallListTableAction call={row} isPublished={true} />,
+        cell: (row: CallInstance) => <CallListTableAction call={row} isPublished={true} />,
         grow: 2
     },
 ];
