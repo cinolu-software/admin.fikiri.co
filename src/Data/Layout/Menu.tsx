@@ -13,7 +13,7 @@ export const MenuList: MenuItem[] = [
         type: "sub",
         active: false,
         children: [
-          { path: "/general/home", type: "link", title: "Statistiques" },
+          { path: "/admin/homeAdmin", type: "link", title: "Statistiques" },
         ],
       },
       {
@@ -36,16 +36,16 @@ export const MenuList: MenuItem[] = [
       //     {path: "/admin/administrateurs", type: "link", title: "Liste" },
       //   ]
       // },
-      {
-        title: "Solutions",
-        id: 4,
-        icon: "file",
-        type: "sub",
-        active: false,
-        children: [
-          {path: "/admin/solutions", type: "link", title: "Solutions" },
-        ]
-      }
+      // {
+      //   title: "Solutions",
+      //   id: 4,
+      //   icon: "file",
+      //   type: "sub",
+      //   active: false,
+      //   children: [
+      //     {path: "/admin/solutions", type: "link", title: "Solutions" },
+      //   ]
+      // }
     ],
     requiredRoles: ['admin']
   },

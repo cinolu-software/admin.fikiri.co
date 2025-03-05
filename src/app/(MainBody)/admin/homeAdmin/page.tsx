@@ -1,15 +1,14 @@
 'use client';
 
-
 import {FunctionComponent, useEffect, useState} from "react";
 
-const HomePage = () => {
+const AdminHomePage = () => {
     const [MyAwesomeMap, setMyAwesomeMap] = useState<FunctionComponent>();
 
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import('@/Components/General/HomePage')).default;
+                const newClient = (await import('@/Components/Admin/AdminHomePage')).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();
@@ -18,4 +17,4 @@ const HomePage = () => {
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
 
-export default HomePage;
+export default AdminHomePage;
