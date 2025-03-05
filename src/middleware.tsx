@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
   if (path.split("/")[1] === "auth" && request.cookies.has("fikiri_token")) {
-    return NextResponse.redirect(new URL(`/general/home`, request.url));
+    return NextResponse.redirect(new URL(`/admin/homeAdmin`, request.url));
   }
 
   return NextResponse.next();

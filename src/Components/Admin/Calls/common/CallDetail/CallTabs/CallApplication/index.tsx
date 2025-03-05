@@ -10,6 +10,7 @@ import { fr } from 'date-fns/locale';
 import { TabPane } from "reactstrap";
 
 const ApplicationInfo = () => {
+
   const { applicationData, applicationStatus } = useAppSelector((state) => state.application);
   const { selectedCall } = useAppSelector((state) => state.call);
   const dispatch = useAppDispatch();
@@ -23,11 +24,9 @@ const ApplicationInfo = () => {
 
   useEffect(() => {
     if(selectedCall) {
-      if(applicationStatus === "idle") {
-        dispatch(fetchApplicationsByCall({callId: selectedCall.id}));
-      }
+      dispatch(fetchApplicationsByCall({callId: selectedCall.id}));
     }
-  }, [applicationStatus, selectedCall]);
+  }, [selectedCall]);
 
   const baseColumns = [
     {
@@ -44,12 +43,12 @@ const ApplicationInfo = () => {
                     ? row.applicant.google_image
                     : `${ImagePath}/avtar/avatar_.jpg`
               }
-              alt={row.applicant.name}
+              alt={row.applicant?.name || 'Avatar'}
             />
           </div>
           <div>
-            <p className="mb-0">{row.applicant.name}</p>
-            <small className="text-muted">{row.applicant.email}</small>
+            <p className="mb-0">{row.applicant?.name || 'N/A'}</p>
+            <small className="text-muted">{row.applicant?.email || 'N/A'}</small>
           </div>
         </div>
       ),
@@ -140,24 +139,26 @@ const ApplicationInfo = () => {
     return null;
   }
 
+  console.log("===>|",applicationData)
+  
   return (
     <TabPane tabId={'2'} className="mb-5">
-          <div className="p-3">
-      <DataTable
-        columns={columns}
-        data={applicationData || []}
-        pagination
-        responsive
-        striped
-        highlightOnHover
-        customStyles={customStyles}
-        noDataComponent={
-          <div className="p-4 text-center text-muted">
-            Aucune candidature trouvée
-          </div>
-        }
-      />
-    </div>
+      <div className="p-3">
+        <DataTable
+          columns={columns}
+          data={applicationData || []}
+          pagination
+          responsive
+          striped
+          highlightOnHover
+          customStyles={customStyles}
+          noDataComponent={
+            <div className="p-4 text-center text-muted">
+              Aucune candidature trouvée
+            </div>
+          }
+        />
+      </div>
     </TabPane>
   );
 }
