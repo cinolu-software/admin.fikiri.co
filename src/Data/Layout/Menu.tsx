@@ -46,7 +46,8 @@ export const MenuList: MenuItem[] = [
           {path: "/admin/solutions", type: "link", title: "Solutions" },
         ]
       }
-    ]
+    ],
+    requiredRoles: ['admin']
   },
   {
     title: "Administration",
@@ -84,6 +85,7 @@ export const MenuList: MenuItem[] = [
             {path: "/admin/organizations", type: "link", title: "Liste" },
         ]
       }
-    ]
+    ],
+    requiredRoles: ['admin']
   }
 ];

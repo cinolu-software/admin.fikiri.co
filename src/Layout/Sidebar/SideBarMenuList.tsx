@@ -1,21 +1,38 @@
 import { useAppSelector } from "@/Redux/Hooks";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { MenuList } from "@/Data/Layout/Menu";
 import { MenuItem } from "@/Types/LayoutTypes";
 import Menulist from "./Menulist";
 import { useTranslation } from "react-i18next";
 
 const SidebarMenuList = () => {
+
   const [activeMenu, setActiveMenu] = useState([]);
   const { pinedMenu } = useAppSelector((state) => state.layout);
-  
   const { t } = useTranslation("common");
-  const shouldHideMenu = (mainMenu: MenuItem) => {return mainMenu?.Items?.map((data) => data.title).every((titles) =>pinedMenu.includes(titles || ""));};
+  const {userData} = useAppSelector(state => state.authentication);
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+
+  useEffect(()=>{
+    setUserRoles(userData?.roles?.map((role:string) => role) || []);
+  }, [userData]);
+
+  const hasAccess = (requiredRoles?: string[]) => {
+    if(!requiredRoles) return true;
+    return requiredRoles.some((role) => userRoles.includes(role))
+  }
+
+
+  const visibleMenuList = MenuList?.filter((menuItem) => hasAccess(menuItem.requiredRoles));
+
+  const shouldHideMenu = (mainMenu: MenuItem) => {
+    return mainMenu?.Items?.map((data) => data.title).every((titles) => pinedMenu.includes(titles || ""));
+  };
 
   return (
     <>
-      {MenuList &&
-        MenuList.map((mainMenu: MenuItem, index) => (
+      {visibleMenuList &&
+        visibleMenuList.map((mainMenu: MenuItem, index) => (
           <Fragment key={index}>
             <li className={`sidebar-main-title ${shouldHideMenu(mainMenu) ? "d-none" : ""}`}>
               <div>
