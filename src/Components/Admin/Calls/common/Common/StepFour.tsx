@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { setRequirementsAction } from "@/Redux/Reducers/CallSlice";
 import { StepPropsType } from "@/Types/Call/CallType";
 
-const StepFour: React.FC<StepPropsType> = ({ data }) => {
+const StepFour: React.FC<StepPropsType> = () => {
+
     const dispatch = useAppDispatch();
     const { AddFormValue } = useAppSelector((state) => state.call);
-    const [requirements, setRequirements] = useState(AddFormValue.requirements || []); // Garder setRequirements pour l'état local
+    const [requirements, setRequirements] = useState(AddFormValue.requirements || []); 
     const [newRequirement, setNewRequirement] = useState({ name: "", description: "" });
 
 
@@ -15,9 +16,7 @@ const StepFour: React.FC<StepPropsType> = ({ data }) => {
         if (newRequirement.name.trim() !== "" && newRequirement.description.trim() !== "") {
             const updatedRequirements = [...requirements, newRequirement];
             setRequirements(updatedRequirements);
-
-            dispatch(setRequirementsAction({ requirements: updatedRequirements })); // Utiliser setRequirementsAction pour dispatcher l'action
-
+            dispatch(setRequirementsAction({ requirements: updatedRequirements }));
         }
     };
 
@@ -25,7 +24,7 @@ const StepFour: React.FC<StepPropsType> = ({ data }) => {
         const updatedRequirements = requirements?.filter((_: any, i: number) => i !== index);
         setRequirements(updatedRequirements);
 
-        dispatch(setRequirementsAction({ requirements: updatedRequirements })); // Utiliser setRequirementsAction pour dispatcher l'action
+        dispatch(setRequirementsAction({ requirements: updatedRequirements })); 
     };
 
     return (
@@ -41,18 +40,26 @@ const StepFour: React.FC<StepPropsType> = ({ data }) => {
                 </thead>
                 <tbody>
                 {
-                    // @ts-ignore
-                    AddFormValue.requirements.map((requirement: any, index: number) => (
-                    <tr key={index}>
-                        <td className="align-middle">{requirement.name}</td>
-                        <td className="align-middle">{requirement.description}</td>
-                        <td className="align-middle text-center">
-                            <Button color="danger" size="sm" onClick={() => handleRemoveRequirement(index)}>
-                                Supprimer
-                            </Button>
-                        </td>
-                    </tr>
-                ))}
+                    AddFormValue.requirements && AddFormValue.requirements.length > 0 ? (
+                        AddFormValue.requirements.map((requirement: any, index: number) => (
+                            <tr key={index}>
+                                <td className="align-middle">{requirement.name}</td>
+                                <td className="align-middle">{requirement.description}</td>
+                                <td className="align-middle text-center">
+                                    <Button color="danger" size="sm" onClick={() => handleRemoveRequirement(index)}>
+                                        Supprimer
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={3} className="text-center">
+                                Aucun critère ajouté
+                            </td>
+                        </tr>
+                    )
+                }
                 </tbody>
             </Table>
 

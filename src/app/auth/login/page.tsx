@@ -17,7 +17,7 @@ const UserLogin = () => {
 
     useEffect(() => {
         if(statusAuthentication === "succeeded" && isAuthenticated && userData){
-            router.push("/general/home");
+            router.push("/admin/homeAdmin");
         }else if(statusAuthentication === 'failed'){
             router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
         }
@@ -31,8 +31,7 @@ const UserLogin = () => {
               {
                   statusAuthentication === "loading" &&
                   (
-                      <Spinner style={{ width: '3rem', height: '3rem' }} color="primary" />
-
+                    <Spinner style={{ width: '3rem', height: '3rem' }} color="primary" />
                   )
               }
           </div>
