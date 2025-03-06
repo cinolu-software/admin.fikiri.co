@@ -11,7 +11,6 @@ const StepFour: React.FC<StepPropsType> = () => {
     const [requirements, setRequirements] = useState(AddFormValue.requirements || []); 
     const [newRequirement, setNewRequirement] = useState({ name: "", description: "" });
 
-
     const handleAddRequirement = () => {
         if (newRequirement.name.trim() !== "" && newRequirement.description.trim() !== "") {
             const updatedRequirements = [...requirements, newRequirement];

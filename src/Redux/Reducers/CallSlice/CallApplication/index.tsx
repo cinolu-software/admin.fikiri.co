@@ -84,6 +84,9 @@ const ApplicationsSlice = createSlice({
             };
             state.inboxEmail = [emailTemp, ...state.inboxEmail];
         },
+        setSelectedApplication: (state, action: PayloadAction<ApplicationInstance | null>) =>{
+            state.selectedApplication = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -102,6 +105,6 @@ const ApplicationsSlice = createSlice({
     }
 })
 
-export const {setModal,setComposeEmail,setPage,handleEnvelope,handleInterview,removeItems,addToFavorites,removeFromFavorite,setEmailValidation,addNewEmail} = ApplicationsSlice.actions
+export const {setModal,setComposeEmail,setPage,handleEnvelope,handleInterview,removeItems,addToFavorites,removeFromFavorite,setEmailValidation,addNewEmail, setSelectedApplication} = ApplicationsSlice.actions
 
 export default ApplicationsSlice.reducer

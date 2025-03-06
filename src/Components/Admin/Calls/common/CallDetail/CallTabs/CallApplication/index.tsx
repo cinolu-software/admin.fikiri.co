@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from '@/Redux/Hooks';
 import { handleInterview, fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
 import { imageBaseUrl } from "@/Services/axios";
@@ -6,8 +6,10 @@ import { ImagePath } from '@/Constant';
 import { useRouter } from "next/navigation";
 import DataTable from 'react-data-table-component';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
-import { TabPane } from "reactstrap";
+import { fr, id } from 'date-fns/locale';
+import { TabPane, Spinner } from "reactstrap";
+import { setSelectedApplication } from "@/Redux/Reducers/CallSlice/CallApplication";
+import { ApplicationInstance } from "@/Types/Call/Application";
 
 const ApplicationInfo = () => {
 
@@ -15,6 +17,7 @@ const ApplicationInfo = () => {
   const { selectedCall } = useAppSelector((state) => state.call);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [loadingDetail, setLoadingDetail] = useState(false);
 
   useEffect(() => {
     if(!selectedCall) {
@@ -27,6 +30,12 @@ const ApplicationInfo = () => {
       dispatch(fetchApplicationsByCall({callId: selectedCall.id}));
     }
   }, [selectedCall]);
+
+  const handleViewDetail =  (application : ApplicationInstance) => {
+    setLoadingDetail(true);
+    router.push(`/admin/call/detail_call/application_detail`);
+    dispatch(setSelectedApplication(application))
+  }
 
   const baseColumns = [
     {
@@ -89,7 +98,6 @@ const ApplicationInfo = () => {
     minWidth: field.type === 'textarea' ? '300px' : '150px',
   }));
 
-
   const endColumns = [
     {
       name: "Date de soumission",
@@ -99,19 +107,15 @@ const ApplicationInfo = () => {
       sortable: true,
     },
     {
-      name: "Actions",
+      name: "Actions", 
       cell: (row: any) => (
-        <button 
-          className="btn btn-outline-primary btn-sm"
-          onClick={() => dispatch(handleInterview(true))}
-        >
-          Voir détails
+        <button className="btn btn-outline-primary btn-sm" onClick={() => handleViewDetail(row)} >
+          { loadingDetail ?  <Spinner size={'sm'} /> : "Voir détails" }
         </button>
       ),
       center: true,
     }
   ];
-
 
   const columns = [...baseColumns, ...(dynamicColumns || []), ...endColumns];
 
@@ -139,7 +143,6 @@ const ApplicationInfo = () => {
     return null;
   }
 
-  console.log("===>|",applicationData)
   
   return (
     <TabPane tabId={'2'} className="mb-5">

@@ -1,11 +1,11 @@
-import React, {useState, useMemo} from 'react';
+// import React, {useState, useMemo} from 'react';
 // import {ReceiveProjectType, ReceiveProjectTypeTable} from "@/Types/Projects/ProjectType";
-import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
-import {Card, CardBody, Col, Input, Label, Row} from "reactstrap";
-import {CallHeader} from "@/Components/Admin/Calls/common/CallHeader";
+// import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
+// import {Card, CardBody, Col, Input, Label, Row} from "reactstrap";
+// import {CallHeader} from "@/Components/Admin/Calls/common/CallHeader";
 // import {CollapseFilterData} from "@/Components/Applications/projects/common/CollapseFilterData";
 
-import DataTable from "react-data-table-component";
+// import DataTable from "react-data-table-component";
 // import {ProjectListTableDataColumn} from "@/Data/Application/Project";
 
 // const ProjectListContainer: React.FC<ReceiveProjectTypeTable> = ({project, projectStatus}) => {
@@ -56,12 +56,12 @@ import DataTable from "react-data-table-component";
 //
 // export default ProjectListContainer;
 
-const CallListContainer = (props: any) => {
+// const CallListContainer = (props: any) => {
 
-    return (
-        <div>
-        </div>
-    )
-}
+//     return (
+//         <div>
+//         </div>
+//     )
+// }
 
-export default CallListContainer
+// export default CallListContainer
