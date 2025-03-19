@@ -14,8 +14,11 @@ import {CallType} from "@/Types/Call/CallType";
 const CallListContainer = () => {
 
     const [filterText, setFilterText] = useState("");
+
     const dispatch = useAppDispatch();
-    const {callData, statusCall} = useAppSelector(state => state.call);
+
+    const {callData, statusCall, totalPublishedCall, totalAllCall} = useAppSelector(state => state.call);
+
     const filteredItems = callData?.filter((item: { name: string; })=>item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
 
     const subHeaderComponentMemo = useMemo(() => {
@@ -32,7 +35,6 @@ const CallListContainer = () => {
             dispatch(fetchCall());
         }
     }, [statusCall, dispatch]);
-
 
 
     return (

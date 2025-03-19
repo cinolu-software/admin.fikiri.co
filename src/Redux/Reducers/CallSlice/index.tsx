@@ -6,6 +6,8 @@ import { ShowError } from "@/utils";
 const initialState: InitialStateCallType = {
     callData: [],
     publishedCallData: [],
+    totalAllCall: null,
+    totalPublishedCall: null,
     reviewerData: null,
     statusCall: 'idle',
     filterToggle: false,
@@ -440,6 +442,7 @@ const callSlice = createSlice({
             })
             .addCase(fetchCall.fulfilled, (state, action: PayloadAction<CallInstance[]>) => {
                 state.statusCall = "succeeded";
+                state.totalAllCall = action.payload.length;
                 state.callData = action.payload;
             })
             .addCase(fetchCall.rejected, (state, action) => {
@@ -479,6 +482,7 @@ const callSlice = createSlice({
             })
             .addCase(fetchPublishedCall.fulfilled, (state, action: PayloadAction<CallType[]>) => {
                 state.publishedStatus = 'succeeded';
+                state.totalPublishedCall = action.payload.length;
                 state.publishedCallData = action.payload;
             })
             .addCase(fetchPublishedCall.rejected, (state, action) => {

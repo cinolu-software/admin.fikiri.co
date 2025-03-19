@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from '@/Redux/Hooks';
-import { handleInterview, fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
+import { fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
 import { imageBaseUrl } from "@/Services/axios";
 import { ImagePath } from '@/Constant';
 import { useRouter } from "next/navigation";
@@ -46,12 +46,12 @@ const ApplicationInfo = () => {
             <img
               className="rounded-circle w-100 h-100"
               src={
-                row.applicant?.profile
-                  ? `${imageBaseUrl}/profiles/${row.applicant.profile}`
-                  : row.applicant?.google_image
-                    ? row.applicant.google_image
-                    : `${ImagePath}/avtar/avatar_.jpg`
-              }
+                    row.applicant?.profile
+                      ? `${imageBaseUrl}/profiles/${row.applicant.profile}`
+                      : row.applicant?.google_image
+                        ? row.applicant.google_image
+                        : `${ImagePath}/avtar/avatar_.jpg`
+                  }
               alt={row.applicant?.name || 'Avatar'}
             />
           </div>
@@ -68,7 +68,6 @@ const ApplicationInfo = () => {
 
 
   const dynamicColumns = selectedCall?.form?.map(field => ({
-    
     name: field.label,
     cell: (row: any) => {
       const value = row.responses[field.label];
@@ -142,7 +141,6 @@ const ApplicationInfo = () => {
   if (!selectedCall) {
     return null;
   }
-
   
   return (
     <TabPane tabId={'2'} className="mb-5">

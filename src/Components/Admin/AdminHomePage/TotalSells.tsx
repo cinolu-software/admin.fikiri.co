@@ -1,37 +1,54 @@
-import { ImagePath } from "@/Constant";
-import { TopSellData } from "@/Data/Admin/Home";
-import { Card, CardBody, Col } from "reactstrap";
-import CommonHeader from "@/Components/Admin/AdminHomePage/common/CommonHeader";
+import {useEffect} from 'react';
+import Stat from '@/Components/Admin/AdminHomePage/Stat';
+import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
+import {fetchCall, fetchPublishedCall} from "@/Redux/Reducers/CallSlice";
+
 
 const TotalSells = () => {
+
+    const { totalAllCall, totalPublishedCall } = useAppSelector(state=>state.call);
+    const dispatch = useAppDispatch();
+
+    useEffect(
+        ()=>{
+            if(totalAllCall === null){
+                dispatch(fetchCall());
+            }
+            if(totalPublishedCall === null){
+                dispatch(fetchPublishedCall());
+            }
+        },
+        [dispatch, totalAllCall, totalPublishedCall]
+    );
+
+  
   return (
     <>
-      {TopSellData.map((data, i) => (
-        <Col xl="3" sm="6" key={i} className="daily-revenue-card">
-          <Card>
-            <CommonHeader title={data.title} />
-            <CardBody className={`pb-5 ${data.class}`}>
-              <div className="d-flex align-items-center gap-3">
-                <div className="flex-shrink-0">
-                  <img src={`${ImagePath}/dashboard-3/icon/${data.image}`} alt="icon" />
-                </div>
-                <div className="">
-                  <div className="d-flex align-items-center">
-                    <h2>{data.count}</h2>
-                    {/* <div className="d-flex total-icon">
-                      <p className={`mb-0 up-arrow bg-light-${data.color}`}>
-                        <i className={`fa ${data.icon} text-${data.color}`} />
-                      </p>
-                      <span className={`f-w-500 font-${data.color}`}>{data.percentage}</span>
-                    </div> */}
-                  </div>
-                  {/* <p className="text-truncate">{data.detail}</p> */}
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-      ))}
+        {
+            totalAllCall !== null &&
+            <Stat
+                className={"total-sells"}
+                title={"Nombre Total d'appels"}
+                image={"opportunity.png"}
+                count={totalAllCall}
+               icon={"fa-arrow-up"}
+                color={"success"}
+            />
+        }
+        {
+            totalPublishedCall !== null &&
+            <Stat
+                className={"total-sells-2"}
+                title={"Nombre Total d'appels publiés"}
+                image={"bublishedOpportunity.png"}
+                count={totalPublishedCall}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
+
+        }
+      {/*<Stat className={"total-sells-3"} title={"Nombre Total de candidatures"} image={"applications.png"} count={1000} icon={"fa-arrow-up"} color={"success"} />*/}
+      {/*<Stat className={"total-sells-4"} title={"Nombre Total d'utilisateurs"} image={"bublishedOpportunity.png"} count={20} icon={"fa-arrow-down"} color={"danger"} />*/}
     </>
   );
 };

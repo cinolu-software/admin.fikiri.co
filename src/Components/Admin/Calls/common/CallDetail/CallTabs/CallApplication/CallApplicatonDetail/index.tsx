@@ -10,7 +10,6 @@ import { ImagePath } from '@/Constant';
 
 const CallApplicationDetail = () => {
     
-    const dispatch = useAppDispatch()
     const { selectedApplication } = useAppSelector(state => state.application);
     const router = useRouter();
 
@@ -26,7 +25,6 @@ const CallApplicationDetail = () => {
         <div className="container-fluid">
             <BackButton link={'/admin/call/'} />
             
-            {/* Informations du candidat */}
             <Card className="mb-4">
                 <CardBody>
                     <h4 className="mb-4">Informations du candidat</h4>

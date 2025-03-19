@@ -117,6 +117,8 @@ export interface DataGetCallErrorType{
 
 export interface InitialStateCallType {
     callData: CallInstance[];
+    totalAllCall: number | null;
+    totalPublishedCall: number | null;
     publishedCallData: CallType[];
     statusCall: "idle" | "loading" | "succeeded" | "failed";
     publishedStatus: "idle" | "loading" | "succeeded" | "failed";
