@@ -13,7 +13,7 @@ export const MenuList: MenuItem[] = [
         type: "sub",
         active: false,
         children: [
-          { path: "/admin/homeAdmin", type: "link", title: "Statistiques" },
+          { path: "/admin/homeAdmin", type: "link", title: "Dashboard Admin" },
         ],
       },
       {
@@ -28,6 +28,61 @@ export const MenuList: MenuItem[] = [
       },
     ],
     requiredRoles: ['admin']
+  },
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/explorator/homeExplorator", type: "link", title: "Dashboard Explorateur" },
+        ],
+      },
+    ],
+    requiredRoles: ['explorator']
+  },
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/cartograph/homeCartograph", type: "link", title: "Dashboard Cartograph" },
+        ],
+      },
+    ],
+    requiredRoles: ['cartograph']
+  },
+  {
+    title: "Cartographie",
+    lanClass: "lan-8",
+    menucontent: "Cartographie",
+    Items: [
+      {
+        title: "Appels",
+        id: 1,
+        icon: "contact",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/call", type: "link", title: "Liste" },
+        ]
+
+      },
+    ],
+    requiredRoles: ['cartograph']
   },
   {
     title: "Administration",
