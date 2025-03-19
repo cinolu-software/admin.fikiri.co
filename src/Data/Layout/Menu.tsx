@@ -26,26 +26,6 @@ export const MenuList: MenuItem[] = [
           {path: "/general/users/", type: "link", title: "Liste" },
         ]
       },
-      // {
-      //   title: "Administrateurs",
-      //   id: 3,
-      //   icon: "editors",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     {path: "/admin/administrateurs", type: "link", title: "Liste" },
-      //   ]
-      // },
-      // {
-      //   title: "Solutions",
-      //   id: 4,
-      //   icon: "file",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     {path: "/admin/solutions", type: "link", title: "Solutions" },
-      //   ]
-      // }
     ],
     requiredRoles: ['admin']
   },
@@ -83,6 +63,16 @@ export const MenuList: MenuItem[] = [
         active: false,
         children: [
             {path: "/admin/organizations", type: "link", title: "Liste" },
+        ]
+      },
+      {
+        title: "Partenaires",
+        id: 4,
+        icon: "",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/partners", type: "link", title: "Liste" },
         ]
       }
     ],
