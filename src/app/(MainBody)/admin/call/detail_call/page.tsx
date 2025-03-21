@@ -1,10 +1,11 @@
 "use client";
 
-
 import {FunctionComponent, useEffect, useState} from "react";
 
 const DetailCall = () => {
+
     const [MyAwesomeMap, setClient] = useState<FunctionComponent>();
+
     useEffect(() => {
         (async () => {
             if(typeof window !== "undefined") {
