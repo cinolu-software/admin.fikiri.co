@@ -1,9 +1,16 @@
+import {CallType} from "@/Types/Call/CallType";
+
+type PartnerCall = {
+    id: CallType['id']
+}
+
 export interface PartnerType {
     id: string;
     name: string;
     logo: string;
     link: string;
-    type: 'standard' | 'program_specific' | ''
+    type: 'standard' | 'program_specific' | '',
+    opportunity?: PartnerCall;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -13,6 +20,11 @@ export interface CreatePartner {
     name: string;
     link: string;
     type: PartnerType['type'];
+}
+
+export interface CreatePartnerCall {
+    id: string;
+    partnerData: CreatePartner
 }
 
 export interface UpdatePartner  extends CreatePartner {

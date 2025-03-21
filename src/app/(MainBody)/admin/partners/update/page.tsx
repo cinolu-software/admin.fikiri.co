@@ -8,7 +8,7 @@ const DetailPartner = () => {
     useEffect(() => {
         (async () => {
             if (typeof navigator !== "undefined") {
-                const newClient = (await import("@/Components/Applications/Partners/UpdatePartner")).default;
+                const newClient = (await import("@/Components/Admin/Partners/UpdatePartner")).default;
                 setClient(() => newClient);
             }
         })();

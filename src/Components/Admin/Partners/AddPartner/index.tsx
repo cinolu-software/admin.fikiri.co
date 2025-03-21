@@ -3,8 +3,6 @@ import {Container, Row} from "reactstrap";
 import BackButton from "@/CommonComponent/BackButton";
 import FormPartner from "@/Components/Admin/Partners/Common/FormPartner";
 
-
-
 const AddPartnerContainer = () => {
 
     return (

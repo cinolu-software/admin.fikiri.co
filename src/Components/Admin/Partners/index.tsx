@@ -4,7 +4,7 @@ import DataTable from "react-data-table-component";
 import {CardBody, Card, Col, Container, Input, Label, Row} from "reactstrap";
 import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import {PartnerListTableColumnType} from "@/Types/Partners/PartnerType";
-import {setModalEditPartner, setModalDeletePartner, setModalCreatePartner, fetchPartner} from "@/Redux/Reducers/PartnersSlice/partnerSlice";
+import { setModalDeletePartner, fetchPartner} from "@/Redux/Reducers/PartnersSlice/partnerSlice";
 import PartnerList from "@/Components/Admin/Partners/PartnerList";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
 import DeleteEntityModal from "@/CommonComponent/DeleteEntityModal";

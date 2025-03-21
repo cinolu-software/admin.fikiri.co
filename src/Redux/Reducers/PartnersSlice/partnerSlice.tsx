@@ -1,7 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
-import { PartnerType, InitialStatePatnerType, FormValuePartnerType, DataGetPartnerErrorType, CreatePartner, UpdatePartner } from "@/Types/Partners/PartnerType";
-
+import {
+    PartnerType,
+    InitialStatePatnerType,
+    FormValuePartnerType,
+    DataGetPartnerErrorType,
+    CreatePartner,
+    UpdatePartner,
+    CreatePartnerCall
+} from "@/Types/Partners/PartnerType";
 
 
 const initialState: InitialStatePatnerType = {
@@ -51,6 +58,23 @@ export const createPartner = createAsyncThunk<PartnerType, CreatePartner, { reje
     async(partnerData, {rejectWithValue}) =>{
         try{
             const response = await axiosInstance.post(`${apiBaseUrl}/partners`, partnerData);
+            return response.data.data as PartnerType;
+        } catch (e : any){
+            const errorMessage = e.response.data.error.message || 'Erreur lors de la création du partenaire';
+            return rejectWithValue ({
+                message: errorMessage,
+                error: "PARTENAIRE_FETCH_ERROR",
+                statusCode: e.response.data.error.statusCode || 500
+            })
+        }
+    }
+);
+
+export const createPartnerCall = createAsyncThunk<PartnerType, CreatePartnerCall, { rejectValue: DataGetPartnerErrorType}>(
+    "partners/createPartnerWithId",
+    async ({ id, partnerData }, { rejectWithValue }) => {
+        try{
+            const response = await axiosInstance.post(`${apiBaseUrl}/partners/${id}`, partnerData);
             return response.data.data as PartnerType;
         } catch (e : any){
             const errorMessage = e.response.data.error.message || 'Erreur lors de la création du partenaire';
@@ -159,8 +183,9 @@ const PartnerSlice = createSlice({
             .addCase(fetchPartner.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la récupération des partenaires.";
-            });
-        builder
+            })
+
+
             .addCase(createPartner.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -172,8 +197,21 @@ const PartnerSlice = createSlice({
             .addCase(createPartner.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la création du partenaire.";
-            });
-        builder
+            })
+
+            .addCase(createPartnerCall.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(createPartnerCall.fulfilled, (state, action: PayloadAction<PartnerType>) => {
+                state.status = "succeeded";
+                state.partnerData.push(action.payload);
+            })
+            .addCase(createPartnerCall.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.error.message || "Erreur lors de la création du partenaire.";
+            })
+
             .addCase(deletePartner.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -185,8 +223,8 @@ const PartnerSlice = createSlice({
             .addCase(deletePartner.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la suppression du partenaire.";
-            });
-        builder
+            })
+
             .addCase(updatePartner.pending, (state) => {
                 state.status = "loading";
                 state.error = null;
@@ -202,6 +240,7 @@ const PartnerSlice = createSlice({
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la mise à jour du partenaire.";
             })
+
             .addCase(addProfileImage.pending, (state) => {
                 state.status = "loading";
                 state.error = null;

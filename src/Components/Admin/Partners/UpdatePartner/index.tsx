@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Row} from "reactstrap";
 import BackButton from "@/CommonComponent/BackButton";
-import NumberingWizard from "@/Components/Applications/Partners/Common/Form";
+import FormPartner from "@/Components/Admin/Partners/Common/FormPartner";
 import {useAppSelector} from "@/Redux/Hooks";
 
 const UpdatePartner = () => {
@@ -10,9 +10,9 @@ const UpdatePartner = () => {
 
     return (
         <Container fluid>
-            <BackButton link="/partners" />
+            <BackButton link="/admin/partners" />
             <Row>
-                <NumberingWizard mode="edit" initialValues={selectedPartner} />
+                <FormPartner mode={"edit"} />
             </Row>
         </Container>
     );
