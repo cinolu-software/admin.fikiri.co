@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
 import { PartnerType, InitialStatePatnerType, FormValuePartnerType, DataGetPartnerErrorType, CreatePartner, UpdatePartner } from "@/Types/Partners/PartnerType";
-import {ShowError} from "@/utils";
-import {isRejectedWithValue} from "@reduxjs/toolkit/src";
+
 
 
 const initialState: InitialStatePatnerType = {
@@ -118,32 +117,6 @@ export const addProfileImage = createAsyncThunk<{ data: PartnerType }, { id: str
     }
 );
 
-
-// const validateStep = (state: InitialStatePatnerType) => {
-//     const {name, link, type} = state.formValue;
-//     switch(state.numberLevel){
-//         case 1:
-//             if(!name || !description){
-//                 ShowError();
-//                 return false;
-//             }
-//             break;
-//         case 2:
-//             if(!name || !description || !website_link){
-//                 ShowError();
-//                 return false
-//             }
-//             break
-//         case 3:
-//             if(!name || !description || !website_link || partnerships.length === 0 ){
-//                 ShowError();
-//                 return false
-//             }
-//             break
-//     }
-//     return true;
-// };
-
 const PartnerSlice = createSlice({
     name: "partner",
     initialState,
@@ -158,46 +131,15 @@ const PartnerSlice = createSlice({
                 };
             }
         },
-        setModalCreatePartner: (state, action: PayloadAction<{ isOpen: boolean }>) => {
-            state.isOpenModalCreatePartner = action.payload.isOpen;
-        },
-        setModalEditPartner: (state, action: PayloadAction<{ isOpen: boolean; partner?: PartnerType | null }>) => {
-            state.isOpenModalEditPartner = action.payload.isOpen;
-            if (action.payload.partner) {
-                state.selectedPartner = action.payload.partner;
-            }
-        },
         setModalDeletePartner: (state, action: PayloadAction<{ isOpen: boolean; partner?: PartnerType | null }>) => {
             state.isOpenModalDeletePartner = action.payload.isOpen;
             if (action.payload.partner) {
                 state.selectedPartner = action.payload.partner;
             }
         },
-        setNavId: (state, action: PayloadAction<number>) => {
-            state.navId = action.payload;
-        },
-        setTabId: (state, action: PayloadAction<number>) => {
-            state.tabId = action.payload;
-        },
         setFormValue: (state, action: PayloadAction<{field: keyof CreatePartner, value: any}>) => {
             const {field, value} = action.payload;
             state.formValue[field] = value
-        },
-        setShowFinish: (state, action) => {
-          state.showFinish = action.payload
-        },
-        handleBackButton: (state)=> {
-            // if(state.numberLevel > 1) state.numberLevel--;
-        },
-        handleNextButton: (state)=>{
-            // const isValid = validateStep(state);
-            // if (isValid) {
-            //     if (state.numberLevel < 7) {
-            //         state.numberLevel++;
-            //     } else if( state.numberLevel === 7) {
-            //         state.showFinish = true;
-            //     }
-            // }
         },
         setFilterToggle: (state) => {
             state.filterToggle = !state.filterToggle;
@@ -218,8 +160,6 @@ const PartnerSlice = createSlice({
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la récupération des partenaires.";
             });
-
-
         builder
             .addCase(createPartner.pending, (state) => {
                 state.status = "loading";
@@ -233,8 +173,6 @@ const PartnerSlice = createSlice({
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la création du partenaire.";
             });
-
-
         builder
             .addCase(deletePartner.pending, (state) => {
                 state.status = "loading";
@@ -248,7 +186,6 @@ const PartnerSlice = createSlice({
                 state.status = "failed";
                 state.error = action.error.message || "Erreur lors de la suppression du partenaire.";
             });
-
         builder
             .addCase(updatePartner.pending, (state) => {
                 state.status = "loading";
@@ -269,7 +206,6 @@ const PartnerSlice = createSlice({
                 state.status = "loading";
                 state.error = null;
             })
-
             .addCase(addProfileImage.fulfilled, (state, action: PayloadAction<{ data: PartnerType }>) => {
                 state.status = "succeeded";
                 const updatedPartnerIndex = state.partnerData.findIndex(
@@ -287,17 +223,11 @@ const PartnerSlice = createSlice({
 });
 
 export const {
-    setModalCreatePartner,
-    setModalEditPartner,
     setModalDeletePartner,
-    setNavId,
-    setTabId,
     setFormValue,
     setFilterToggle,
-    setShowFinish,
-    handleBackButton,
-    handleNextButton,
     setSelectedPartner
 } = PartnerSlice.actions;
+
 
 export default PartnerSlice.reducer;

@@ -1,5 +1,3 @@
-import {ChangeEvent} from "react";
-
 export interface PartnerType {
     id: string;
     name: string;

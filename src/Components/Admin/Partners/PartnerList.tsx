@@ -5,7 +5,7 @@ const PartnerList = () => {
 
     return (
         <div>
-            <AddButton link={'/partners/add'} name={'Ajouter un partenaire'}/>
+            <AddButton link={'/admin/partners/add'} name={'Ajouter un partenaire'}/>
         </div>
     )
 }
