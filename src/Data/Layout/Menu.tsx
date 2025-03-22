@@ -13,7 +13,7 @@ export const MenuList: MenuItem[] = [
         type: "sub",
         active: false,
         children: [
-          { path: "/admin/homeAdmin", type: "link", title: "Dashboard Admin" },
+          { path: "/admin/homeAdmin", type: "link", title: "Dashboard" },
         ],
       },
       {
@@ -28,61 +28,6 @@ export const MenuList: MenuItem[] = [
       },
     ],
     requiredRoles: ['admin']
-  },
-  {
-    title: "General",
-    lanClass: "lan-8",
-    menucontent: "General",
-    Items: [
-      {
-        title: "Accueil",
-        id: 1,
-        icon: "home",
-        type: "sub",
-        active: false,
-        children: [
-          { path: "/explorator/homeExplorator", type: "link", title: "Dashboard Explorateur" },
-        ],
-      },
-    ],
-    requiredRoles: ['explorator']
-  },
-  {
-    title: "General",
-    lanClass: "lan-8",
-    menucontent: "General",
-    Items: [
-      {
-        title: "Accueil",
-        id: 1,
-        icon: "home",
-        type: "sub",
-        active: false,
-        children: [
-          { path: "/cartograph/homeCartograph", type: "link", title: "Dashboard Cartograph" },
-        ],
-      },
-    ],
-    requiredRoles: ['cartograph']
-  },
-  {
-    title: "Cartographie",
-    lanClass: "lan-8",
-    menucontent: "Cartographie",
-    Items: [
-      {
-        title: "Appels",
-        id: 1,
-        icon: "contact",
-        type: "sub",
-        active: false,
-        children: [
-          {path: "/admin/call", type: "link", title: "Liste" },
-        ]
-
-      },
-    ],
-    requiredRoles: ['cartograph']
   },
   {
     title: "Administration",
@@ -132,5 +77,163 @@ export const MenuList: MenuItem[] = [
       }
     ],
     requiredRoles: ['admin']
-  }
+  },
+
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/cartograph/homeCartograph", type: "link", title: "Dashboard" },
+        ],
+      },
+    ],
+    requiredRoles: ['cartograph']
+  },
+  {
+    title: "Cartographie",
+    lanClass: "lan-8",
+    menucontent: "Cartographie",
+    Items: [
+      {
+        title: "Appels",
+        id: 1,
+        icon: "contact",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/call", type: "link", title: "Liste" },
+        ]
+
+      },
+    ],
+    requiredRoles: ['cartograph']
+  },
+
+
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/explorator/homeExplorator", type: "link", title: "Dashboard" },
+        ],
+      },
+    ],
+    requiredRoles: ['explorator']
+  },
+  {
+    title: "Exploration",
+    lanClass: "lan-8",
+    menucontent: "Exploration",
+    Items: [
+      {
+        title: "Appels",
+        id: 1,
+        icon: "contact",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/call", type: "link", title: "Liste" },
+        ]
+
+      },
+    ],
+    requiredRoles: ['explorator']
+  },
+
+
+
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/experimentor/homeExperimentor", type: "link", title: "Dashboard" },
+        ],
+      },
+    ],
+    requiredRoles: ['experimentor']
+  },
+  {
+    title: "Experimentation",
+    lanClass: "lan-8",
+    menucontent: "Experimentation",
+    Items: [
+      {
+        title: "Appels",
+        id: 1,
+        icon: "contact",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/call", type: "link", title: "Liste" },
+        ]
+
+      },
+    ],
+    requiredRoles: ['experimentor']
+  },
+
+
+  {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/user/homeUser", type: "link", title: "Dashboard" },
+        ],
+      },
+    ],
+    requiredRoles: ['user']
+  },
+
+
+  {
+    title: "Mon Compte",
+    lanClass: "lan-8",
+    menucontent: "Mon Compte",
+    Items: [
+      {
+        title: "Compte",
+        id: 1,
+        icon: "contact",
+        type: "link",
+        active: false,
+        children: [
+          {path: "/user/profile", type: "link", title: "Profil" },
+        ]
+
+      },
+    ],
+    requiredRoles: ['admin', 'cartograph', 'explorator', 'experimentor', 'user']
+  },
 ];
