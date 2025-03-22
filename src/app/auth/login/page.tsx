@@ -6,6 +6,7 @@ import { Col, Container, Row, Spinner } from "reactstrap";
 import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import {getProfile} from "@/Redux/Reducers/AuthenticationSlice";
 
+
 const UserLogin = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -15,9 +16,26 @@ const UserLogin = () => {
         dispatch(getProfile())
     }, [dispatch]);
 
+    const handleRoleBasedRedirection = (roles: string[]) => {
+        if (roles.includes('admin')) {
+            return '/admin/homeAdmin';
+        } else if (roles.includes('cartograph')) {
+            return '/cartograph/homeCartograph';
+        } else if (roles.includes('experimentor')) {
+            return '/experimentor/homeExperimentor';
+        } else if (roles.includes('explorator')) {
+            return '/explorator/homeExplorator';
+        } else if (roles.includes('user')) {
+            return '/user/homeUser';
+        }
+        return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
+    };
+
     useEffect(() => {
         if(statusAuthentication === "succeeded" && isAuthenticated && userData){
-            router.push("/admin/homeAdmin");
+            const redirectPath = handleRoleBasedRedirection(userData.roles);
+            router.push(redirectPath);
+            console.log("userData", userData);
         }else if(statusAuthentication === 'failed'){
             router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
         }

@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, isRejectedWithValue} from "@reduxjs/toolk
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 import Cookies from "js-cookie";
 import {UserProfileType, UserGetProfileErrorType, InitialState} from "@/Types/Authentication/AuthenticationType";
-import {RootState} from "@/Redux/Store";
+
 
 
 export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue: UserGetProfileErrorType }>(
