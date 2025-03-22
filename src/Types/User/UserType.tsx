@@ -37,6 +37,7 @@ export interface DataUserErrorType {
 
 export interface InitialStateUserType {
     usersData: DataGetUserType[];
+    totalUsers: number | null;
     statusUsers: 'idle' | 'loading' | 'succeeded' | 'failed';
     filterToggle: boolean;
     errorUsers: DataGetUserType | null;

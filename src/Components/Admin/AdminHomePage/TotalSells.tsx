@@ -2,11 +2,13 @@ import {useEffect} from 'react';
 import Stat from '@/Components/Admin/AdminHomePage/Stat';
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {fetchCall, fetchPublishedCall} from "@/Redux/Reducers/CallSlice";
+import { fetchUsers } from "@/Redux/Reducers/UserSlice";
 
 
 const TotalSells = () => {
 
     const { totalAllCall, totalPublishedCall } = useAppSelector(state=>state.call);
+    const { totalUsers } = useAppSelector(state=>state.user);
     const dispatch = useAppDispatch();
 
     useEffect(
@@ -19,6 +21,15 @@ const TotalSells = () => {
             }
         },
         [dispatch, totalAllCall, totalPublishedCall]
+    );
+
+    useEffect(
+        ()=>{
+            if(totalUsers === null){
+                dispatch(fetchUsers());
+            }
+        },
+        [dispatch, totalUsers]
     );
 
   
@@ -47,8 +58,18 @@ const TotalSells = () => {
             />
 
         }
-      {/*<Stat className={"total-sells-3"} title={"Nombre Total de candidatures"} image={"applications.png"} count={1000} icon={"fa-arrow-up"} color={"success"} />*/}
-      {/*<Stat className={"total-sells-4"} title={"Nombre Total d'utilisateurs"} image={"bublishedOpportunity.png"} count={20} icon={"fa-arrow-down"} color={"danger"} />*/}
+
+        {
+            totalUsers !== null &&
+            <Stat
+                className={"total-sells-4"}
+                title={"Nombre Total d'utilisateurs"}
+                image={"users.png"}
+                count={totalUsers}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
+        }
     </>
   );
 };

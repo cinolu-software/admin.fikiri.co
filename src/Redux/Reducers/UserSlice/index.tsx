@@ -4,6 +4,7 @@ import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType
 
 const initialState: InitialStateUserType = {
     usersData: [],
+    totalUsers: null,
     statusUsers: 'idle',
     filterToggle: false,
     errorUsers: null,
@@ -142,6 +143,7 @@ const UsersSlice = createSlice({
             .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<DataGetUserType[]>) => {
                 state.statusUsers = 'succeeded';
                 state.usersData = action.payload;
+                state.totalUsers = action.payload.length;
             })
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.statusUsers = 'failed';
