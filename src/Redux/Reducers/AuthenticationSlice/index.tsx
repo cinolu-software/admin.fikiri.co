@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, isRejectedWithValue} from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 import Cookies from "js-cookie";
-import {UserProfileType, UserGetProfileErrorType, InitialState} from "@/Types/Authentication/AuthenticationType";
+import {UserProfileType, UserGetProfileErrorType, InitialState, UpdateProfilePassword, UpdateProfilePayload} from "@/Types/Authentication/AuthenticationType";
 
 
 
@@ -39,7 +39,56 @@ export const logOut = createAsyncThunk<void, void, {rejectValue: UserGetProfileE
             })
         }
     }
-)
+);
+
+export const updateProfile = createAsyncThunk<any, UpdateProfilePayload, { rejectValue: string }>(
+    "auth/updateProfile",
+    async (profileData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.patch(`${apiBaseUrl}/auth/profile`, profileData);
+            const updatedProfile = response.data.data;
+            return { user: updatedProfile };
+        }
+        catch (error: any) {
+            const errorMessage = "Une erreur est survenue lors de la mise à jour du profil";
+            return rejectWithValue(errorMessage);
+        }
+    }
+);
+
+
+export const updateProfileImage = createAsyncThunk<UserProfileType, FormData, { rejectValue: string }>(
+    "auth/updateProfileImage",
+    async (formData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post(`${apiBaseUrl}/users/image-profile/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data.data;
+        }
+        catch (error: any) {
+            const errorMessage = error.response?.data?.message || "Une erreur est survenue lors de la mise à jour de l'image de profil";
+            return rejectWithValue(errorMessage);
+        }
+    }
+);
+
+export const updatePassword = createAsyncThunk<UserProfileType, UpdateProfilePassword, { rejectValue: string }>(
+    "auth/updatePassword",
+    async (passwordData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.patch(`${apiBaseUrl}/auth/update-password`, passwordData);
+            return response.data.data;
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.message?.map((err: { message: string }) => `${err.message}`).join(", ") || "Une erreur est survenue lors de la mise à jour du mot de passe";
+            return rejectWithValue(errorMessage);
+        }
+    }
+);
+
+
 
 const initialState : InitialState = {
     userData: null,
@@ -80,6 +129,58 @@ const authenticationSlice = createSlice({
             .addCase(logOut.rejected, (state, action)=>{
                 state.statusAuthentication = "failed";
                 state.UserGetProfileError = action.payload ?? null;
+            })
+            .addCase(updateProfileImage.pending, (state) => {
+                state.statusAuthentication = "loading";
+            })
+            .addCase(updateProfileImage.fulfilled, (state, action) => {
+                state.statusAuthentication = "succeeded";
+                if (state.userData) {
+                    state.userData = { ...state.userData, ...action.payload };
+                }
+            })
+            .addCase(updateProfileImage.rejected, (state, action) => {
+                state.statusAuthentication = "failed";
+                state.UserGetProfileError = {
+                    message: action.payload || "Error updating profile image",
+                    error: "PROFILE_UPDATE_ERROR",
+                    statusCode: 500
+                };
+            })
+            .addCase(updatePassword.pending, (state) => {
+                state.statusAuthentication = "loading";
+            })
+            .addCase(updatePassword.fulfilled, (state, action) => {
+                state.statusAuthentication = "succeeded";
+                if (state.userData) {
+                    state.userData = { ...state.userData, ...action.payload };
+                }
+            })
+            .addCase(updatePassword.rejected, (state, action) => {
+                state.statusAuthentication = "failed";
+                state.UserGetProfileError = {
+                    message: action.payload || "Error updating password",
+                    error: "PASSWORD_UPDATE_ERROR",
+                    statusCode: 500
+                };
+            })
+            .addCase(updateProfile.pending, (state) => {
+                state.statusAuthentication = "loading";
+                state.UserGetProfileError = null;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.statusAuthentication = "succeeded";
+                if (state.userData) {
+                    state.userData = { ...state.userData, ...action.payload.user };
+                }
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.statusAuthentication = "failed";
+                state.UserGetProfileError = {
+                    message: action.payload || "Error updating profile",
+                    error: "PROFILE_UPDATE_ERROR",
+                    statusCode: 500
+                };
             })
     }
 })

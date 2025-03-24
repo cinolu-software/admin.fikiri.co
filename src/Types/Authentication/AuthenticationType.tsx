@@ -29,3 +29,16 @@ export interface InitialState {
     UserGetProfileError: UserGetProfileErrorType | null;
     isAuthenticated: boolean;
 }
+
+export interface UpdateProfilePayload {
+    name: string;
+    email: string;
+    phone_number: string;
+    address: string
+}
+
+export interface UpdateProfilePassword {
+    old_password: string;
+    password: string;
+    password_confirm: string;
+}

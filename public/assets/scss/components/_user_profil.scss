@@ -93,13 +93,11 @@
   border: 1px solid #28a745;
   padding: 15px;
   border-radius: 8px;
-
   p {
     margin: 0;
     color: #6c757d;
   }
 }
-
 
 .svg-wrapper {
   width: 24px;
@@ -119,6 +117,7 @@
   }
 
   .container-avatar {
+
     position: absolute;
     bottom: 150px;
     left: 25px;
@@ -191,7 +190,6 @@
   }
 }
 
-/*post*/
 .post-list-container {
   padding: 20px;
   font-family: Arial, sans-serif;
