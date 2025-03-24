@@ -28,6 +28,7 @@ export interface InitialStateType {
     page?: boolean;
     inboxEmail: InboxEmailType[];
     emailValidation: boolean;
+    totalApplication: number;
 }
 
 export interface InboxEmailType {

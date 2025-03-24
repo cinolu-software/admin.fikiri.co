@@ -1,7 +1,6 @@
 import React from 'react';
 import {
-    Card,
-    CardBody,
+CardBody,
     CardTitle,
     CardText,
     Row,
@@ -14,22 +13,17 @@ import {
 } from 'reactstrap';
 import { Calendar, FileText, Tag, User, Target } from 'react-feather';
 import { useAppSelector } from "@/Redux/Hooks";
-import { Call, FormField, Requirement, CallType, RequirementType, FormInputType } from '@/Types/Call/CallType';
+import { FormField, Requirement } from '@/Types/Call/CallType';
 
 const CallInfo = () => {
 
     const { selectedCall } = useAppSelector(state => state.call);
 
     if (!selectedCall) {
-
         return (
-            <p className="text-center text-muted">
-                Aucun appel sélectionné.
-            </p>
+            <p className="text-center text-muted"> Aucun appel sélectionné. </p>
         )
-        
     }
-
 
     return (
         <TabPane tabId={"1"}>

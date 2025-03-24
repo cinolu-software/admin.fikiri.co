@@ -226,11 +226,11 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     }
 )
 
-export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string}, {rejectValue: any}>(
+export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solution: number}, {rejectValue: any}>(
     "call/addReviewer",
-    async({email, organization, callId}, {rejectWithValue}) => {
+    async({email, organization, callId, solution}, {rejectWithValue}) => {
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization});
+            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization, solution});
             return response.data.data as CallInstance
 
         }catch(error : any){
@@ -396,14 +396,7 @@ const callSlice = createSlice({
             }
         },
         handleNextButton: (state) => {
-            const isValid = validateStep(state);
-            if (isValid) {
-                if (state.navId < 5) {
-                    state.numberLevel++;
-                } else if (state.numberLevel === 5) {
-                    state.showFinish = true;
-                }
-            }
+            state.numberLevel++;
         },
         resetFormValue: (state) => {
             state.AddFormValue = {
@@ -419,8 +412,6 @@ const callSlice = createSlice({
         setSelectedCall: (state, action: PayloadAction<CallInstance | null>) => {
             state.selectedCall = action.payload;
             if (action.payload) {
-
-
                 state.AddFormValue = {
                     name: action.payload.name,
                     description: action.payload.description,

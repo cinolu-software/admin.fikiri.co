@@ -6,6 +6,7 @@ import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 
 const initialState: InitialStateType = {
     applicationData: [],
+    totalApplication: 0,
     selectedApplication: null,
     applicationStatus: 'idle',
     error: null,
@@ -23,7 +24,7 @@ export const fetchApplicationsByCall = createAsyncThunk<ApplicationInstance[] ,{
     "application/fetchApplicationByCall",
     async ({callId}, {rejectWithValue}) =>{
         try{
-            const response = await axiosInstance.get(`${apiBaseUrl}/applications/for/${callId}`);
+            const response = await axiosInstance.get(`${apiBaseUrl}/applications/opportunity/${callId}`);
             return response.data.data as ApplicationInstance[]
         }catch(e: any){
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
@@ -97,6 +98,7 @@ const ApplicationsSlice = createSlice({
             .addCase(fetchApplicationsByCall.fulfilled, (state, action: PayloadAction<ApplicationInstance[]>) => {
                 state.applicationStatus = 'succeeded';
                 state.applicationData = action.payload;
+                state.totalApplication = action.payload.length;
             })
             .addCase(fetchApplicationsByCall.rejected, (state, action) => {
                 state.applicationStatus = 'failed';
