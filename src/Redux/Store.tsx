@@ -9,7 +9,8 @@ import {
     UsersSlice,
     callSlice,
     ApplicationsSlice,
-    PartnerSlice
+    PartnerSlice,
+    ReviewerSlice
 } from "@/Redux/Reducers";
 
 const Store = configureStore({
@@ -24,6 +25,7 @@ const Store = configureStore({
     call: callSlice,
     application: ApplicationsSlice,
     partner : PartnerSlice,
+    reviewer: ReviewerSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

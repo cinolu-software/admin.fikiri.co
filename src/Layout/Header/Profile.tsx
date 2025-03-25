@@ -36,43 +36,54 @@ export const Profile = () => {
 
   return (
     <li className="profile-nav onhover-dropdown px-0 py-0">
-        <div className="d-flex profile-media align-items-center">
-            <img
-                className="profile-img"
-                src={
-                    userData?.profile
-                        ? `${imageBaseUrl}/profiles/${userData.profile}`
-                        : userData?.google_image
-                            ? userData.google_image
-                            : `${ImagePath}/avtar/avatar_.jpg`
-                }
-                alt="profile utilisateur"
-            />
-            <div className="flex-grow-1">
-                <span>{userData ? userData.name : "Utilisateur"}</span>
-                <p className="mb-0 font-outfit">
-                    {userData?.roles && Array.isArray(userData.roles) ? (
-                        userData.roles.map((role, index) => (
-                            <span key={index} className="me-1">
-                                {role}
-                            </span>
-                        ))
-                    ) : (
-                            <span>Aucun rôle</span>
-                        )
-                    }
-                    <i className="ms-2 fa fa-angle-down"></i>
-                </p>
-            </div>
-        </div>
-        <ul className="profile-dropdown onhover-show-div">
-            <li onClick={LogOutUser}>
-                <Link href={Href} scroll={false}>
-                    <LogOut />
-                    <span>{Logout}</span>
-                </Link>
-            </li>
-        </ul>
+        {
+            userData ? (
+
+                <>
+                    <div className="d-flex profile-media align-items-center">
+                        <img
+                            className="profile-img"
+                            src={
+                                userData?.profile
+                                    ? `${imageBaseUrl}/profiles/${userData.profile}`
+                                    : userData?.google_image
+                                        ? userData.google_image
+                                        : `${ImagePath}/avtar/avatar_.jpg`
+                            }
+                            alt="profile utilisateur"
+                        />
+                        <div className="flex-grow-1">
+                            <span>{userData ? userData.name : "Utilisateur"}</span>
+                            <p className="mb-0 font-outfit">
+                                {
+                                    userData?.roles && Array.isArray(userData.roles) ? (
+                                        userData.roles.map((role, index) => (
+                                            <span key={index} className="me-1">
+                                                {role}
+                                            </span>
+                                        ))
+                                    ) : (
+                                            <span></span>
+                                        )
+                                }
+                                <i className="ms-2 fa fa-angle-down"></i>
+                            </p>
+                        </div>
+                    </div>
+                    <ul className="profile-dropdown onhover-show-div">
+                        <li onClick={LogOutUser}>
+                            <Link href={Href} scroll={false}>
+                                <LogOut />
+                                <span>{Logout}</span>
+                            </Link>
+                        </li>
+                    </ul>
+                </>
+
+            ) : (
+                <></>
+            )
+        }
     </li>
   );
 };
