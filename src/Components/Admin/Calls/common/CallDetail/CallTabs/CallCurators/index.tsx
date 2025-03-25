@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TabPane } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addReviewer, deleteReviewer, resendReviewerLink } from "@/Redux/Reducers/CallSlice";
+import { addReviewer, deleteReviewer, resendReviewerLink, updateReviewerSolution } from "@/Redux/Reducers/CallSlice";
 import { useRouter } from "next/navigation";
 import { fetchOrganization } from "@/Redux/Reducers/OrganizationSlice";
 import { showToast } from "@/utils";
 import { fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
 
 const CallCurators = () => {
+    
     const { selectedCall } = useAppSelector(state => state.call);
     const { dataOrganization, statusOrganization } = useAppSelector(state => state.organization);
     const { applicationStatus, applicationData } = useAppSelector(state => state.application);
@@ -18,6 +19,7 @@ const CallCurators = () => {
     const [email, setEmail] = useState("");
     const [organization, setOrganization] = useState("");
     const [solution, setSolution] = useState<number>(0);
+    const [solutionsByReviewer, setSolutionsByReviewer] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
         if (applicationStatus === "idle") {
@@ -36,6 +38,16 @@ const CallCurators = () => {
             dispatch(fetchOrganization());
         }
     }, [dispatch, statusOrganization]);
+
+    useEffect(() => {
+        if (selectedCall?.reviewers) {
+            const initialSolutions = selectedCall.reviewers.reduce((acc, reviewer) => {
+                acc[reviewer.email] = reviewer.solution || 0;
+                return acc;
+            }, {} as { [key: string]: number });
+            setSolutionsByReviewer(initialSolutions);
+        }
+    }, [selectedCall]);
 
     const handleAddReviewer = async () => {
         if (selectedCall && email && organization && solution > 0) {
@@ -74,6 +86,29 @@ const CallCurators = () => {
         }
     };
 
+    const handleSolutionChange = (email: string, newSolution: number) => {
+        setSolutionsByReviewer(prev => ({
+            ...prev,
+            [email]: newSolution
+        }));
+    };
+
+    const handleUpdateSolution = async (email: string) => {
+        if (selectedCall) {
+            try {
+                await dispatch(updateReviewerSolution({
+                    email,
+                    callId: selectedCall.id,
+                    solution: solutionsByReviewer[email]
+                }));
+                showToast("Nombre de solutions mis à jour avec succès", "success");
+            } catch (error) {
+                showToast("Erreur lors de la mise à jour du nombre de solutions", "error");
+                console.error("Error updating reviewer solutions:", error);
+            }
+        }
+    };
+
     const getOrganizationName = (organizationId: string) => {
         const organization = dataOrganization.find(org => org.id === organizationId);
         return organization ? organization.name : organizationId;
@@ -89,9 +124,7 @@ const CallCurators = () => {
                 <div className="row mb-4 mt-5">
                     <div className="col">
                         <div className="p-3 border rounded bg-white text-center">
-                            <h6 className="text-muted">
-                                Total des candidatures pour l'appel : <span className="fw-bold">{selectedCall.name}</span>
-                            </h6>
+                            <h6 className="text-muted">Total des candidatures pour l'appel : <span className="fw-bold">{selectedCall.name}</span></h6>
                             <h2 className="fw-bold text-primary">{applicationData ? applicationData.length : 0}</h2>
                             <div className="progress mt-2" style={{ height: "2px" }}>
                                 <div className="progress-bar bg-primary" role="progressbar" style={{ width: "100%" }}></div>
@@ -168,20 +201,19 @@ const CallCurators = () => {
                                         <tr key={index}>
                                             <td>{reviewer.email}</td>
                                             <td>{getOrganizationName(reviewer.organization)}</td>
-                                            <td>{reviewer.solution}</td>
                                             <td>
-                                                <button
-                                                    className="btn btn-warning btn-sm me-2"
-                                                    onClick={() => handleResendLink(reviewer.email)}
-                                                >
-                                                    Renvoyer le lien
-                                                </button>
-                                                <button
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => handleDeleteReviewer(reviewer.email)}
-                                                >
-                                                    Supprimer
-                                                </button>
+                                                <input
+                                                    type="number"
+                                                    value={solutionsByReviewer[reviewer.email]}
+                                                    onChange={(e) => handleSolutionChange(reviewer.email, Number(e.target.value))}
+                                                    className="form-control"
+                                                    style={{ width: "80px" }}
+                                                />
+                                            </td>
+                                            <td>
+                                                <button className="btn btn-warning btn-sm me-2" onClick={() => handleResendLink(reviewer.email)}>Renvoyer le lien</button>
+                                                <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdateSolution(reviewer.email)}>Mettre à jour</button>
+                                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteReviewer(reviewer.email)}>Supprimer</button>
                                             </td>
                                         </tr>
                                     ))}

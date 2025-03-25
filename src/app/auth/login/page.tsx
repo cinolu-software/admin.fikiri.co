@@ -8,6 +8,7 @@ import {getProfile} from "@/Redux/Reducers/AuthenticationSlice";
 
 
 const UserLogin = () => {
+
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { statusAuthentication, isAuthenticated, userData} = useAppSelector(state => state.authentication)
@@ -17,6 +18,7 @@ const UserLogin = () => {
     }, [dispatch]);
 
     const handleRoleBasedRedirection = (roles: string[]) => {
+
         if (roles.includes('admin')) {
             return '/admin/homeAdmin';
         } else if (roles.includes('cartograph')) {
@@ -28,6 +30,7 @@ const UserLogin = () => {
         } else if (roles.includes('user')) {
             return '/user/homeUser';
         }
+
         return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
     };
 
@@ -35,13 +38,13 @@ const UserLogin = () => {
         if(statusAuthentication === "succeeded" && isAuthenticated && userData){
             const redirectPath = handleRoleBasedRedirection(userData.roles);
             router.push(redirectPath);
-            console.log("userData", userData);
         }else if(statusAuthentication === 'failed'){
             router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
         }
     }, [statusAuthentication, isAuthenticated, userData, router]);
 
   return (
+
     <Container fluid className="p-0">
       <Row className="m-0">
         <Col xs="12" className="p-0">
@@ -56,6 +59,7 @@ const UserLogin = () => {
         </Col>
       </Row>
     </Container>
+    
   );
 };
 
