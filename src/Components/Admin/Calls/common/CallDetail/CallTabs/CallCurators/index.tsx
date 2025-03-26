@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TabPane } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addReviewer, deleteReviewer, resendReviewerLink, updateReviewerSolution } from "@/Redux/Reducers/CallSlice";
+import { addReviewer, deleteReviewer, resendReviewerLink } from "@/Redux/Reducers/CallSlice";
 import { useRouter } from "next/navigation";
 import { fetchOrganization } from "@/Redux/Reducers/OrganizationSlice";
 import { showToast } from "@/utils";
@@ -20,6 +20,7 @@ const CallCurators = () => {
     const [organization, setOrganization] = useState("");
     const [solution, setSolution] = useState<number>(0);
     const [solutionsByReviewer, setSolutionsByReviewer] = useState<{ [key: string]: number }>({});
+
 
     useEffect(() => {
         if (applicationStatus === "idle") {
@@ -42,6 +43,7 @@ const CallCurators = () => {
     useEffect(() => {
         if (selectedCall?.reviewers) {
             const initialSolutions = selectedCall.reviewers.reduce((acc, reviewer) => {
+                //@ts-ignore
                 acc[reviewer.email] = reviewer.solution || 0;
                 return acc;
             }, {} as { [key: string]: number });
@@ -96,6 +98,7 @@ const CallCurators = () => {
     const handleUpdateSolution = async (email: string) => {
         if (selectedCall) {
             try {
+                //@ts-ignore
                 await dispatch(updateReviewerSolution({
                     email,
                     callId: selectedCall.id,
@@ -116,11 +119,11 @@ const CallCurators = () => {
 
     if (!selectedCall) {
         return null;
-    }
+    };
 
     return (
         <TabPane tabId={"3"}>
-            <div className="container mt-4">
+            <div className="container mt-4 mb-4">
                 <div className="row mb-4 mt-5">
                     <div className="col">
                         <div className="p-3 border rounded bg-white text-center">
@@ -132,7 +135,6 @@ const CallCurators = () => {
                         </div>
                     </div>
                 </div>
-
                 <div className="row">
                     <div className="col-12">
                         <div className="mb-4">
@@ -197,7 +199,7 @@ const CallCurators = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedCall.reviewers.map((reviewer, index) => (
+                                    {selectedCall.reviewers?.map((reviewer, index) => (
                                         <tr key={index}>
                                             <td>{reviewer.email}</td>
                                             <td>{getOrganizationName(reviewer.organization)}</td>

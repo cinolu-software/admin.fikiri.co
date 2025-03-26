@@ -24,7 +24,7 @@ export const fetchApplicationsByCall = createAsyncThunk<ApplicationInstance[] ,{
     "application/fetchApplicationByCall",
     async ({callId}, {rejectWithValue}) =>{
         try{
-            const response = await axiosInstance.get(`${apiBaseUrl}/solutions/calls/${callId}`);
+            const response = await axiosInstance.get(`${apiBaseUrl}/solutions/call/${callId}`);
             return response.data.data as ApplicationInstance[]
         }catch(e: any){
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
