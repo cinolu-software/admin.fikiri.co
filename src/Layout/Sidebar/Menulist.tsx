@@ -8,12 +8,13 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, level, className }) => {
+
   const { pinedMenu } = useAppSelector((state) => state.layout);
   const pathname = usePathname();
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation("common");
-  const { sidebarIconType } = useAppSelector((state) => state.themeCustomizer)
+  const { sidebarIconType } = useAppSelector((state) => state.themeCustomizer);
 
   const ActiveNavLinkUrl = (path?: string, active?: boolean) => {
     return pathname === path ? (active ? active : true) : "";
@@ -40,7 +41,7 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
         setActiveMenu(temp);
       }
     });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -55,7 +56,6 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
               temp[level] = item.title !== temp[level] && (item.title);
               setActiveMenu([...temp]);
             }}>
-            {/*{item.icon && (<SVG className={`${sidebarIconType}-icon`} iconId={`${sidebarIconType}-${item.icon}`} />)}*/}
             <span className={item.lanClass && item.lanClass}>{t(item.title)}</span>
             {item.children && (<div className="according-menu"><i className="fa fa-angle-right" /></div>)}
           </Link>

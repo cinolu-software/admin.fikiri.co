@@ -8,9 +8,9 @@ const Profile = () => {
 
     return(
         <Container fluid>
-            <BackButton link={'/dashboard'}/>
+            {/* <BackButton link={'/dashboard'}/> */}
             <Card>
-                <ProfileHeader/>
+                {/* <ProfileHeader/> */}
                 <ProfileTabs />
             </Card>
         </Container>

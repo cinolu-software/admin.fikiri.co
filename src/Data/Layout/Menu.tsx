@@ -1,6 +1,26 @@
 import { MenuItem } from "@/Types/LayoutTypes";
 
 export const MenuList: MenuItem[] = [
+
+  {
+    title: "Curation",
+    lanClass: "lan-8",
+    menucontent: "Curation",
+    Items: [
+      {
+        title: "Révision",
+        id: 1,
+        icon: "edit",
+        type: "link",
+        active: false,
+        children: [
+          { path: "/review", type: "link", title: "Review" },
+        ],
+      },
+    ],
+    requiredRoles: [], 
+  },
+
   {
     title: "General",
     lanClass: "lan-8",

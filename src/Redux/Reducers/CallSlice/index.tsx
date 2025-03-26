@@ -43,7 +43,7 @@ export const fetchCall = createAsyncThunk<CallInstance[], void, { rejectValue: D
     "call/fetchCall",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`${apiBaseUrl}/opportunities`);
+            const response = await axiosInstance.get(`${apiBaseUrl}/calls`);
             return response.data.data as CallInstance[];
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
@@ -60,7 +60,7 @@ export const fetchCallById = createAsyncThunk<CallInstance, string, { rejectValu
     "call/fetchCallById",
     async (callId, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/${callId}`);
+            const response = await axiosInstance.get(`${apiBaseUrl}/calls/${callId}`);
             return response.data.data as CallInstance;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la récupération d'appels";
@@ -77,7 +77,7 @@ export const fetchPublishedCall = createAsyncThunk<CallType[], void, { rejectVal
     "call/fetchPublishedCall",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`${apiBaseUrl}/opportunities/find-published/`);
+            const response = await axiosInstance.get(`${apiBaseUrl}/calls/find-published/`);
             return response.data.data[0] as CallType[];
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la publication de l'appel";
@@ -94,7 +94,7 @@ export const createCall = createAsyncThunk<CallInstance, CreateCallType, { rejec
     "call/createCall",
     async (callData, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities`, callData);
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls`, callData);
             return response.data.data as CallInstance;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.statusCode || "Erreur lors de la création de l'appel";
@@ -111,7 +111,7 @@ export const updateCall = createAsyncThunk<CallInstance, UpdateCallType, { rejec
     "call/updateCall",
     async ({ id, ...callData }, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.patch(`${apiBaseUrl}/opportunities/${id}`, callData);
+            const response = await axiosInstance.patch(`${apiBaseUrl}/calls/${id}`, callData);
             return response.data.data as CallInstance;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la mise à jour de l'appel";
@@ -128,7 +128,7 @@ export const deleteCall = createAsyncThunk<string, string, { rejectValue: DataGe
     "call/deleteCall",
     async (id, { rejectWithValue }) => {
         try {
-            await axiosInstance.delete(`${apiBaseUrl}/opportunities/${id}`);
+            await axiosInstance.delete(`${apiBaseUrl}/calls/${id}`);
             return id;
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la suppresion de l'appel";
@@ -149,7 +149,7 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
             formData.append("cover", imageFile);
 
             const response = await axiosInstance.post(
-                `${apiBaseUrl}/opportunities/cover/${id}`,
+                `${apiBaseUrl}/calls/cover/${id}`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
@@ -173,7 +173,7 @@ export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, 
             formData.append("thumb", document);
 
             const response = await axiosInstance.post(
-                `${apiBaseUrl}/opportunities/document/${callId}`,
+                `${apiBaseUrl}/calls/document/${callId}`,
                 formData,
                 {headers : { "Content-Type" : 'multipart/form-data' }}
             );
@@ -194,7 +194,7 @@ export const publishCall = createAsyncThunk<CallInstance, { callId: string }, { 
     "call/publishCall", 
     async ({callId}, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/publish/${callId}`);
             return response.data.data as CallInstance;
         }
         catch (e: any) {
@@ -212,7 +212,7 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     "call/unpublishCall",
      async ({callId}, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/publish/${callId}`);
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/publish/${callId}`);
             return response.data.data as CallInstance;
         }
         catch (e: any) {
@@ -230,7 +230,7 @@ export const addReviewer = createAsyncThunk<CallInstance, {email: string, organi
     "call/addReviewer",
     async({email, organization, callId, solution}, {rejectWithValue}) => {
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/add-reviewer/${callId}`, {email, organization, solution});
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/add-reviewer/${callId}`, {email, organization, solution});
             return response.data.data as CallInstance
 
         }catch(error : any){
@@ -248,7 +248,7 @@ export const deleteReviewer = createAsyncThunk<CallInstance, {email: string, cal
     "call/deleteReviewer",
     async({email, callId}, {rejectWithValue})=>{
         try{
-            const response = await axiosInstance.delete(`${apiBaseUrl}/opportunities/delete-reviewer/${callId}`, {
+            const response = await axiosInstance.delete(`${apiBaseUrl}/calls/delete-reviewer/${callId}`, {
                 data: { email }
             });
             return response.data.data as CallInstance
@@ -267,7 +267,7 @@ export const resendReviewerLink = createAsyncThunk<{data: string}, {email: strin
     "call/resendReviewLink",
     async({email}, { rejectWithValue })=>{
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/opportunities/resend-review-link/${email}`)
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/resend-review-link/${email}`)
             return {data : response.data.data};
         }catch(error: any){
             const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la suppression du curateur";

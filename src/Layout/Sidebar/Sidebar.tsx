@@ -10,6 +10,7 @@ import SidebarMenuList from "./SideBarMenuList";
 
 export const SideBar = () => {
   
+
   const { toggleSidebar, margin } = useAppSelector((state) => state.layout);
   const { pinedMenu } = useAppSelector((state) => state.layout);
 
@@ -25,7 +26,7 @@ export const SideBar = () => {
           <ul className="sidebar-links custom-scrollbar" id="simple-bar">
             <SimpleBar style={{ width: "80px", height: "350px" }}>
               <li className="back-btn">
-                <Link href={`/sample_page`}>
+                <Link href={'#'}>
                   <img className="img-fluid" src={`${ImagePath}/logo/logo-icon.png`} alt="" />
                 </Link>
                 <div className="mobile-back text-end ">

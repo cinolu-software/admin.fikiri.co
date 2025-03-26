@@ -18,11 +18,11 @@ const SidebarMenuList = () => {
   }, [userData]);
 
   const hasAccess = (requiredRoles?: string[]) => {
-    if(!requiredRoles) return true;
-    return requiredRoles.some((role) => userRoles.includes(role))
-  }
-
-
+    if (!requiredRoles) return true; 
+    if (requiredRoles.length === 0) return userRoles.length === 0; 
+    return requiredRoles.some((role) => userRoles.includes(role));
+  };
+  
   const visibleMenuList = MenuList?.filter((menuItem) => hasAccess(menuItem.requiredRoles));
 
   const shouldHideMenu = (mainMenu: MenuItem) => {
@@ -31,17 +31,19 @@ const SidebarMenuList = () => {
 
   return (
     <>
-      {visibleMenuList &&
-        visibleMenuList.map((mainMenu: MenuItem, index) => (
-          <Fragment key={index}>
-            <li className={`sidebar-main-title ${shouldHideMenu(mainMenu) ? "d-none" : ""}`}>
-              <div>
-                <h6 className={mainMenu.lanClass ? mainMenu.lanClass : ""}>{t(mainMenu.title)}</h6>
-              </div>
-            </li>
-            <Menulist menu={mainMenu.Items} activeMenu={activeMenu} setActiveMenu={setActiveMenu} level={0} />
-          </Fragment>
-        ))}
+      {
+        visibleMenuList &&
+          visibleMenuList.map((mainMenu: MenuItem, index) => (
+            <Fragment key={index}>
+              <li className={`sidebar-main-title ${shouldHideMenu(mainMenu) ? "d-none" : ""}`}>
+                <div>
+                  <h6 className={mainMenu.lanClass ? mainMenu.lanClass : ""}>{t(mainMenu.title)}</h6>
+                </div>
+              </li>
+              <Menulist menu={mainMenu.Items} activeMenu={activeMenu} setActiveMenu={setActiveMenu} level={0} />
+            </Fragment>
+          ))
+      }
     </>
   );
 };
