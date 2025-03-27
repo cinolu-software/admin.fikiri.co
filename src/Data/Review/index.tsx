@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import RatioImage from "@/CommonComponent/RatioImage";
-import {useAppDispatch} from "@/Redux/Hooks";
+import {useAppDispatch, useAppSelector} from "@/Redux/Hooks";
 import {TableColumn} from "react-data-table-component";
 import {useRouter} from "next/navigation";
 import {imageBaseUrl} from "@/Services/axios";
@@ -25,13 +25,15 @@ const SolutionListTableName: React.FC<{ image: string, name: string }> = ({image
 
 const SolutionListTableAction: React.FC<{ data: ReviewerData}> = ({ data }) => {
 
+    const { token } = useAppSelector((state) => state.reviewer);
+
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [loadingDetail, setLoadingDetail] = useState(false);
 
     const handleDetail = async () => {
         setLoadingDetail(true);
-        router.push(`/review/details_review`);
+        router.push(`/review/details_review?token=${token}`);
         dispatch(setSelectedSolution(data));
     };
 

@@ -16,7 +16,7 @@ const Review = () => {
     if (token) {
       dispatch(fetchReviewer({ token }));
     }
-  }, [token]);
+  }, []);
 
   if (status === "loading") {
     return (

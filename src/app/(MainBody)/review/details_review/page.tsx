@@ -13,7 +13,7 @@ const DetailsReview = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-
+        
         if(token) dispatch(setToken({token}));
 
         (async () => {
@@ -22,8 +22,8 @@ const DetailsReview = () => {
                 setClient(()=> newClient);
             }
         })();
-        
-    }, [token])
+
+    }, [token]);
 
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
