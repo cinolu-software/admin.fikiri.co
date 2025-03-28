@@ -28,6 +28,18 @@ export interface ErrorType{
     statusCode: number;
 }
 
+export interface ResponsesData {
+    answer : string;
+    question: string;
+}
+
+export interface CurationData {
+    token : string;
+    note: number;
+    data: ResponsesData[];
+    solution: string;
+}
+
 export interface InitialStateReviewers {
     token: string;
     data: ReviewerData[];

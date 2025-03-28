@@ -40,7 +40,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                     position: toast.POSITION.TOP_CENTER,
                 });
             } else {
-                await dispatch(updateCall({ id: initialValues.id, ...AddFormValue })).unwrap();
+                await dispatch(updateCall({ id: initialValues.id, ...AddFormValue })).unwrap(); 
                 toast.success("Appel modifié avec succès", {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,

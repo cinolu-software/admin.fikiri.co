@@ -25,9 +25,8 @@ const initialState: InitialStateCallType = {
         started_at: "",
         ended_at: "",
         form: [],
-        form_curation: [],
+        review_form: [],
         requirements: [],
-        curationForm: [],
     },
     EditFormValue: {
         name: "",
@@ -35,9 +34,8 @@ const initialState: InitialStateCallType = {
         started_at: "",
         ended_at: "",
         form: [],
-        form_curation: [],
+        review_form: [],
         requirements: [],
-        curationForm: [],
     },
     numberLevel: 1,
     showFinish: false,
@@ -372,7 +370,7 @@ const callSlice = createSlice({
                 state.AddFormValue.form = action.payload.form;
             }
             if (action.payload.curationForm !== undefined) {
-                state.AddFormValue.curationForm = action.payload.curationForm;
+                state.AddFormValue.review_form = action.payload.curationForm;
             }
         },
         setRequirementsAction: (state, action: PayloadAction<{ requirements: any}>) => {
@@ -432,9 +430,8 @@ const callSlice = createSlice({
                 started_at: "",
                 ended_at: "",
                 form: [],
-                form_curation: [],
+                review_form: [],
                 requirements: [],
-                curationForm: [],
             };
             state.numberLevel = 1;
         },

@@ -10,7 +10,7 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
     const [editedField, setEditedField] = useState<any>(null);
     const { AddFormValue } = useAppSelector((state) => state.call);
-    const [fields, setFields] = useState(AddFormValue.curationForm || []);
+    const [fields, setFields] = useState(AddFormValue.review_form || []);
 
     const [newField, setNewField] = useState<FormField>({
         id: 0,
@@ -76,7 +76,7 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                                 </tr>
                             </thead>
                             <tbody className="text-center">
-                                {data.curationForm?.map((field: any, index: number) => (
+                                {data.review_form?.map((field: any, index: number) => (
                                     <tr key={field.id}>
                                         <td className="align-middle">
                                             {editingIndex === index ? (

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import { InitialStateReviewers, ReviewerData, ErrorType } from "@/Types/Reviews";
-
+import { InitialStateReviewers, ReviewerData, ErrorType, CurationData} from "@/Types/Reviews";
 
 const initialState : InitialStateReviewers = {
     token: '',
@@ -27,7 +26,26 @@ export const fetchReviewer = createAsyncThunk<ReviewerData[], {token: string}, {
             });
         }
     }
-)
+);
+
+export const curateSolution = createAsyncThunk<CurationData, {token: string, note: number, data: CurationData["data"], solution: string}, {rejectValue: ErrorType}>(
+    "reviewer/curation",
+    async ({token, note, data, solution}, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.post(`${apiBaseUrl}/reviews/${token}`, {note, data, solution});
+            return response.data.data as CurationData;
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.error?.message || "Erreur lors de la curatation de la solution";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CURATION_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+);
+
+
 
 
 const ReviewerSlice = createSlice ({

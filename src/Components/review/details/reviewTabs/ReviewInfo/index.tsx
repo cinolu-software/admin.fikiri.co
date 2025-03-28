@@ -13,7 +13,10 @@ const ReviewInfo = () => {
     }
 
     const call = selectedSolution.call;
-    const user = selectedSolution.user; // Le candidat
+    const user = selectedSolution.user;
+
+
+    console.log(selectedSolution)
 
     return (
         <TabPane tabId={"1"}>

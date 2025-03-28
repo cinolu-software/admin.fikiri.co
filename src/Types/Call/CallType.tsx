@@ -101,9 +101,8 @@ export interface FormValue{
     started_at: string;
     ended_at: string;
     form: DynamicFomType [] | null;
-    form_curation: DynamicFomType [] | null;
     requirements: RequirementType[] | null;
-    curationForm: FormField[] | null;
+    review_form: FormField[] | null;
 }
 
 export interface CreateCallType extends FormValue {}
