@@ -55,10 +55,6 @@ const ApplicationInfo = () => {
               alt={row.applicant?.name || 'Avatar'}
             />
           </div>
-          <div>
-            <p className="mb-0">{row.applicant?.name || 'N/A'}</p>
-            <small className="text-muted">{row.applicant?.email || 'N/A'}</small>
-          </div>
         </div>
       ),
       sortable: true,
@@ -116,7 +112,8 @@ const ApplicationInfo = () => {
     }
   ];
 
-  const columns = [...baseColumns, ...(dynamicColumns || []), ...endColumns];
+  // const columns = [...baseColumns, ...(dynamicColumns || []), ...endColumns];
+  const columns = [ ...(dynamicColumns || []), ...endColumns];
 
   const customStyles = {
     rows: {
@@ -141,6 +138,8 @@ const ApplicationInfo = () => {
   if (!selectedCall) {
     return null;
   }
+
+  console.log("applicationData===>|",applicationData);
   
   return (
     <TabPane tabId={'2'} className="mb-5">

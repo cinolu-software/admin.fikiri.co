@@ -12,6 +12,7 @@ export interface CallType {
     document: string | null;
     form: FormField[];
     reviewers: Reviewer[];
+    review_form: Object;
     requirements: Requirement[];
     applications?: Application[];
     author?: Author;
@@ -60,7 +61,12 @@ export interface Application {
 export interface Reviewer {
     email: string;
     organization: string;
-    status?: 'active' | 'pending';
+    solutions: number;
+}
+
+export interface UpdateReviewerSolution extends Reviewer {
+    email: string;
+    id: string;
 }
 
 export interface CallInstance extends  CallType {
@@ -95,7 +101,9 @@ export interface FormValue{
     started_at: string;
     ended_at: string;
     form: DynamicFomType [] | null;
+    form_curation: DynamicFomType [] | null;
     requirements: RequirementType[] | null;
+    curationForm: FormField[] | null;
 }
 
 export interface CreateCallType extends FormValue {}

@@ -11,6 +11,7 @@ import StepThree from "@/Components/Admin/Calls/common/Common/StepThree";
 import StepFour from "@/Components/Admin/Calls/common/Common/StepFour";
 import StepperHorizontal from "@/Components/Admin/Calls/common/Common/StepperHorizontal";
 import {CreateActivity, ModifyActivityTitle, buttonFinish, buttonNext, buttonPrevious } from "@/Constant";
+import StepFive from "@/Components/Admin/Calls/common/Common/StepFive";
 
 const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"; initialValues?: any }) => {
 
@@ -63,9 +64,13 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                 return <StepTwo data={AddFormValue} />;
             case 3:
                 return <StepThree data={AddFormValue} />;
-            case 4:
-                return <StepFour data={AddFormValue} />;
+
+            case 4: 
+                return <StepFive data={AddFormValue} />;
+            
             case 5:
+                return <StepFour data={AddFormValue} />;
+            case 6:
                 return (
                     <Form className="stepper-four g-3 needs-validation" noValidate>
                         <FinishForm

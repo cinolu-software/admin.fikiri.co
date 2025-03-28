@@ -10,9 +10,6 @@ const TabsContent : React.FC<{basicTab: string}> = ({basicTab})=> {
     const dispatch = useAppDispatch();
     const {totalAllCall, totalPublishedCall} = useAppSelector(state => state.call);
 
-    console.log("totalAllCall: ", totalAllCall);
-    console.log("totalPublishedCall: ", totalPublishedCall);
-
 
     return (
         <TabContent activeTab={basicTab}>

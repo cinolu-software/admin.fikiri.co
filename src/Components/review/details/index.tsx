@@ -7,10 +7,6 @@ import TabsHeader from "@/Components/review/details/reviewTabs/TabsHeader";
 const DetailsReview = () => {
 
     const [navId, setNavId] = useState("1");
-
-    const { selectedSolution } = useAppSelector((state) => state.reviewer);
-
-    console.log("selectedSolution===>|",selectedSolution);
     
     return (
         <Col className={'box-col-12'}>

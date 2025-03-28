@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction, isRejectedWithValue } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
-import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author, ReceiveDataReviewer} from "@/Types/Call/CallType";
+import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author, ReceiveDataReviewer, UpdateReviewerSolution } from "@/Types/Call/CallType";
 import { ShowError } from "@/utils";
 
 const initialState: InitialStateCallType = {
@@ -25,7 +25,9 @@ const initialState: InitialStateCallType = {
         started_at: "",
         ended_at: "",
         form: [],
+        form_curation: [],
         requirements: [],
+        curationForm: [],
     },
     EditFormValue: {
         name: "",
@@ -33,7 +35,9 @@ const initialState: InitialStateCallType = {
         started_at: "",
         ended_at: "",
         form: [],
+        form_curation: [],
         requirements: [],
+        curationForm: [],
     },
     numberLevel: 1,
     showFinish: false,
@@ -226,11 +230,11 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     }
 )
 
-export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solution: number}, {rejectValue: any}>(
+export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solutions: number}, {rejectValue: any}>(
     "call/addReviewer",
-    async({email, organization, callId, solution}, {rejectWithValue}) => {
+    async({email, organization, callId, solutions}, {rejectWithValue}) => {
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/calls/add-reviewer/${callId}`, {email, organization, solution});
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/add-reviewer/${callId}`, {email, organization, solutions});
             return response.data.data as CallInstance
 
         }catch(error : any){
@@ -279,6 +283,24 @@ export const resendReviewerLink = createAsyncThunk<{data: string}, {email: strin
         }
     }
 );
+
+export const updateReviewerSolution = createAsyncThunk<CallInstance, UpdateReviewerSolution, {rejectValue: any}>(
+    "call/updateReviewerSolution",
+    async({email, id, solutions, organization}, {rejectWithValue}) => {
+        try{
+            const response = await axiosInstance.patch(`${apiBaseUrl}/calls/update-reviewer/${id}/${email}`, {solutions, organization, email});
+            return response.data.data as CallInstance;
+        }catch(error: any){
+            const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la mise à jour du nombre de solutions";
+            return rejectWithValue ({
+                message : errorMessage,
+                error: "UPDATE_REVIEWER_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+);
+
 
 
 const validateStep = (state: InitialStateCallType) => {
@@ -345,8 +367,13 @@ const callSlice = createSlice({
                 state.AddFormValue.requirements[index][field] = value;
             }
         },
-        setFormField: (state, action: PayloadAction<{ form: any}>) => {
-            state.AddFormValue.form = action.payload.form;
+        setFormField: (state, action: PayloadAction<{ form?: any, curationForm?: any }>) => {
+            if (action.payload.form !== undefined) {
+                state.AddFormValue.form = action.payload.form;
+            }
+            if (action.payload.curationForm !== undefined) {
+                state.AddFormValue.curationForm = action.payload.curationForm;
+            }
         },
         setRequirementsAction: (state, action: PayloadAction<{ requirements: any}>) => {
             state.AddFormValue.requirements = action.payload.requirements;
@@ -405,7 +432,9 @@ const callSlice = createSlice({
                 started_at: "",
                 ended_at: "",
                 form: [],
+                form_curation: [],
                 requirements: [],
+                curationForm: [],
             };
             state.numberLevel = 1;
         },
@@ -501,6 +530,14 @@ const callSlice = createSlice({
             .addCase(deleteReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => { 
                 state.selectedCall = action.payload;
             })
+            .addCase(updateReviewerSolution.fulfilled, (state, action: PayloadAction<CallInstance>) => { 
+                state.selectedCall = action.payload;
+            })
+            .addCase(updateReviewerSolution.rejected, (state, action) => {
+                state.statusCall = "failed";
+                state.error = action.payload ?? null;
+            })
+            
             ;
     }
 });

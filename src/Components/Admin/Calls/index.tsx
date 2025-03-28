@@ -27,7 +27,6 @@ const Calls = () => {
             </CardBody>
         </Card>
     )
-
 }
 
 export default Calls

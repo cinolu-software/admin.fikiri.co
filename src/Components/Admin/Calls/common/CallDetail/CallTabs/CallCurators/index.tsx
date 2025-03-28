@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { TabPane } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { addReviewer, deleteReviewer, resendReviewerLink } from "@/Redux/Reducers/CallSlice";
+import { addReviewer, deleteReviewer, resendReviewerLink, updateReviewerSolution } from "@/Redux/Reducers/CallSlice";
 import { useRouter } from "next/navigation";
 import { fetchOrganization } from "@/Redux/Reducers/OrganizationSlice";
 import { showToast } from "@/utils";
 import { fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
 
 const CallCurators = () => {
-    
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
     const { selectedCall } = useAppSelector(state => state.call);
     const { dataOrganization, statusOrganization } = useAppSelector(state => state.organization);
     const { applicationStatus, applicationData } = useAppSelector(state => state.application);
-
-    const dispatch = useAppDispatch();
-    const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [organization, setOrganization] = useState("");
     const [solution, setSolution] = useState<number>(0);
     const [solutionsByReviewer, setSolutionsByReviewer] = useState<{ [key: string]: number }>({});
 
-
     useEffect(() => {
-        if (applicationStatus === "idle") {
-            dispatch(fetchApplicationsByCall({ callId: selectedCall?.id! }));
+        if (applicationStatus === "idle" && selectedCall?.id) {
+            dispatch(fetchApplicationsByCall({ callId: selectedCall.id }));
         }
     }, [dispatch, applicationStatus, selectedCall?.id]);
 
@@ -40,21 +38,10 @@ const CallCurators = () => {
         }
     }, [dispatch, statusOrganization]);
 
-    useEffect(() => {
-        if (selectedCall?.reviewers) {
-            const initialSolutions = selectedCall.reviewers.reduce((acc, reviewer) => {
-                //@ts-ignore
-                acc[reviewer.email] = reviewer.solution || 0;
-                return acc;
-            }, {} as { [key: string]: number });
-            setSolutionsByReviewer(initialSolutions);
-        }
-    }, [selectedCall]);
-
     const handleAddReviewer = async () => {
         if (selectedCall && email && organization && solution > 0) {
             try {
-                await dispatch(addReviewer({ email, organization, callId: selectedCall.id, solution }));
+                await dispatch(addReviewer({ email, organization, callId: selectedCall.id, solutions: solution }));
                 showToast("Le curateur a été ajouté avec succès", "success");
                 setEmail("");
                 setOrganization("");
@@ -96,14 +83,20 @@ const CallCurators = () => {
     };
 
     const handleUpdateSolution = async (email: string) => {
-        if (selectedCall) {
+        if (selectedCall && solutionsByReviewer[email] !== undefined) {
             try {
-                //@ts-ignore
-                await dispatch(updateReviewerSolution({
-                    email,
-                    callId: selectedCall.id,
-                    solution: solutionsByReviewer[email]
-                }));
+                const reviewer = selectedCall.reviewers.find(r => r.email === email);
+                if (!reviewer) {
+                    throw new Error("Reviewer not found");
+                }
+                await dispatch(
+                    updateReviewerSolution({
+                        email,
+                        id: selectedCall.id,
+                        solutions: solutionsByReviewer[email],
+                        organization: reviewer.organization
+                    })
+                );
                 showToast("Nombre de solutions mis à jour avec succès", "success");
             } catch (error) {
                 showToast("Erreur lors de la mise à jour du nombre de solutions", "error");
@@ -113,13 +106,13 @@ const CallCurators = () => {
     };
 
     const getOrganizationName = (organizationId: string) => {
-        const organization = dataOrganization.find(org => org.id === organizationId);
-        return organization ? organization.name : organizationId;
+        const org = dataOrganization.find(org => org.id === organizationId);
+        return org ? org.name : "Organisation inconnue";
     };
 
     if (!selectedCall) {
         return null;
-    };
+    }
 
     return (
         <TabPane tabId={"3"}>
@@ -135,6 +128,8 @@ const CallCurators = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Ajout d'un curateur */}
                 <div className="row">
                     <div className="col-12">
                         <div className="mb-4">
@@ -187,6 +182,7 @@ const CallCurators = () => {
                             </div>
                         </div>
 
+                        {/* Liste des curateurs */}
                         <div>
                             <h5 className="mb-4">Liste des curateurs</h5>
                             <table className="table table-hover">
@@ -206,7 +202,7 @@ const CallCurators = () => {
                                             <td>
                                                 <input
                                                     type="number"
-                                                    value={solutionsByReviewer[reviewer.email]}
+                                                    value={solutionsByReviewer[reviewer.email] || reviewer.solutions}
                                                     onChange={(e) => handleSolutionChange(reviewer.email, Number(e.target.value))}
                                                     className="form-control"
                                                     style={{ width: "80px" }}
