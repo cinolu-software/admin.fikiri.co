@@ -8,51 +8,48 @@ import {
     Input,
     Button
 } from "reactstrap";
-import { useAppSelector } from "@/Redux/Hooks";
+import { useAppSelector, useAppDispatch } from "@/Redux/Hooks";
 import { toast } from "react-toastify";
+import { curateSolution } from "@/Redux/Reducers/ReviewerSlice";
+import { FormField } from "@/Types/Call/CallType";
 
 const Curation = () => {
-    const { selectedSolution } = useAppSelector((state) => state.reviewer);
+    const { selectedSolution, token } = useAppSelector((state) => state.reviewer);
+    const dispatch = useAppDispatch();
     
     if (!selectedSolution) {
         return <p>Chargement des données...</p>;
     }
 
     const { call } = selectedSolution;
-    const reviewForm = call.review_form || [];
-    const [responses, setResponses] = useState<{ [key: string]: number }>({});
+    const reviewForm = (call.review_form || []) as FormField[];
+    const [responses, setResponses] = useState<{ [key: string]: string | number }>({});
 
-    const handleChange = (label: string, value: number) => {
+    const handleChange = (label: string, value: string | number) => {
         setResponses((prev) => ({ ...prev, [label]: value }));
     };
 
-
     const totalNote = Object.entries(responses)
-    .filter(([key, value]) => reviewForm.find((field) => field.label === key)?.type === "number")
-    .reduce((sum, [, val]) => sum + Number(val || 0), 0);
-
+        .filter(([key, value]) => reviewForm.find((field) => field.label === key)?.type === "number")
+        .reduce((sum, [, val]) => sum + (typeof val === 'number' ? val : 0), 0);
 
     const handleSubmit = async () => {
+        
+        const formattedData = Object.entries(responses).map(([question, answer]) => ({
+            question,
+            answer: String(answer) 
+        }));
+
         const payload = {
             solution: selectedSolution.id,
             note: totalNote,
-            data: responses,
+            data: formattedData,
+            token
         };
 
         try {
-            const response = await fetch("/api/curation", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                toast.success("Curation envoyée avec succès !");
-            } else {
-                toast.error("Erreur lors de l'envoi de la curation");
-            }
+            await dispatch(curateSolution(payload));
+            toast.success("Curation envoyée avec succès !");
         } catch (error) {
             toast.error("Erreur réseau");
         }
@@ -114,8 +111,8 @@ const Curation = () => {
                                     onChange={(e) => handleChange(field.label, e.target.value)}
                                 />
                             )}
-                            </FormGroup>
-                        ))}
+                        </FormGroup>
+                    ))}
 
                     <h4 className="mb-4">Note totale : {totalNote}</h4>
                     <Button color="primary" onClick={handleSubmit}>

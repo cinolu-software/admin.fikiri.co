@@ -12,7 +12,7 @@ export interface CallType {
     document: string | null;
     form: FormField[];
     reviewers: Reviewer[];
-    review_form: Object;
+    review_form: Object[];
     requirements: Requirement[];
     applications?: Application[];
     author?: Author;
