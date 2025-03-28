@@ -15,19 +15,9 @@ const ReviewNavTabs = [
         id: "1",
     },
     {
-        title: "Candidatures",
+        title: "Curation",
         icon: "candidature_call",
         id: "2",
-    },
-    {
-        title: "Curateur",
-        icon: "candidature_curator",
-        id: "3",
-    },
-    {
-        title: "Rapports",
-        icon: "program_report",
-        id: "4",
     },
 ];
 

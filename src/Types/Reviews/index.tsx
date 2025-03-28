@@ -1,3 +1,5 @@
+import { CallType } from "../Call/CallType";
+
 export interface User{
     id: string;
     name: string;
@@ -17,6 +19,7 @@ export interface ReviewerData {
     response: Object[];
     reviewer: string;
     user: User;
+    call: CallType;
 }
 
 export interface ErrorType{
