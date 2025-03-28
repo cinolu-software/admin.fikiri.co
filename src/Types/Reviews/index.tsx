@@ -11,12 +11,23 @@ export interface User{
     google_image: string;
 }
 
+export interface Reviewes {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    note: string;
+    reviewer: string;
+    data: Object
+}
+
 export interface ReviewerData {
     id: string;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
     response: Object[];
+    reviews: Reviewes[];
     reviewer: string;
     user: User;
     call: CallType;

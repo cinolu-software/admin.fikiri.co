@@ -58,31 +58,27 @@ const ReviewInfo = () => {
                     </Card>
                 </Row>
                 <Row className="mb-4">
-                    <Col>
-                        <Card className="shadow-sm">
-                            <CardBody>
-                                <CardTitle tag="h4">Informations du candidat</CardTitle>
-                                <ListGroup flush>
-                                    <ListGroupItem>
-                                        <User className="me-2 text-info" />
-                                        <strong>Nom :</strong> {user.name}
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        <User className="me-2 text-info" />
-                                        <strong>Email :</strong> {user.email}
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        <Phone className="me-2 text-success" />
-                                        <strong>Téléphone :</strong> {user.phone_number}
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        <Home className="me-2 text-warning" />
-                                        <strong>Adresse :</strong> {user.address}
-                                    </ListGroupItem>
-                                </ListGroup>
-                            </CardBody>
-                        </Card>
-                    </Col>
+                    <Card className="shadow-sm">
+                        <h3>Informations du candidat</h3>
+                        <ListGroup flush>
+                            <ListGroupItem>
+                                <User className="me-2 text-info" />
+                                <strong>Nom :</strong> {user.name}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <User className="me-2 text-info" />
+                                <strong>Email :</strong> {user.email}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <Phone className="me-2 text-success" />
+                                <strong>Téléphone :</strong> {user.phone_number}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                <Home className="me-2 text-warning" />
+                                <strong>Adresse :</strong> {user.address}
+                            </ListGroupItem>
+                        </ListGroup>
+                    </Card>
                 </Row>
 
             </Container>
