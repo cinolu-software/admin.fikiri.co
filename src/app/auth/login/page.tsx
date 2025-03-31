@@ -9,9 +9,9 @@ import {getProfile} from "@/Redux/Reducers/AuthenticationSlice";
 
 const UserLogin = () => {
 
-    // const dispatch = useAppDispatch();
-    // const router = useRouter();
-    // const { statusAuthentication, isAuthenticated, userData} = useAppSelector(state => state.authentication)
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { statusAuthentication, isAuthenticated, userData} = useAppSelector(state => state.authentication)
 
     // useEffect(() => {
     //     dispatch(getProfile())
@@ -46,6 +46,8 @@ const UserLogin = () => {
     //     }, 
     // [statusAuthentication, isAuthenticated, userData, router]
     // );
+
+    console.log("statusAuthentication", statusAuthentication, "isAuthenticated", isAuthenticated, "userData", userData);
 
   return (
     <Container fluid className="p-0">
