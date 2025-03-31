@@ -6,6 +6,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   return NextResponse.next();
+  
 }
 
 export const config = {
