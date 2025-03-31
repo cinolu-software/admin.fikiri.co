@@ -128,11 +128,11 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                                         </td>
                                         <td className="align-middle text-center">
                                             {editingIndex === index ? (
-                                                <Button color="success" size="sm" onClick={handleSaveField}>
+                                                <Button color="success" size="sm" onClick={handleSaveField} className="me-2">
                                                     Enregistrer
                                                 </Button>
                                             ) : (
-                                                <Button color="warning" size="sm" onClick={() => handleEditField(index, field)}>
+                                                <Button color="warning" size="sm" onClick={() => handleEditField(index, field)} className="me-2">
                                                     Modifier
                                                 </Button>
                                             )}

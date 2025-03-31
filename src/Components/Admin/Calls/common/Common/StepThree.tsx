@@ -75,7 +75,7 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                                 <th>Nom du champ</th>
                                 <th>Type</th>
                                 <th>Requis</th>
-                                <th>Action</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody className="text-center">
@@ -130,15 +130,17 @@ const StepThree: React.FC<StepPropsType> = ({ data }) => {
                                         )}
                                     </td>
                                     <td className="align-middle text-center">
-                                        {editingIndex === index ? (
-                                            <Button color="success" size="sm" onClick={handleSaveField}>
-                                                Enregistrer
-                                            </Button>
-                                        ) : (
-                                            <Button color="warning" size="sm" onClick={() => handleEditField(index, field)}>
-                                                Modifier
-                                            </Button>
-                                        )}
+                                        {
+                                            editingIndex === index ? (
+                                                <Button color="success" size="sm" onClick={handleSaveField} className="me-2">
+                                                    Enregistrer
+                                                </Button>
+                                            ) : (
+                                                <Button color="warning" size="sm" onClick={() => handleEditField(index, field)} className="me-2">
+                                                    Modifier
+                                                </Button>
+                                            )
+                                        }
                                         <Button color="danger" size="sm" onClick={() => handleRemoveField(field.id)}>
                                             Supprimer
                                         </Button>

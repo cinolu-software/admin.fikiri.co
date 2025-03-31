@@ -10,10 +10,7 @@ import { UpdateProfilePayload } from "@/Types/Authentication/AuthenticationType"
 const UserDetail = () => {
     
     const { userData } = useAppSelector((state) => state.authentication);
-
-
     const dispatch = useAppDispatch();
-
     const [loading, setLoading] = useState(false);
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
@@ -21,8 +18,8 @@ const UserDetail = () => {
     const addressRef = useRef<HTMLInputElement>(null);
 
 
-
     const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+
         e.preventDefault();
         setLoading(true);
 
@@ -36,7 +33,7 @@ const UserDetail = () => {
         try {
             await dispatch(updateProfile(completePayload));
             toast.success(
-                <p className="text-white tx-16 mb-0">{}</p>,
+                <p className="text-white tx-16 mb-0">{"Profile mise à jour avec succès"}</p>,
                 {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,
@@ -47,7 +44,7 @@ const UserDetail = () => {
             );
         } catch (error) {
             toast.error(
-                <p className="text-white tx-16 mb-0">{}</p>,
+                <p className="text-white tx-16 mb-0">{"Erreur lors de la mise à jour du profil"}</p>,
                 {
                     autoClose: 5000,
                     position: toast.POSITION.TOP_CENTER,
@@ -59,6 +56,7 @@ const UserDetail = () => {
         } finally {
             setLoading(false);
         }
+        
     };
 
 
