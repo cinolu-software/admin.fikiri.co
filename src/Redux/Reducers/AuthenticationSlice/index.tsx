@@ -7,17 +7,21 @@ export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue:
     "auth/getProfile",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.get(`/auth/profile`);
+
+            const response = await axiosInstance.get(`${apiBaseUrl}/auth/profile`);
             const profile = response.data.data;
-            // Cookies.set("fikiri_token", JSON.stringify(profile));
-            localStorage.setItem("IsAuthenticated", "true")
+            localStorage.setItem("IsAuthenticated", "true");
+
             return profile;
+
         } catch (e: any) {
+
             if (e.response?.status === 401) {
                 localStorage.removeItem("IsAuthenticated");
                 Cookies.remove("fikiri_token"); 
                 return rejectWithValue({ message: "Session expirée", error: "AUTH_ERROR", statusCode: 401 });
             }
+            
             return rejectWithValue({ message: "Erreur lors de la récupération du profil utilisateur", error: "PROFILE_FETCH_ERROR", statusCode: 500 });
         }
     }

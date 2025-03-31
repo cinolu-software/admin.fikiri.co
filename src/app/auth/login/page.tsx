@@ -13,9 +13,9 @@ const UserLogin = () => {
     const router = useRouter();
     const { statusAuthentication, isAuthenticated, userData} = useAppSelector(state => state.authentication)
 
-    // useEffect(() => {
-    //     dispatch(getProfile())
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(getProfile())
+    }, [dispatch]);
 
     // const handleRoleBasedRedirection = (roles: string[]) => {
 
@@ -47,7 +47,9 @@ const UserLogin = () => {
     // [statusAuthentication, isAuthenticated, userData, router]
     // );
 
-    console.log("statusAuthentication", statusAuthentication, "isAuthenticated", isAuthenticated, "userData", userData);
+    useEffect(() => {
+        console.log("statusAuthentication", statusAuthentication, "isAuthenticated", isAuthenticated, "userData", userData);
+    }, [statusAuthentication, isAuthenticated, userData]);
 
   return (
     <Container fluid className="p-0">
