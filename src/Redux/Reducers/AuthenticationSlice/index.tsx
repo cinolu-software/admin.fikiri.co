@@ -1,9 +1,7 @@
-import {createAsyncThunk, createSlice, isRejectedWithValue} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 import Cookies from "js-cookie";
 import {UserProfileType, UserGetProfileErrorType, InitialState, UpdateProfilePassword, UpdateProfilePayload} from "@/Types/Authentication/AuthenticationType";
-
-
 
 export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue: UserGetProfileErrorType }>(
     "auth/getProfile",
@@ -11,15 +9,16 @@ export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue:
         try {
             const response = await axiosInstance.get(`/auth/profile`);
             const profile = response.data.data;
-            Cookies.set("fikiri_token", JSON.stringify(profile));
+            // Cookies.set("fikiri_token", JSON.stringify(profile));
+            localStorage.setItem("IsAuthenticated", "true")
             return profile;
         } catch (e: any) {
-            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération du profil utilisateur";
-            return rejectWithValue({
-                message: errorMessage,
-                error: "PROFILE_FETCH_ERROR",
-                statusCode: e.response?.status || 500
-            });
+            if (e.response?.status === 401) {
+                localStorage.removeItem("IsAuthenticated");
+                Cookies.remove("fikiri_token"); 
+                return rejectWithValue({ message: "Session expirée", error: "AUTH_ERROR", statusCode: 401 });
+            }
+            return rejectWithValue({ message: "Erreur lors de la récupération du profil utilisateur", error: "PROFILE_FETCH_ERROR", statusCode: 500 });
         }
     }
 );
@@ -29,7 +28,8 @@ export const logOut = createAsyncThunk<void, void, {rejectValue: UserGetProfileE
     async (_, { rejectWithValue }) => {
         try{
             await axiosInstance.post(`${apiBaseUrl}/auth/sign-out`);
-            Cookies.remove("fikiri_token");
+            localStorage.removeItem("IsAuthenticated");
+            // Cookies.remove("fikiri_token");
         }catch(e : any){
             const errorMessage = e.response?.data?.error?.message || "Erreur";
             return rejectWithValue({
