@@ -34,14 +34,18 @@ const UserLogin = () => {
         return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
     };
 
-    useEffect(() => {
-        if(statusAuthentication === "succeeded" && isAuthenticated && userData){
-            const redirectPath = handleRoleBasedRedirection(userData.roles);
-            router.push(redirectPath);
-        }else if(statusAuthentication === 'failed'){
-            router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
-        }
-    }, [statusAuthentication, isAuthenticated, userData, router]);
+    useEffect(
+        () => {
+            if(statusAuthentication === "succeeded" && isAuthenticated && userData){
+                const redirectPath = handleRoleBasedRedirection(userData.roles);
+                // router.push(redirectPath);
+                router.push('/admin/homeAdmin');
+            }else if(statusAuthentication === 'failed'){
+                router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
+            }
+        }, 
+    [statusAuthentication, isAuthenticated, userData, router]
+    );
 
   return (
     <Container fluid className="p-0">
