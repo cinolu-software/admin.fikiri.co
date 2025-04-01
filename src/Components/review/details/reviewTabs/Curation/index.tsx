@@ -59,7 +59,7 @@ const Curation = () => {
 
         const payload = {
             solution: selectedSolution.id,
-            note: totalNote,
+            // note: totalNote,
             data: formattedData,
             token
         };
@@ -156,7 +156,7 @@ const Curation = () => {
                                         {reviews?.map((review, index) => (
                                             <tr key={review.id}>
                                                 <td>{new Date(review.created_at).toLocaleString()}</td>
-                                                <td>{review.note}</td>
+                                                <td>{review.data?.reduce((sum, item) => sum + (item.answer ? Number(item.answer) : 0), 0)}</td>
                                                 <td>
                                                     <ul>
                                                         {(() => {

@@ -16,9 +16,8 @@ export interface Reviewes {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-    note: string;
     reviewer: string;
-    data: Object
+    data: ResponsesData[]
 }
 
 export interface ReviewerData {

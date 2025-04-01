@@ -28,11 +28,11 @@ export const fetchReviewer = createAsyncThunk<ReviewerData[], {token: string}, {
     }
 );
 
-export const curateSolution = createAsyncThunk<CurationData, {token: string, note: number, data: CurationData["data"], solution: string}, {rejectValue: ErrorType}>(
+export const curateSolution = createAsyncThunk<CurationData, {token: string, data: CurationData["data"], solution: string}, {rejectValue: ErrorType}>(
     "reviewer/curation",
-    async ({token, note, data, solution}, {rejectWithValue}) => {
+    async ({token, data, solution}, {rejectWithValue}) => {
         try {
-            const response = await axiosInstance.post(`${apiBaseUrl}/reviews/${token}`, {note, data, solution});
+            const response = await axiosInstance.post(`${apiBaseUrl}/reviews/${token}`, {data, solution});
             return response.data.data as CurationData;
         } catch (error: any) {
             const errorMessage = error.response?.data?.error?.message || "Erreur lors de la curatation de la solution";
