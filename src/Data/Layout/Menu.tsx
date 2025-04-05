@@ -5,6 +5,24 @@ export const MenuList: MenuItem[] = [
   {
     title: "Curation",
     lanClass: "lan-8",
+    menucontent: "Cartographe volontaire",
+    Items: [
+      {
+        title: "Révision",
+        id: 1,
+        icon: "edit",
+        type: "link",
+        active: false,
+        children: [
+          { path: "/review", type: "link", title: "Review" },
+        ],
+      },
+    ],
+    requiredRoles: ['voluntary cartographer'], 
+  },
+  {
+    title: "Curation",
+    lanClass: "lan-8",
     menucontent: "Curation",
     Items: [
       {

@@ -9,7 +9,7 @@ const UsersEdit = () => {
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import("@/Components/General/Users/UserDetail")).default;
+                const newClient = (await import("@/Components/General/Users/UpdateUser")).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();

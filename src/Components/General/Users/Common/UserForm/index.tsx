@@ -26,6 +26,7 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
                     dispatch(createUser(formValue));
                     toast.success("Utilisateur créé avec succès", { autoClose: 5000, transition: Flip, theme: "colored" });
                 } else {
+                    
                     dispatch(updateUser({ id: initialData.id, ...formValue }));
                     toast.success("Utilisateur modifié avec succès", { autoClose: 5000, transition: Flip, theme: "colored" });
                 }

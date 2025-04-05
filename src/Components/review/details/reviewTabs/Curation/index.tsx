@@ -59,7 +59,6 @@ const Curation = () => {
 
         const payload = {
             solution: selectedSolution.id,
-            // note: totalNote,
             data: formattedData,
             token
         };
@@ -173,7 +172,7 @@ const Curation = () => {
                                                         if (typeof review.data === 'object') {
                                                             return Object.entries(review.data).map(([question, answer], idx) => (
                                                             <li key={idx}>
-                                                                <strong>{question}:</strong> {answer}
+                                                                <strong>{question}:</strong> {String(answer)}
                                                             </li>
                                                             ));
                                                         }

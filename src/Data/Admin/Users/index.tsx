@@ -38,7 +38,7 @@ const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
 
   const handleViewDetail = () => {
     setLoadingDetail(true)
-    router.push('/general/users/detail_user');
+    router.push('/general/users/edit_user');
     dispatch(setSelectedUser({user}));
   }
 
@@ -83,7 +83,6 @@ const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
   )
 }
 
-
 export const UsersListTableDataColumn = [
   {
     name: "Nom",
@@ -115,7 +114,6 @@ export const UsersListTableDataColumn = [
     grow: 2
   }
 ];
-
 
 export const AddUser = [
   {
@@ -164,5 +162,3 @@ export const AddProjectAndUpload = [
     price: "$15,987",
   },
 ];
-
-
