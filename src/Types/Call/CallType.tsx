@@ -18,6 +18,7 @@ export interface CallType {
     author?: Author;
 }
 
+
 export interface Author {
     id: string;
     created_at: string;
@@ -95,6 +96,12 @@ export interface RequirementType {
     description: string;
 }
 
+export type ReviewPhase = 'cartographie' | 'exploration' | 'experimentation';
+export interface ReviewFormSection {
+    phase: ReviewPhase;
+    fields: FormField[];
+}
+
 export interface FormValue{
     name: string;
     description: string;
@@ -102,7 +109,7 @@ export interface FormValue{
     ended_at: string;
     form: DynamicFomType [] | null;
     requirements: RequirementType[] | null;
-    review_form: FormField[] | null;
+    review_form: ReviewFormSection[] | null;
 }
 
 export interface CreateCallType extends FormValue {}
@@ -151,6 +158,9 @@ export interface StepPropsType{
 export type StepperHorizontalPropsType = {
     level: number;
 };
+
+
+
 
 export interface FormField {
     id: number | string;
