@@ -3,22 +3,22 @@ import { MenuItem } from "@/Types/LayoutTypes";
 export const MenuList: MenuItem[] = [
 
   {
-    title: "Curation",
+    title: "Soumissions",
     lanClass: "lan-8",
-    menucontent: "Cartographe volontaire",
+    menucontent: "Espace des cartographes",
     Items: [
       {
-        title: "Révision",
+        title: "Espace cartographes",
         id: 1,
         icon: "edit",
         type: "link",
         active: false,
         children: [
-          { path: "/review", type: "link", title: "Review" },
+          { path: "/voluntaryCartographer", type: "link", title: "Assigner" },
         ],
       },
     ],
-    requiredRoles: ['voluntary cartographer'], 
+    requiredRoles: ['voluntary cartographer', 'admin'], 
   },
   {
     title: "Curation",

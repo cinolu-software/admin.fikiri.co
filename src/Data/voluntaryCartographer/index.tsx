@@ -84,24 +84,25 @@ const CallListTableAction: React.FC<{ call: CallInstance, isPublished?: boolean 
         <div className="product-action">
             <div className="row w-100 justify-content-center">
                 <div className="col-3">
-                    <button onClick={handleEdit} disabled={loadingEdit} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} >
-                        {loadingEdit ? <Spinner size="sm" /> : <SVG iconId="editTable" />}
-                    </button>
-                </div>
-                <div className="col-3">
                     <button onClick={handleDetail} disabled={loadingDetail} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} >
                         {loadingDetail ? <Spinner size="sm" /> : <SVG iconId="moreTable" />}
                     </button>
                 </div>
                 <div className="col-3">
-                    <button onClick={handlePublish} disabled={loadingPublish} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}>
-                        {loadingPublish ? <Spinner size="sm" /> : <SVG iconId={isPublished ? "unpublish_call" : "publish_call"} />}
-                    </button>
+                    {/*<button onClick={handleEdit} disabled={loadingEdit} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} >*/}
+                    {/*    {loadingEdit ? <Spinner size="sm" /> : <SVG iconId="editTable" />}*/}
+                    {/*</button>*/}
+                </div>
+
+                <div className="col-3">
+                    {/*<button onClick={handlePublish} disabled={loadingPublish} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}>*/}
+                    {/*    {loadingPublish ? <Spinner size="sm" /> : <SVG iconId={isPublished ? "unpublish_call" : "publish_call"} />}*/}
+                    {/*</button>*/}
                 </div>
                 <div className="col-3">
-                    <button onClick={handleDelete} disabled={loadingDelete} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}>
-                        {loadingDelete ? <Spinner size="sm" /> : <SVG iconId="trashTable" />}
-                    </button>
+                    {/*<button onClick={handleDelete} disabled={loadingDelete} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}>*/}
+                    {/*    {loadingDelete ? <Spinner size="sm" /> : <SVG iconId="trashTable" />}*/}
+                    {/*</button>*/}
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ import { Calendar, FileText, User, CheckCircle, XCircle, Phone, Home } from 'rea
 import { useAppSelector } from "@/Redux/Hooks";
 
 const ReviewInfo = () => {
+
     const { selectedSolution } = useAppSelector(state => state.reviewer);
 
     if (!selectedSolution) {
@@ -15,8 +16,6 @@ const ReviewInfo = () => {
     const call = selectedSolution.call;
     const user = selectedSolution.user;
 
-
-    console.log(selectedSolution)
 
     return (
         <TabPane tabId={"1"}>
@@ -80,7 +79,6 @@ const ReviewInfo = () => {
                         </ListGroup>
                     </Card>
                 </Row>
-
             </Container>
         </TabPane>
     );

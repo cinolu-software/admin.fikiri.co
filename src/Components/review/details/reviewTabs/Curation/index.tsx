@@ -17,6 +17,7 @@ import { curateSolution } from "@/Redux/Reducers/ReviewerSlice";
 import { FormField } from "@/Types/Call/CallType";
 
 const Curation = () => {
+    
     const { selectedSolution, token } = useAppSelector((state) => state.reviewer);
     const dispatch = useAppDispatch();
     
