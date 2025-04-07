@@ -16,6 +16,8 @@ const CallTabs = () => {
                      <TabsHeader navId={navId} setNavId={setNavId}/> 
                      <TabContent  activeTab={navId} id="notifications-pills-tabContent">
                         <CallInfo />
+                        <CallApplication />
+                        <CallCurators />
                     </TabContent> 
                 </Card>
             </div>

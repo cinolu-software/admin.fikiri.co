@@ -15,6 +15,7 @@ const OrganizationListTableName : React.FC<{name: string}> = ({name}) => {
 const OrganizationListTableAction : React.FC<{organization : DataGetOrganizationType}> = ({organization}) =>{
 
     const dispatch = useAppDispatch();
+    
     const handleEdit = () => {
         dispatch(setModalEditOrganization({isOpen: true, organization}));
     }

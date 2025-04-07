@@ -9,20 +9,36 @@ interface CallNavTabProps {
 }
 
 
-const CallCartographerNavTabs = [
+const CallNavTabs = [
     {
-        title: "Candidatures",
-        icon: "candidature_call",
+     	title: "Informations",
+        icon: "info_call",
         id: "1",
     },
+    {
+     	title: "Candidatures",
+        icon: "candidature_call",
+        id: "2",
+    },
+    {
+     	title: "Curateur",
+        icon: "candidature_curator",
+        id: "3",
+    },
+    {
+     	title: "Rapports",
+        icon: "program_report",
+        id: "4",
+    },
 ];
+
 
 const ProjectNavTab : React.FC<CallNavTabProps> = ({navId, setNavId}) => {
 
     return (
         <Nav className={'email-tabs'} id={'program-pills-tabContent'}>
             {
-                CallCartographerNavTabs.map((data, i) => (
+                CallNavTabs.map((data, i) => (
                     <NavItem key={i}>
                         <NavLink className={navId === data.id ? "active" : ""} id={data.id} onClick={()=>setNavId(data.id)} >
                             <SVG className="stroke-icon" iconId={data.icon} />

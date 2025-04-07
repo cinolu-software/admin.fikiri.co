@@ -1,5 +1,4 @@
 import {Nav, NavItem, NavLink} from 'reactstrap';
-import {Href} from "@/Constant";
 import React from 'react';
 import SVG from '@/CommonComponent/SVG';
 
@@ -14,21 +13,21 @@ const CallNavTabs = [
         icon: "info_call",
         id: "1",
     },
-    {
-        title: "Candidatures",
-        icon: "candidature_call",
-        id: "2",
-    },
-    {
-        title: "Curateur",
-        icon: "candidature_curator",
-        id: "3",
-    },
-    {
-        title: "Rapports",
-        icon: "program_report",
-        id: "4",
-    },
+    // {
+    //     title: "Candidatures",
+    //     icon: "candidature_call",
+    //     id: "2",
+    // },
+    // {
+    //     title: "Curateur",
+    //     icon: "candidature_curator",
+    //     id: "3",
+    // },
+    // {
+    //     title: "Rapports",
+    //     icon: "program_report",
+    //     id: "4",
+    // },
 ];
 
 const ProjectNavTab : React.FC<CallNavTabProps> = ({navId, setNavId}) => {

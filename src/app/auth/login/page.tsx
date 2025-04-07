@@ -21,18 +21,26 @@ const UserLogin = () => {
 
         if (roles.includes('admin')) {
             return '/admin/homeAdmin';
-        } else if (roles.includes('cartograph')) {
+        }
+        if(roles.includes('volunteer')) {
+            return '/voluntaryCartographer';
+        }
+        if (roles.includes('cartograph')) {
             return '/cartograph/homeCartograph';
-        } else if (roles.includes('experimentor')) {
+        }
+        if (roles.includes('experimentor')) {
             return '/experimentor/homeExperimentor';
-        } else if (roles.includes('explorator')) {
+        }
+        if (roles.includes('explorator')) {
             return '/explorator/homeExplorator';
-        } else if (roles.includes('user')) {
+        }
+        if (roles.includes('user')) {
             return '/user/homeUser';
         }
 
         return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
     };
+
 
     useEffect(
         () => {
@@ -43,7 +51,7 @@ const UserLogin = () => {
                 router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
             }
         }, 
-    [statusAuthentication, isAuthenticated, userData, router]
+        [statusAuthentication, isAuthenticated, userData, router]
     );
 
   return (

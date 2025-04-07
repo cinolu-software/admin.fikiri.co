@@ -1,226 +1,133 @@
 import React from 'react';
 import {
-  CardBody,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Container,
-  TabPane,
-  Card,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
+CardBody,
+    CardTitle,
+    CardText,
+    Row,
+    Col,
+    ListGroup,
+    ListGroupItem,
+    Badge,
+    Container,
+    TabPane
 } from 'reactstrap';
 import { Calendar, FileText, Tag, User, Target } from 'react-feather';
-import { useAppSelector } from '@/Redux/Hooks';
-import { Requirement } from '@/Types/Call/CallType';
-import { imageBaseUrl } from '@/Services/axios';
+import { useAppSelector } from "@/Redux/Hooks";
+import { FormField, Requirement } from '@/Types/Call/CallType';
 
 const CallInfo = () => {
-  const { selectedCall } = useAppSelector((state) => state.call);
 
-  if (!selectedCall) {
-    return <p className="text-center text-muted">Aucun appel sélectionné.</p>;
-  }
+    const { selectedCall } = useAppSelector(state => state.call);
 
-  return (
-    <TabPane tabId="1">
-      <Container className="mt-4 ms-3 pe-5" fluid>
-        
-        <Row>
-          <Col lg="12">
-            <Card className="shadow-sm border-0">
-              <CardBody>
-                <Row className="align-items-center">
-                  <Col md="2">
-                    <img
-                      src={`${imageBaseUrl}/calls/covers/${selectedCall.cover}`}
-                      alt="Cover"
-                      className="img-fluid rounded"
-                      style={{ maxHeight: '120px', objectFit: 'cover' }}
-                    />
-                  </Col>
-                  <Col md="10">
-                    <CardTitle
-                      tag="h4"
-                      className="mb-2 d-flex align-items-center gap-2"
-                    >
-                      <Tag size={18} />
-                      {selectedCall.name}
-                    </CardTitle>
-                    <CardText className="text-muted d-flex align-items-center gap-2">
-                      <Calendar size={16} />
-                      Période :{' '}
-                      {new Date(selectedCall.created_at).toLocaleDateString()} -{' '}
-                      {new Date(selectedCall.ended_at).toLocaleDateString()}
-                    </CardText>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+    if (!selectedCall) {
+        return (
+            <p className="text-center text-muted"> Aucun appel sélectionné. </p>
+        )
+    }
 
-        {/* Description */}
-        <Col lg="12" className="mb-4">
-          <Card className="shadow-sm border-0 rounded-3">
-            <CardBody>
-              <CardTitle
-                tag="h5"
-                className="mb-3 d-flex align-items-center gap-2 text-primary fw-semibold"
-              >
-                <FileText size={20} />
-                Description de l'appel
-              </CardTitle>
-              <CardText className="text-muted fs-6">
-                {selectedCall.description}
-              </CardText>
-            </CardBody>
-          </Card>
-        </Col>
-
-        {/* Exigences */}
-        <Col lg="12" className="mb-4">
-          <Card className="shadow-sm border-0 rounded-3">
-            <CardBody>
-              <CardTitle
-                tag="h5"
-                className="mb-3 d-flex align-items-center gap-2 text-primary fw-semibold"
-              >
-                <Target size={20} />
-                Exigences
-              </CardTitle>
-              <ListGroup flush>
-                {selectedCall.requirements?.length > 0 ? (
-                  selectedCall.requirements.map(
-                    (req: Requirement, index: number) => (
-                      <ListGroupItem
-                        key={index}
-                        className="border-0 ps-0 pe-0 py-2"
-                      >
-                        <div className="d-flex align-items-start gap-2">
-                          <span className="fw-bold text-dark">{req.name} :</span>
-                          <span className="text-muted">{req.description}</span>
+    return (
+        <TabPane tabId={"1"}>
+            <Container className="mt-4 ms-3 pe-5" fluid>
+                <Row className="mb-4">
+                    <Col md={12}>
+                        <div className="mb-4 border rounded">
+                            <CardBody>
+                                <CardTitle tag="h5" className="mb-3">
+                                    <Tag size={16} className="me-2 text-primary " />
+                                    {selectedCall.name}
+                                </CardTitle>
+                                <CardText className="text-muted">{selectedCall.description}</CardText>
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <Calendar size={16} className="me-2 text-success" />
+                                        <strong>Début :</strong> {new Date(selectedCall.started_at).toLocaleDateString()}
+                                    </div>
+                                    <div>
+                                        <Calendar size={16} className="me-2 text-danger" />
+                                        <strong>Fin :</strong> {new Date(selectedCall.ended_at).toLocaleDateString()}
+                                    </div>
+                                </div>
+                            </CardBody>
                         </div>
-                      </ListGroupItem>
-                    )
-                  )
-                ) : (
-                  <p className="text-muted">
-                    Aucune exigence spécifique pour cet appel.
-                  </p>
-                )}
-              </ListGroup>
-            </CardBody>
-          </Card>
-        </Col>
 
-        {/* Formulaire */}
-        <Col lg="12" className="mb-4">
-          <Card className="shadow-sm border-0 rounded-3">
-            <CardBody>
-              <CardTitle
-                tag="h5"
-                className="mb-3 d-flex align-items-center gap-2 text-primary fw-semibold"
-              >
-                <User size={20} />
-                Soumettre votre solution
-              </CardTitle>
+                        <div className="mb-4 border rounded">
+                            <CardBody>
+                                <CardTitle tag="h5" className="mb-3">
+                                    <Target size={20} className="me-2 text-warning" />
+                                    Exigences
+                                </CardTitle>
+                                <ListGroup flush>
+                                    {
+                                        selectedCall.requirements && selectedCall.requirements.length > 0 ? (
+                                            selectedCall.requirements.map((req: Requirement, index) => (
+                                                <ListGroupItem key={index}>
+                                                    <strong>{req.name} :</strong> {req.description}
+                                                </ListGroupItem>
+                                            ))
+                                        ) : (
+                                            <p className="text-muted">Aucune exigence spécifiée.</p>
+                                        )}
+                                </ListGroup>
+                            </CardBody>
+                        </div>
 
-              {selectedCall.form?.length > 0 ? (
-                <Form>
-                  {selectedCall.form.map((field, index) => (
-                    <FormGroup key={index} className="mb-4">
-                      <Label className="fw-semibold mb-2">
-                        {field.label}{' '}
-                        {field.required && (
-                          <span className="text-danger">*</span>
-                        )}
-                      </Label>
+                        <div className="mb-4 border rounded">
+                            <CardBody>
+                                <CardTitle tag="h5">
+                                    <FileText size={20} className="me-2 text-info" />
+                                    Formulaire de candidature
+                                </CardTitle>
+                                <ListGroup flush>
+                                    {
+                                        selectedCall.form && selectedCall.form.length > 0 ? (
+                                            selectedCall.form.map((field: FormField) => (
+                                                <ListGroupItem key={field.id} className="d-flex justify-content-between">
+                                                    <span>{field.label}</span>
+                                                    {field.required && <Badge color="danger">Obligatoire</Badge>}
+                                                </ListGroupItem>
+                                            ))
+                                        ) : (
+                                            <p className="text-muted">Aucun champ de formulaire défini.</p>
+                                        )}
+                                </ListGroup>
+                            </CardBody>
+                        </div>
 
-                      {field.type === 'text' && (
-                        <Input
-                          type="text"
-                          required={field.required}
-                          placeholder={field.label}
-                          className="form-control border rounded-2 shadow-sm"
-                        />
-                      )}
-
-                      {field.type === 'number' && (
-                        <Input
-                          type="number"
-                          required={field.required}
-                          placeholder={field.label}
-                          className="form-control border rounded-2 shadow-sm"
-                        />
-                      )}
-
-                      {field.type === 'textarea' && (
-                        <Input
-                          type="textarea"
-                          required={field.required}
-                          placeholder={field.label}
-                          className="form-control border rounded-2 shadow-sm"
-                          rows={4}
-                        />
-                      )}
-
-                      {field.type === 'file' && (
-                        <Input
-                          type="file"
-                          required={field.required}
-                          className="form-control border rounded-2 shadow-sm"
-                        />
-                      )}
-
-                      {field.type === 'date' && (
-                        <Input
-                          type="date"
-                          required={field.required}
-                          className="form-control border rounded-2 shadow-sm"
-                        />
-                      )}
-
-                      {field.type === 'select' && field.options?.length > 0 && (
-                        <Input
-                          type="select"
-                          required={field.required}
-                          className="form-control border rounded-2 shadow-sm"
-                        >
-                          <option value="">-- Sélectionner une option --</option>
-                          {field.options.map((opt: string, i: number) => (
-                            <option key={i} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
-                        </Input>
-                      )}
-                    </FormGroup>
-                  ))}
-
-                  <div className="text-start">
-                    <Button color="primary" className="px-4 rounded-pill shadow-sm">
-                      Soumettre
-                    </Button>
-                  </div>
-                </Form>
-              ) : (
-                <p className="text-muted">
-                  Aucun champ de formulaire défini pour cet appel.
-                </p>
-              )}
-            </CardBody>
-          </Card>
-        </Col>
-      </Container>
-    </TabPane>
-  );
+                        <div className="border rounded">
+                            <CardBody>
+                                <CardTitle tag="h5">
+                                    <User size={20} className="me-2 text-secondary" />
+                                    Auteur
+                                </CardTitle>
+                                <ListGroup flush>
+                                    <ListGroupItem>
+                                        <strong>Nom :</strong> {
+                                        selectedCall.author?.name || "Inconnu"
+                                    }
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        <strong>Email :</strong> {
+                                        selectedCall.author?.email || "Non spécifié"
+                                    }
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        <strong>Téléphone :</strong> {
+                                        selectedCall.author?.phone_number || "Non spécifié"
+                                    }
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        <strong>Adresse :</strong> {
+                                        selectedCall.author?.address || "Non spécifié"
+                                    }
+                                    </ListGroupItem>
+                                </ListGroup>
+                            </CardBody>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+        </TabPane>
+    );
 };
 
 export default CallInfo;

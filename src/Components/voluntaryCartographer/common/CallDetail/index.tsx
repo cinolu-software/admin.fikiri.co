@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 import BackButton from "@/CommonComponent/BackButton";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {useRouter} from "next/navigation";
-import CallTabs from "@/Components/Admin/Calls/common/CallDetail/CallTabs";
+import CallTabs from "@/Components/voluntaryCartographer/common/CallDetail/CallTabs";
 
 const DetailCallContainer = () => {
 

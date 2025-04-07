@@ -8,6 +8,16 @@ export const MenuList: MenuItem[] = [
     menucontent: "Espace des cartographes",
     Items: [
       {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/voluntaryCartographer/voluntaryCartographerHomePage", type: "link", title: "Dashboard" },
+        ],
+      },
+      {
         title: "Espace cartographes",
         id: 1,
         icon: "edit",
@@ -18,7 +28,7 @@ export const MenuList: MenuItem[] = [
         ],
       },
     ],
-    requiredRoles: ['voluntary cartographer', 'admin'], 
+    requiredRoles: ['volunteer'],
   },
   {
     title: "Curation",

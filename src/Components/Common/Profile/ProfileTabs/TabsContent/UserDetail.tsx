@@ -59,7 +59,6 @@ const UserDetail = () => {
         
     };
 
-
     return (
         <Container fluid className="mt-5">
             <div>

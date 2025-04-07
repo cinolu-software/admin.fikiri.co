@@ -1,5 +1,7 @@
 import { Author } from "../CallType";
 
+
+
 export interface ApplicationInstance {
     id: string;
     created_at: string;
@@ -20,14 +22,7 @@ export interface InitialStateType {
     applicationData: ApplicationInstance[];
     selectedApplication: ApplicationInstance | null;
     applicationStatus: "idle" | "loading" | "succeeded" | "failed";
-    error : ErrorType | null,
-    modal: boolean;
-    composeEmail: boolean;
-    faIcon: boolean;
-    interviewEmail: boolean;
-    page?: boolean;
-    inboxEmail: InboxEmailType[];
-    emailValidation: boolean;
+    error : ErrorType | null;
     totalApplication: number;
 }
 
@@ -76,4 +71,10 @@ export interface LetterBoxNavContentType {
 export interface MailPropsType {
     handlePrintData: () => void;
 }
+
+export type SubmitSolutionPayload = {
+    call: string; // ID de l'appel
+    responses: Record<string, any>; // les réponses du formulaire, typées de façon souple
+  };
+  
 
