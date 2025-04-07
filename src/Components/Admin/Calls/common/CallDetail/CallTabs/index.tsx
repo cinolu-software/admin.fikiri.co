@@ -13,12 +13,10 @@ const CallTabs = () => {
         <Col className={'box-col-12'}>
             <div className={'email-right-aside'}>
                 <Card className={`email-body `}>    
-                    <TabsHeader navId={navId} setNavId={setNavId}/>
-                    <TabContent  activeTab={navId} id="notifications-pills-tabContent">
+                     <TabsHeader navId={navId} setNavId={setNavId}/> 
+                     <TabContent  activeTab={navId} id="notifications-pills-tabContent">
                         <CallInfo />
-                        <CallApplication />
-                        <CallCurators />
-                    </TabContent>
+                    </TabContent> 
                 </Card>
             </div>
         </Col>

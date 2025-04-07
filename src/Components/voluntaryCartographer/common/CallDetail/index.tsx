@@ -9,17 +9,16 @@ const DetailCallContainer = () => {
 
     const {selectedCall} = useAppSelector(state=> state.call);
     const router = useRouter();
-    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if(!selectedCall) {
-            router.push("/admin/call");
+            router.push("/voluntaryCartographer");
         }
     }, [selectedCall]);
 
     return (
         <Container fluid>
-            <BackButton link={'/admin/call'} />
+            <BackButton link={'/voluntaryCartographer'} />
             {
                 selectedCall && (
                     <>

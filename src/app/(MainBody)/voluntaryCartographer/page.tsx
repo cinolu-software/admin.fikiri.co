@@ -3,6 +3,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 
 const VoluntaryCartographerHomePage = () => {
+    
     const [MyAwesomeMap, setMyAwesomeMap] = useState<FunctionComponent>();
 
     useEffect(() => {
