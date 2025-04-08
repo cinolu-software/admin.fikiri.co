@@ -7,16 +7,16 @@ export const MenuList: MenuItem[] = [
     lanClass: "lan-8",
     menucontent: "Espace des cartographes",
     Items: [
-      {
-        title: "Accueil",
-        id: 1,
-        icon: "home",
-        type: "sub",
-        active: false,
-        children: [
-          { path: "/voluntaryCartographer/voluntaryCartographerHomePage", type: "link", title: "Dashboard" },
-        ],
-      },
+      // {
+      //   title: "Accueil",
+      //   id: 1,
+      //   icon: "home",
+      //   type: "sub",
+      //   active: false,
+      //   children: [
+      //     { path: "/voluntaryCartographer/voluntaryCartographerHomePage", type: "link", title: "Dashboard" },
+      //   ],
+      // },
       {
         title: "Espace cartographes",
         id: 1,
