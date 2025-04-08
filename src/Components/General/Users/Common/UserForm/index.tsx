@@ -37,7 +37,6 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
         }
     };
 
-
     useEffect(() => {
         if(mode === "create") {
             dispatch(resetFormValue());
@@ -55,7 +54,6 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
         }
     }, [initialData, dispatch]);
 
-
     useEffect(() => {
         const validateForm = () => {
             const isValid =
@@ -71,34 +69,52 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
 
 
     return (
+
         <Container fluid>
-            <Row>
-                <Col>
-                    <Card>
-                        <CardHeader>
-                            <h4 className={'ms-3'}>
-                                {mode === "create" ? "Créer un utilisateur" : "Modifier l'utilisateur"}
-                            </h4>
-                        </CardHeader>
-                        <CardBody>
-                            <Body mode={mode} selectedUser={initialData}/>
-                        </CardBody>
-                        <CardFooter>
-                            <Row>
-                                <Col className={'d-flex justify-content-end'}>
-                                    <button
-                                        className={'btn btn-outline-primary'}
-                                        onClick={handleSubmit}
-                                        disabled={!isFormValid}
-                                    >
-                                        <i className="bi bi-save"></i>
-                                        {mode === "create" ? "Créer l'utilisateur" : "Modifier l'utilisateur"}
-                                    </button>
-                                </Col>
-                            </Row>
-                        </CardFooter>
-                    </Card>
-                </Col>
+            <Row className="mt-5">
+                {
+                    mode === "create" ? (
+                        <div>
+                            <div>
+                                <Body mode={mode} selectedUser={initialData}/>
+                            </div>
+                            <div>
+                                <Row>
+                                    <Col className={'d-flex justify-content-end'}>
+                                        <button
+                                            className={'btn btn-outline-primary'}
+                                            onClick={handleSubmit}
+                                            disabled={!isFormValid}
+                                        >
+                                            <i className="bi bi-save"></i>
+                                            {"Créer l'utilisateur"}
+                                        </button>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </div>
+                    ) : (
+                        <Card>
+                            <CardBody>
+                                <Body mode={mode} selectedUser={initialData}/>
+                            </CardBody>
+                            <CardFooter>
+                                <Row>
+                                    <Col className={'d-flex justify-content-end'}>
+                                        <button
+                                            className={'btn btn-outline-primary'}
+                                            onClick={handleSubmit}
+                                            disabled={!isFormValid}
+                                        >
+                                            <i className="bi bi-save"></i>
+                                            {"Modifier l'utilisateur"}
+                                        </button>
+                                    </Col>
+                                </Row>
+                            </CardFooter>
+                        </Card>
+                    ) 
+                }
             </Row>
             <ToastContainer />
         </Container>

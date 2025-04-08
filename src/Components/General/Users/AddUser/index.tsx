@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container} from "reactstrap";
-import {toast, ToastContainer, Flip} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import BackButton from "@/CommonComponent/BackButton";
-import UserForm from "@/Components/General/Users/Common/UserForm";
+import TabUser from "@/Components/General/Users/AddUser/TabUser";
 
 
 const CreateUser = () => {
@@ -11,7 +11,9 @@ const CreateUser = () => {
         <Container fluid>
 
             <BackButton link={"/general/users"}/>
-            <UserForm mode="create"/>
+            {/* <UserForm mode="create"/>
+            <ToastContainer /> */}
+            <TabUser/>
             <ToastContainer />
         </Container>
     )

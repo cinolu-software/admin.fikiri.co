@@ -16,7 +16,7 @@ const EditProjectTabs = () => {
                         <Nav tabs className={'border-tab border-0 mb-0 nav-primary'}>
                             <NavItem>
                                 <NavItem>
-                                    <NavLink href='#' className={`nav-border txt-secondary ${activeTab === "1" ? "active" : ""}`} onClick={() => setActiveTab("1")}>
+                                    <NavLink  className={`nav-border txt-secondary ${activeTab === "1" ? "active" : ""}`} onClick={() => setActiveTab("1")}>
                                         <i className="icofont icofont-files"></i>
                                         <span>Détail de l'appel</span>
                                     </NavLink>
@@ -25,7 +25,7 @@ const EditProjectTabs = () => {
 
                             <NavItem>
                                 <NavItem>
-                                    <NavLink href='#' className={`nav-border txt-secondary ${activeTab === "2" ? "active" : ""}`}
+                                    <NavLink  className={`nav-border txt-secondary ${activeTab === "2" ? "active" : ""}`}
                                              onClick={() => setActiveTab("2")}>
                                         <i className="fa fa-file-image-o"></i>
                                         <span>Image de couverture</span>
@@ -35,7 +35,7 @@ const EditProjectTabs = () => {
 
                             <NavItem>
                                 <NavItem>
-                                    <NavLink href='#' className={`nav-border txt-secondary ${activeTab === "3" ? "active" : ""}`} 
+                                    <NavLink  className={`nav-border txt-secondary ${activeTab === "3" ? "active" : ""}`}
                                              onClick={() => setActiveTab("3")}>
                                         <i className="fa fa-file-text-o"></i>
                                         
