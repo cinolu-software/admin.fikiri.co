@@ -203,9 +203,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['explorator']
   },
-
-
-
   {
     title: "General",
     lanClass: "lan-8",
@@ -243,8 +240,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['experimentor']
   },
-
-
   {
     title: "General",
     lanClass: "lan-8",
@@ -263,8 +258,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['user']
   },
-
-
   {
     title: "Mon Compte",
     lanClass: "lan-8",
