@@ -14,7 +14,7 @@ export const LogoWrapper = () => {
   return (
     <>
       <div className="logo-wrapper">
-        <Link href={`/sample_page`}>
+        <Link href={'#'}>
           <img className="img-fluid" src={`${ImagePath}/logo/logo_light.png`} alt="" />
         </Link>
         <div className="back-btn" onClick={() => dispatch(handleResponsiveToggle())}>
@@ -25,7 +25,7 @@ export const LogoWrapper = () => {
         </div>
       </div>
       <div className="logo-icon-wrapper">
-        <Link href={`/sample_page`}>
+        <Link href={'#'}>
           <img className="img-fluid" src={`${ImagePath}/logo/logo-icon.png`} alt="" />
         </Link>
       </div>

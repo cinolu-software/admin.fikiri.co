@@ -29,6 +29,13 @@ export interface CreateUserType {
 export interface UpdateUserType  extends CreateUserType {
     id: string;
 }
+
+export interface UpdateManyUserType {
+    ids: string[];
+    data: CreateUserType[];
+}
+
+
 export interface DataUserErrorType {
     message: string;
     error: string;
