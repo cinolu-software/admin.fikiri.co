@@ -9,7 +9,7 @@ const DetailCall = () => {
     useEffect(() => {
         (async () => {
             if(typeof window !== "undefined") {
-                const newClient = (await import("@/Components/voluntaryCartographer/common/CallDetail")).default;
+                const newClient = (await import("@/Components/volunteer/common/CallDetail")).default;
                 setClient(()=> newClient);
             }
         })();

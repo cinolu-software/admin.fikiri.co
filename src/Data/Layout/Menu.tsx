@@ -3,20 +3,28 @@ import { MenuItem } from "@/Types/LayoutTypes";
 export const MenuList: MenuItem[] = [
 
   {
+    title: "General",
+    lanClass: "lan-8",
+    menucontent: "General",
+    Items: [
+      {
+        title: "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [
+          { path: "/volunteer/homeVolunteer", type: "link", title: "Dashboard" },
+        ],
+      },
+    ],
+    requiredRoles: ['volunteer']
+  },
+  {
     title: "Soumissions",
     lanClass: "lan-8",
     menucontent: "Espace des cartographes",
     Items: [
-      // {
-      //   title: "Accueil",
-      //   id: 1,
-      //   icon: "home",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     { path: "/voluntaryCartographer/voluntaryCartographerHomePage", type: "link", title: "Dashboard" },
-      //   ],
-      // },
       {
         title: "Espace cartographes",
         id: 1,
@@ -24,12 +32,13 @@ export const MenuList: MenuItem[] = [
         type: "link",
         active: false,
         children: [
-          { path: "/voluntaryCartographer", type: "link", title: "Assigner" },
+          { path: "/volunteer", type: "link", title: "Assigner" },
         ],
       },
     ],
     requiredRoles: ['volunteer'],
   },
+
   {
     title: "Curation",
     lanClass: "lan-8",
@@ -48,7 +57,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: [], 
   },
-
   {
     title: "General",
     lanClass: "lan-8",
@@ -126,7 +134,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['admin']
   },
-
   {
     title: "General",
     lanClass: "lan-8",

@@ -8,7 +8,7 @@ const VoluntaryCartographerHomePage = () => {
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import('@/Components/Experimentator/ExperimentatorHomePage')).default;
+                const newClient = (await import('@/Components/volunteer/volunteerHomePage')).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();

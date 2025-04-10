@@ -9,7 +9,7 @@ const VoluntaryCartographerHomePage = () => {
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import('@/Components/voluntaryCartographer')).default;
+                const newClient = (await import('@/Components/volunteer')).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();

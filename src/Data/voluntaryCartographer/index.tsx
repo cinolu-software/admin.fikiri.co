@@ -29,7 +29,7 @@ const CallListTableAction: React.FC<{ call: CallInstance, isPublished?: boolean 
 
     const handleDetail = async () => {
         setLoadingDetail(true);
-        router.push(`/voluntaryCartographer/detail_call`);
+        router.push(`/volunteer/detail_call`);
         dispatch(setSelectedCall(call));
     };
 
