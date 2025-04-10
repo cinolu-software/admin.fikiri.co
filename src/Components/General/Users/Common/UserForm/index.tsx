@@ -79,7 +79,7 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
                                 <Body mode={mode} selectedUser={initialData}/>
                             </div>
                             <div>
-                                <Row>
+                                <Row className='mt-3'>
                                     <Col className={'d-flex justify-content-end'}>
                                         <button
                                             className={'btn btn-outline-primary'}

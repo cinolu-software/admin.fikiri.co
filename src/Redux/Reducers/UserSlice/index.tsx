@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType} from "@/Types/User/UserType";
+import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType, UpdateManyUserType} from "@/Types/User/UserType";
 
 const initialState: InitialStateUserType = {
     usersData: [],
@@ -84,6 +84,23 @@ export const deleteUser = createAsyncThunk<string, string, { rejectValue: DataUs
             return rejectWithValue({
                 message: errorMessage,
                 error: "USER_DELETE_ERROR",
+                statusCode: e.response?.status || 500,
+            });
+        }
+    }
+);
+
+export const updateMultipleUsers = createAsyncThunk<DataGetUserType[], UpdateManyUserType, { rejectValue: DataUserErrorType }>(
+    "user/updateMultipleUsers",
+    async (usersData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.patch(`${apiBaseUrl}/users/update-many`, usersData);
+            return response.data.data as DataGetUserType[];
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la mise à jour des utilisateurs";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "USER_UPDATE_ERROR",
                 statusCode: e.response?.status || 500,
             });
         }
@@ -179,7 +196,18 @@ const UsersSlice = createSlice({
             })
             .addCase(deleteUser.rejected, (state, action) => {
                 state.statusUsers = 'failed';
+            })
+            .addCase(updateMultipleUsers.pending, (state) => {
+                state.statusUsers = 'loading';
+            })
+            .addCase(updateMultipleUsers.fulfilled, (state, action: PayloadAction<DataGetUserType[]>) => {
+                state.statusUsers = 'succeeded';
+                state.usersData = action.payload;
+            })
+            .addCase(updateMultipleUsers.rejected, (state, action) => {
+                state.statusUsers = 'failed';
             });
+
     },
 });
 

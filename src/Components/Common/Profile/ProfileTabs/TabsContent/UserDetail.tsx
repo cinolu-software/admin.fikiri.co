@@ -42,7 +42,8 @@ const UserDetail = () => {
                     theme: "colored",
                 }
             );
-        } catch (error) {
+        }
+        catch (error) {
             toast.error(
                 <p className="text-white tx-16 mb-0">{"Erreur lors de la mise à jour du profil"}</p>,
                 {

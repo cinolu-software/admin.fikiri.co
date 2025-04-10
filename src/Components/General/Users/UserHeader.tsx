@@ -20,10 +20,10 @@ export const UserHeader = () => {
       <div className="light-box" onClick={handleFilterToggle}>
         <a>
           <Filter className={`filter-icon ${filterToggle ? "hide" : "show"}`} />
-          <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} />
+          {/* <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} /> */}
         </a>
       </div>
-        <AddButton link={'/general/users/add_user'} name={'Ajouter un utilisateur'} />
+        <AddButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />
     </div>
   );
 
