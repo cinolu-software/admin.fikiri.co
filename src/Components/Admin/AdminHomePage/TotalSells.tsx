@@ -3,11 +3,14 @@ import Stat from '@/Components/Admin/AdminHomePage/Stat';
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {fetchCall, fetchPublishedCall} from "@/Redux/Reducers/CallSlice";
 import { fetchUsers } from "@/Redux/Reducers/UserSlice";
+import { fetchStat } from '@/Redux/Reducers/StatSlice';
+import { useController } from 'react-hook-form';
 
 
 const TotalSells = () => {
 
     const { totalAllCall, totalPublishedCall } = useAppSelector(state=>state.call);
+    const { statData, status } = useAppSelector(state=>state.stat);
     const { totalUsers } = useAppSelector(state=>state.user);
     const dispatch = useAppDispatch();
 
@@ -31,6 +34,13 @@ const TotalSells = () => {
         },
         [dispatch, totalUsers]
     );
+
+    useEffect(()=>{
+        if(status === 'idle'){
+            dispatch(fetchStat());
+        }
+    }, [dispatch, status]);
+
 
   
   return (
@@ -66,6 +76,18 @@ const TotalSells = () => {
                 title={"Nombre Total d'utilisateurs"}
                 image={"users.png"}
                 count={totalUsers}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
+        }
+
+        {
+            statData !== null &&
+            <Stat
+                className={"total-sells-3"}
+                title={"Nombre Total de solutions"}
+                image={"applications.png"}
+                count={Number(statData.solutions)}
                 icon={"fa-arrow-down"}
                 color={"danger"}
             />

@@ -9,6 +9,7 @@ import callSlice from "@/Redux/Reducers/CallSlice";
 import ApplicationsSlice from "@/Redux/Reducers/CallSlice/CallApplication"
 import PartnerSlice from "@/Redux/Reducers/PartnersSlice/partnerSlice";
 import ReviewerSlice from "@/Redux/Reducers/ReviewerSlice";
+import statSlice from "@/Redux/Reducers/StatSlice";
 
 
 export {
@@ -22,5 +23,6 @@ export {
     callSlice,
     ApplicationsSlice,
     PartnerSlice,
-    ReviewerSlice
+    ReviewerSlice,
+    statSlice
 }
