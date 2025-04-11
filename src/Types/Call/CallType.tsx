@@ -18,7 +18,6 @@ export interface CallType {
     author?: Author;
 }
 
-
 export interface Author {
     id: string;
     created_at: string;
@@ -159,9 +158,6 @@ export type StepperHorizontalPropsType = {
     level: number;
 };
 
-
-
-
 export interface FormField {
     id: number | string;
     type: 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'file' | 'date';
@@ -188,4 +184,8 @@ export interface Call {
         phone_number: string;
         address: string;
     };
+}
+
+export interface CallSelected {
+    selectedCall: CallType | CallInstance;
 }

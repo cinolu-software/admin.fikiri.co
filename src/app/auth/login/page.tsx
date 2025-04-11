@@ -22,7 +22,7 @@ const UserLogin = () => {
             return '/admin/homeAdmin';
         }
         if(roles.includes('volunteer')) {
-            return '/volunteer';
+            return '/volunteer/homeVolunteer';
         }
         if (roles.includes('cartograph')) {
             return '/cartograph/homeCartograph';
