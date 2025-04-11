@@ -1,5 +1,4 @@
 import { Href, ImagePath, Logout } from "@/Constant";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut } from "react-feather";

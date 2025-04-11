@@ -1,25 +1,10 @@
 import React, { useState } from 'react';
-import {
-  CardBody,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Container,
-  TabPane,
-  Card,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from 'reactstrap';
+import {CardBody, CardTitle, CardText, Row, Col, ListGroup, ListGroupItem, Container, TabPane, Card, Form, FormGroup, Label, Input, Button} from 'reactstrap';
 import { Calendar, FileText, Tag, User, Target } from 'react-feather';
 import { useAppSelector, useAppDispatch } from '@/Redux/Hooks';
 import { submitSolution } from '@/Redux/Reducers/CallSlice/CallApplication';
 import { imageBaseUrl } from '@/Services/axios';
+import {ImagePath} from "@/Constant";
 
 
 const CallInfo = () => {
@@ -30,7 +15,6 @@ const CallInfo = () => {
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
   const [successMessage, setSuccessMessage] = useState<string | null>(null); 
   const [errorMessage, setErrorMessage] = useState<string | null>(null); 
-
 
   if (!selectedCall) {
     return <p className="text-center text-muted">Aucun appel sélectionné.</p>;
@@ -99,10 +83,14 @@ const CallInfo = () => {
                 <Row className="align-items-center">
                   <Col md="2">
                     <img
-                      src={`${imageBaseUrl}/calls/covers/${selectedCall.cover}`}
-                      alt="Cover"
-                      className="img-fluid rounded"
-                      style={{ maxHeight: '120px', objectFit: 'cover' }}
+                        src={
+                          selectedCall?.cover
+                              ? `${imageBaseUrl}/calls/covers/${selectedCall.cover}`
+                                  : `${ImagePath}/calls/call.jpg`
+                        }
+                        alt={"Cover"}
+                        className={"img-fluid rounded"}
+                        style={{maxHeight: '120px', objectFit: 'cover'}}
                     />
                   </Col>
                   <Col md="10">
@@ -110,7 +98,6 @@ const CallInfo = () => {
                       tag="h4"
                       className="mb-2 d-flex align-items-center gap-2"
                     >
-                      <Tag size={18} />
                       {selectedCall.name}
                     </CardTitle>
                     <CardText className="text-muted d-flex align-items-center gap-2">
