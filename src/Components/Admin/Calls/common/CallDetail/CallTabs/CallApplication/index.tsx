@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from '@/Redux/Hooks';
 import { fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
 import { imageBaseUrl } from "@/Services/axios";
-import { ImagePath } from '@/Constant';
 import { useRouter } from "next/navigation";
 import DataTable from 'react-data-table-component';
 import { format } from 'date-fns';
@@ -13,7 +12,7 @@ import { ApplicationInstance } from "@/Types/Call/Application";
 
 const ApplicationInfo = () => {
 
-  const { applicationData, applicationStatus } = useAppSelector((state) => state.application);
+  const { applicationData } = useAppSelector((state) => state.application);
   const { selectedCall } = useAppSelector((state) => state.call);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -36,31 +35,6 @@ const ApplicationInfo = () => {
     router.push(`/admin/call/detail_call/application_detail`);
     dispatch(setSelectedApplication(application))
   }
-
-  const baseColumns = [
-    {
-      name: 'Candidat',
-      cell: (row: any) => (
-        <div className="d-flex align-items-center gap-2">
-          <div style={{ width: "40px", height: "40px" }}>
-            <img
-              className="rounded-circle w-100 h-100"
-              src={
-                    row.applicant?.profile
-                      ? `${imageBaseUrl}/profiles/${row.applicant.profile}`
-                      : row.applicant?.google_image
-                        ? row.applicant.google_image
-                        : `${ImagePath}/avtar/avatar_.jpg`
-                  }
-              alt={row.applicant?.name || 'Avatar'}
-            />
-          </div>
-        </div>
-      ),
-      sortable: true,
-      minWidth: '250px',
-    }
-  ];
 
 
   const dynamicColumns = selectedCall?.form?.map(field => ({
@@ -112,7 +86,7 @@ const ApplicationInfo = () => {
     }
   ];
 
-  // const columns = [...baseColumns, ...(dynamicColumns || []), ...endColumns];
+
   const columns = [ ...(dynamicColumns || []), ...endColumns];
 
   const customStyles = {
@@ -138,9 +112,8 @@ const ApplicationInfo = () => {
   if (!selectedCall) {
     return null;
   }
-
-  console.log("applicationData===>|",applicationData);
   
+
   return (
     <TabPane tabId={'2'} className="mb-5">
       <div className="p-3">
