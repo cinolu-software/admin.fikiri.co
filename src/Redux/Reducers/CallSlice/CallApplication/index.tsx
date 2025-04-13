@@ -1,14 +1,16 @@
 
-import {InitialStateType, ApplicationInstance, ErrorType, SubmitSolutionPayload} from "@/Types/Call/Application";
+import {InitialStateType, ApplicationInstance, ApplicationsByUser, ErrorType, SubmitSolutionPayload} from "@/Types/Call/Application";
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 
 const initialState: InitialStateType = {
     applicationData: [],
+    applicationDataByUser: [],
     totalApplication: 0,
     selectedApplication: null,  
     applicationStatus: 'idle',
+    applicationByUserStatus: 'idle',
     error: null,
 };
 
@@ -29,6 +31,23 @@ export const fetchApplicationsByCall = createAsyncThunk<ApplicationInstance[], {
     }
 );
 
+export const fetchApplicationByUser = createAsyncThunk<ApplicationsByUser[], {userId: string}, {rejectValue: ErrorType}>(
+    "application/fetchApplicationByUser",
+    async({userId}, {rejectWithValue}) => {
+        try{
+            const response = await axiosInstance.get(`${apiBaseUrl}/solutions/user/${userId}`);
+            return response.data.data as ApplicationsByUser[];
+        }catch(e: any){
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération des solutions";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+)
+
 export const submitSolution = createAsyncThunk<ApplicationInstance, SubmitSolutionPayload, { rejectValue: ErrorType }>(
     "application/submitSolution",
     async (payload, { rejectWithValue }) => {
@@ -45,6 +64,8 @@ export const submitSolution = createAsyncThunk<ApplicationInstance, SubmitSoluti
         }
     }
 );
+
+
 
 const ApplicationsSlice = createSlice({
     name: "Applications",
@@ -69,6 +90,21 @@ const ApplicationsSlice = createSlice({
                 state.applicationStatus = 'failed';
                 state.error = action.payload ?? null;
             })
+
+            .addCase(fetchApplicationByUser.pending, (state) => {
+                state.applicationByUserStatus = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchApplicationByUser.fulfilled, (state, action:PayloadAction<ApplicationsByUser[]>) => {
+                state.applicationByUserStatus = 'succeeded';
+                state.applicationDataByUser = action.payload;
+            })
+            .addCase(fetchApplicationByUser.rejected, (state, action) => {
+                state.applicationByUserStatus = 'failed';
+                state.error = action.payload ?? null;
+            })
+
+
             .addCase(submitSolution.pending, (state) => {
                 state.applicationStatus = 'loading';
                 state.error = null;

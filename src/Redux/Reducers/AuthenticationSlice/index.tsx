@@ -85,7 +85,8 @@ export const updatePassword = createAsyncThunk<UserProfileType, UpdateProfilePas
         try {
             const response = await axiosInstance.patch(`${apiBaseUrl}/auth/update-password`, passwordData);
             return response.data.data;
-        } catch (error: any) {
+        }
+        catch (error: any) {
             const errorMessage = error.response?.data?.message?.map((err: { message: string }) => `${err.message}`).join(", ") || "Une erreur est survenue lors de la mise à jour du mot de passe";
             return rejectWithValue(errorMessage);
         }

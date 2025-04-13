@@ -13,11 +13,11 @@ const CallNavTabs = [
         icon: "info_call",
         id: "1",
     },
-    // {
-    //     title: "Candidatures",
-    //     icon: "candidature_call",
-    //     id: "2",
-    // },
+    {
+        title: "Mes soumissions",
+        icon: "candidature_call",
+        id: "2",
+    },
     // {
     //     title: "Curateur",
     //     icon: "candidature_curator",

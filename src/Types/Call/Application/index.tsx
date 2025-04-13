@@ -1,6 +1,5 @@
 import { Author } from "../CallType";
-
-
+import {CallType, CallInstance} from "../CallType";
 
 export interface ApplicationInstance {
     id: string;
@@ -18,63 +17,30 @@ export interface ErrorType{
     statusCode: number;
 }
 
+export interface ApplicationsByUser {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    response: Object;
+    reviewer : Object | null;
+    user: Author;
+    call: CallType | CallInstance;
+}
+
 export interface InitialStateType {
     applicationData: ApplicationInstance[];
+    applicationDataByUser: ApplicationsByUser[];
     selectedApplication: ApplicationInstance | null;
     applicationStatus: "idle" | "loading" | "succeeded" | "failed";
+    applicationByUserStatus: "idle" | "loading" | "succeeded" | "failed";
     error : ErrorType | null;
     totalApplication: number;
 }
 
-export interface InboxEmailType {
-    id: number;
-    image?: string;
-    shortName?: string;
-    name: string;
-    color: string;
-    message: string;
-    subMessage: string;
-    badge?: BadgeType[];
-    time: string;
-    star?: boolean;
-}
-
-interface BadgeType {
-    title: string;
-    color: string;
-}
-
-export interface AddNewEmailInterFace {
-    userEmail: string;
-    subject: string;
-}
-
-export interface EmailSubInputType {
-    ccShow: boolean;
-    bccShow: boolean;
-}
-
-export interface CommonDataType {
-    data: InboxEmailType;
-    ids: number;
-}
-
-export interface LetterBoxNavType {
-    navId: string;
-    setNavId: (key: string) => void;
-}
-
-export interface LetterBoxNavContentType {
-    navId: string;
-}
-
-export interface MailPropsType {
-    handlePrintData: () => void;
-}
-
 export type SubmitSolutionPayload = {
-    call: string; // ID de l'appel
-    responses: Record<string, any>; // les réponses du formulaire, typées de façon souple
-  };
+    call: string;
+    responses: Record<string, any>;
+};
   
 

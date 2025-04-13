@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import {CardBody, CardTitle, Col, Container, TabPane, Card, Form, FormGroup, Label, Input, Button} from 'reactstrap';
-import {  User } from 'react-feather';
+import {Container, TabPane} from 'reactstrap';
 import { useAppSelector, useAppDispatch } from '@/Redux/Hooks';
 import { submitSolution } from '@/Redux/Reducers/CallSlice/CallApplication';
 import CallCardCover from "@/Components/volunteer/common/CallDetail/CallTabs/Components/CallCardCover";
 import CallRequirement from "@/Components/volunteer/common/CallDetail/CallTabs/Components/CallRequirement";
 import CallDescription from "@/Components/volunteer/common/CallDetail/CallTabs/Components/CallDescription";
 import CallFormApplication from "@/Components/volunteer/common/CallDetail/CallTabs/Components/CallFormApplication";
+
 
 const CallInfo = () => {
 
@@ -50,7 +50,6 @@ const CallInfo = () => {
         console.warn(`Champ ${field.label} manquant ou sans valeur.`);
       }
       return acc;
-
     }, {});
 
     dispatch(

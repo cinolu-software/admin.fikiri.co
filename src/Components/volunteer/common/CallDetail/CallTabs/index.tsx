@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Card, Col, TabContent} from "reactstrap";
 import TabsHeader from "./TabsHeader";
 import CallInfo from "./CallInfo";
+import CallMyApplications from "@/Components/volunteer/common/CallDetail/CallTabs/CallMyApplications";
 
 const CallTabs = () => {
 
@@ -14,6 +15,7 @@ const CallTabs = () => {
                     <TabsHeader navId={navId} setNavId={setNavId}/>
                     <TabContent  activeTab={navId} id="notifications-pills-tabContent">
                         <CallInfo />
+                        <CallMyApplications />
                     </TabContent>
                 </Card>
             </div>

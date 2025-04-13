@@ -19,11 +19,11 @@ const UsersListContainer: React.FC = () => {
   const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
   const [roleFilter, setRoleFilter] = useState<string>("");
 
-  useEffect(() => {
-    if (statusUsers === 'idle') {
-      dispatch(fetchUsers());
-    }
-  }, [statusUsers, dispatch]);
+    useEffect(() => {
+        if (statusUsers === 'idle') {
+        dispatch(fetchUsers());
+        }
+    }, [statusUsers, dispatch]);
 
     const filteredUsers = usersData.filter((user: DataGetUserType) => {
         const matchesText =
@@ -44,7 +44,7 @@ const UsersListContainer: React.FC = () => {
           <Input
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
               type="search"
-              value={filterText}
+              value={filterText} 
           />
         </div>
     );
