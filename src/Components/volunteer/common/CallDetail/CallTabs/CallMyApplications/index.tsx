@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Container, TabPane, Spinner} from 'reactstrap';
+import { TabPane } from 'reactstrap';
 import { imageBaseUrl } from "@/Services/axios";
 import { useAppSelector, useAppDispatch } from '@/Redux/Hooks';
 import {fetchApplicationByUser} from "@/Redux/Reducers/CallSlice/CallApplication";
@@ -8,17 +8,17 @@ import { setSelectedApplication } from "@/Redux/Reducers/CallSlice/CallApplicati
 import { ApplicationInstance } from "@/Types/Call/Application";
 import DataTable from 'react-data-table-component';
 import { format } from 'date-fns';
-import { fr, id } from 'date-fns/locale';
+import { fr } from 'date-fns/locale';
 
 const CallMyApplications = () => {
 
     const { selectedCall } = useAppSelector((state) => state.call);
     const {applicationDataByUser, applicationByUserStatus} = useAppSelector(state=>state.application);
+
     const {userData} = useAppSelector(state=>state.authentication);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [loadingDetail, setLoadingDetail] = useState(false);
-
 
     useEffect(() => {
         if(applicationByUserStatus == 'idle' && userData) {
@@ -26,14 +26,18 @@ const CallMyApplications = () => {
         }
     }, [userData, applicationByUserStatus]);
 
+    useEffect(() => {
+
+    }, []);
+
 
     const handleViewDetail =  (application : ApplicationInstance) => {
         setLoadingDetail(true);
         router.push(`/volunteer/detail_call/detail_application`);
-        dispatch(setSelectedApplication(application))
+        dispatch(setSelectedApplication(application));
     }
 
-    const dynamicColumns = selectedCall?.form?.map(field => ({
+    const dynamicCol = selectedCall?.form?.map(field => ({
         name: field.label,
         cell: (row: any) => {
             const value = row.responses[field.label];
@@ -75,14 +79,14 @@ const CallMyApplications = () => {
             name: "Actions",
             cell: (row: any) => (
                 <button className="btn btn-outline-primary btn-sm" onClick={() => handleViewDetail(row)} >
-                    { loadingDetail ?  <Spinner size={'sm'} /> : "Voir détails" }
+                    { "Voir détails" }
                 </button>
             ),
             center: true,
         }
     ];
 
-    const columns = [ ...(dynamicColumns || []), ...endColumns];
+    const columns = [ ...(dynamicCol || []), ...endColumns];
 
     const customStyles = {
         rows: {
@@ -130,5 +134,4 @@ const CallMyApplications = () => {
         </TabPane>
     );
 };
-
 export default CallMyApplications;

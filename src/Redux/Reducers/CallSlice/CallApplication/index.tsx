@@ -72,6 +72,7 @@ const ApplicationsSlice = createSlice({
     initialState,
     reducers: {
         setSelectedApplication: (state, action: PayloadAction<ApplicationInstance | null>) => {
+            //@ts-ignore
             state.selectedApplication = action.payload;
         }
     },

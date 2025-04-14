@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import BackButton from "@/CommonComponent/BackButton";
-import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
+import { useAppSelector } from "@/Redux/Hooks";
 import { useRouter } from "next/navigation";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { format } from "date-fns";

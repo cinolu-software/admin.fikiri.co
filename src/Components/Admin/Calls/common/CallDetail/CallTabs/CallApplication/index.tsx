@@ -36,7 +36,6 @@ const ApplicationInfo = () => {
     dispatch(setSelectedApplication(application))
   }
 
-
   const dynamicColumns = selectedCall?.form?.map(field => ({
     name: field.label,
     cell: (row: any) => {
@@ -85,7 +84,6 @@ const ApplicationInfo = () => {
       center: true,
     }
   ];
-
 
   const columns = [ ...(dynamicColumns || []), ...endColumns];
 

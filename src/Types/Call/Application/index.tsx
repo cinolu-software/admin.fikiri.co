@@ -11,6 +11,19 @@ export interface ApplicationInstance {
     applicant: Author
 }
 
+export interface ApplicationData {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    responses: Object ;
+    reviewers: Object | null;
+    document: string | null;
+    applicant: Author;
+    user: Author;
+    call: CallInstance;
+}
+
 export interface ErrorType{
     message: string;
     error: string;
@@ -22,20 +35,22 @@ export interface ApplicationsByUser {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-    response: Object;
+    responses: Object;
     reviewer : Object | null;
     user: Author;
     call: CallType | CallInstance;
 }
 
 export interface InitialStateType {
+
     applicationData: ApplicationInstance[];
     applicationDataByUser: ApplicationsByUser[];
-    selectedApplication: ApplicationInstance | null;
+    selectedApplication:  ApplicationData | null;
     applicationStatus: "idle" | "loading" | "succeeded" | "failed";
     applicationByUserStatus: "idle" | "loading" | "succeeded" | "failed";
     error : ErrorType | null;
     totalApplication: number;
+
 }
 
 export type SubmitSolutionPayload = {
