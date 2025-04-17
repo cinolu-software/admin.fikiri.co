@@ -33,7 +33,7 @@ const SolutionListTableAction: React.FC<{ data: ReviewerData}> = ({ data }) => {
 
     const handleDetail = async () => {
         setLoadingDetail(true);
-        router.push(`/review/details_review?token=${token}`);
+            router.push(`/review/details_review?token=${token}`);
         dispatch(setSelectedSolution(data));
     };
 

@@ -228,7 +228,7 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
     }
 )
 
-export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solutions: number}, {rejectValue: any}>(
+export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solutions: number, phase: string}, {rejectValue: any}>(
     "call/addReviewer",
     async({email, organization, callId, solutions}, {rejectWithValue}) => {
         try{
@@ -284,7 +284,7 @@ export const resendReviewerLink = createAsyncThunk<{data: string}, {email: strin
 
 export const updateReviewerSolution = createAsyncThunk<CallInstance, UpdateReviewerSolution, {rejectValue: any}>(
     "call/updateReviewerSolution",
-    async({email, id, solutions, organization}, {rejectWithValue}) => {
+    async({email, id, solutions, organization, phase}, {rejectWithValue}) => {
         try{
             const response = await axiosInstance.patch(`${apiBaseUrl}/calls/update-reviewer/${id}/${email}`, {solutions, organization, email});
             return response.data.data as CallInstance;
@@ -299,38 +299,6 @@ export const updateReviewerSolution = createAsyncThunk<CallInstance, UpdateRevie
     }
 );
 
-
-
-const validateStep = (state: InitialStateCallType) => {
-    const { name, form, requirements, started_at, ended_at, description } = state.AddFormValue;
-    switch (state.numberLevel) {
-        case 1:
-            if (!name || !description) {
-                ShowError();
-                return false;
-            }
-            break;
-        case 2:
-            if (!name || !description || !ended_at || !started_at) {
-                ShowError();
-                return false;
-            }
-            break;
-        case 3:
-            if (!name || !description || !ended_at || !started_at || !form) {
-                ShowError();
-                return false;
-            }
-            break;
-        case 4:
-            if (!name || !description || !ended_at || !started_at || !form || !requirements) {
-                ShowError();
-                return false;
-            }
-            break;
-    }
-    return true;
-};
 
 const callSlice = createSlice({
     name: "call",

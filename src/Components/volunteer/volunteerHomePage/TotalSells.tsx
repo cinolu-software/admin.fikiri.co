@@ -21,7 +21,6 @@ const TotalSells = () => {
         },
         [dispatch, userData, applicationByUserStatus]
     );
-
   
   return (
     <>

@@ -65,10 +65,8 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                 return <StepTwo data={AddFormValue} />;
             case 3:
                 return <StepThree data={AddFormValue} />;
-
             case 4: 
                 return <StepFive data={AddFormValue} />;
-            
             case 5:
                 return <StepFour data={AddFormValue} />;
             case 6:

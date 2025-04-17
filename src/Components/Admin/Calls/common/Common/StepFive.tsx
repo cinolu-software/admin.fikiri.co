@@ -2,15 +2,21 @@ import React, { useState } from "react";
 import { Button, Col, Form, Input, Label, Row, FormGroup, Table } from "reactstrap";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { setFormField } from "@/Redux/Reducers/CallSlice";
-import { StepPropsType, FormField } from "@/Types/Call/CallType";
+import { StepPropsType, FormField, ReviewForm } from "@/Types/Call/CallType";
 import { toast } from "react-toastify";
+import {phases} from "@/utils";
 
 const StepFive: React.FC<StepPropsType> = ({ data }) => {
     const dispatch = useAppDispatch();
-    const [editingIndex, setEditingIndex] = useState<number | null>(null);
-    const [editedField, setEditedField] = useState<any>(null);
     const { AddFormValue } = useAppSelector((state) => state.call);
-    const [fields, setFields] = useState(AddFormValue.review_form || []);
+
+    const [selectedPhase, setSelectedPhase] = useState<string>("");
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+    const [editedField, setEditedField] = useState<FormField | null>(null);
+
+    const [reviewForms, setReviewForms] = useState<ReviewForm[]>(
+        AddFormValue.review_form || []
+    );
 
     const [newField, setNewField] = useState<FormField>({
         id: 0,
@@ -20,45 +26,68 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
         options: [""]
     });
 
-    const [selectedPhase, setSelectedPhase] = useState<string>("");
-    const phases = ["Cartographie", "Exploration", "Experimentation"];
 
     const handleAddField = () => {
-        const updatedFields = [...fields, { ...newField, id: Date.now(), phase: selectedPhase }];
-        //@ts-ignore
-        setFields(updatedFields);
-        dispatch(setFormField({ curationForm: updatedFields }));
-        setNewField({ id: Date.now(), label: "", type: "text", required: false, options: [""] });
+        if (!selectedPhase) return;
+
+        const updatedField = { ...newField, id: Date.now() };
+
+        let updatedReviewForms = [...reviewForms];
+        const phaseIndex = updatedReviewForms.findIndex(rf => rf.phase === selectedPhase);
+
+        if (phaseIndex !== -1) {
+            updatedReviewForms[phaseIndex].fields.push(updatedField);
+        } else {
+            updatedReviewForms.push({
+                phase: selectedPhase,
+                fields: [updatedField]
+            });
+        }
+
+        setReviewForms(updatedReviewForms);
+        dispatch(setFormField({ curationForm: updatedReviewForms }));
+
+        setNewField({ id: 0, label: "", type: "text", required: false, options: [""] });
     };
 
-    const handleRemoveField = (id: number) => {
-        //@ts-ignore
-        const updatedFields = fields.filter((field) => field.id !== id);
-        setFields(updatedFields);
-        dispatch(setFormField({ curationForm: updatedFields }));
+    const handleRemoveField = (phase: string, fieldId: number | string) => {
+        const updatedReviewForms = reviewForms.map(rf => {
+            if (rf.phase === phase) {
+                return {
+                    ...rf,
+                    fields: rf.fields.filter(f => f.id !== fieldId)
+                };
+            }
+            return rf;
+        });
+
+        setReviewForms(updatedReviewForms);
+        dispatch(setFormField({ curationForm: updatedReviewForms }));
     };
 
-    const handleEditField = (index: number, field: FormField) => {
+    const handleEditField = (phase: string, index: number, field: FormField) => {
+        setSelectedPhase(phase);
         setEditingIndex(index);
         setEditedField({ ...field });
     };
 
     const handleSaveField = () => {
-        try {
-            if (editingIndex !== null && editedField) {
-                const updatedFields = [...fields];
-                updatedFields[editingIndex] = editedField;
-                setFields(updatedFields);
-                dispatch(setFormField({ curationForm: updatedFields }));
-                setEditingIndex(null);
-                setEditedField(null);
-                toast.success("Champ mis à jour avec succès", {
-                    autoClose: 5000,
-                    position: toast.POSITION.TOP_CENTER,
-                });
-            }
-        } catch (error) {
-            toast.error("Erreur lors de la mise à jour du champ", {
+        if (selectedPhase && editingIndex !== null && editedField) {
+            const updatedReviewForms = reviewForms.map(rf => {
+                if (rf.phase === selectedPhase) {
+                    const updatedFields = [...rf.fields];
+                    updatedFields[editingIndex] = editedField;
+                    return { ...rf, fields: updatedFields };
+                }
+                return rf;
+            });
+
+            setReviewForms(updatedReviewForms);
+            dispatch(setFormField({ curationForm: updatedReviewForms }));
+
+            setEditingIndex(null);
+            setEditedField(null);
+            toast.success("Champ mis à jour avec succès", {
                 autoClose: 5000,
                 position: toast.POSITION.TOP_CENTER,
             });
@@ -76,7 +105,11 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                                 id="phaseSelect"
                                 type="select"
                                 value={selectedPhase}
-                                onChange={(e) => setSelectedPhase(e.target.value)}
+                                onChange={(e) => {
+                                    setSelectedPhase(e.target.value);
+                                    setEditingIndex(null);
+                                    setEditedField(null);
+                                }}
                             >
                                 <option value="">-- Choisir une phase --</option>
                                 {phases.map((phase, index) => (
@@ -86,27 +119,27 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                         </FormGroup>
                     </Col>
 
-                    <Col xs="12">
-                        <h4 className="mb-3">Champs de curation ajoutés</h4>
-                        <Table striped>
-                            <thead className="text-center">
+                    {reviewForms.map((rf, rfIndex) => (
+                        <Col xs="12" key={rfIndex}>
+                            <h4 className="mb-3">Champs de la phase : {rf.phase}</h4>
+                            <Table striped>
+                                <thead className="text-center">
                                 <tr>
                                     <th>Nom du champ</th>
                                     <th>Type</th>
                                     <th>Requis</th>
-                                    <th>Phase</th>
                                     <th>Action</th>
                                 </tr>
-                            </thead>
-                            <tbody className="text-center">
-                                {fields.map((field: any, index: number) => (
+                                </thead>
+                                <tbody className="text-center">
+                                {rf.fields.map((field, index) => (
                                     <tr key={field.id}>
                                         <td className="align-middle">
-                                            {editingIndex === index ? (
+                                            {editingIndex === index && selectedPhase === rf.phase ? (
                                                 <Input
                                                     value={editedField?.label || ""}
                                                     onChange={(e) =>
-                                                        setEditedField({ ...editedField, label: e.target.value })
+                                                        setEditedField({ ...editedField!, label: e.target.value })
                                                     }
                                                 />
                                             ) : (
@@ -114,12 +147,12 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                                             )}
                                         </td>
                                         <td className="align-middle">
-                                            {editingIndex === index ? (
+                                            {editingIndex === index && selectedPhase === rf.phase ? (
                                                 <Input
                                                     type="select"
                                                     value={editedField?.type || "text"}
                                                     onChange={(e) =>
-                                                        setEditedField({ ...editedField, type: e.target.value })
+                                                        setEditedField({ ...editedField!, type: e.target.value as FormField['type'] })
                                                     }
                                                 >
                                                     <option value="text">Texte</option>
@@ -134,45 +167,48 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                                             )}
                                         </td>
                                         <td className="align-middle">
-                                            {editingIndex === index ? (
+                                            {editingIndex === index && selectedPhase === rf.phase ? (
                                                 <Input
                                                     type="checkbox"
                                                     checked={editedField?.required || false}
                                                     onChange={(e) =>
-                                                        setEditedField({
-                                                            ...editedField,
-                                                            required: e.target.checked
-                                                        })
+                                                        setEditedField({ ...editedField!, required: e.target.checked })
                                                     }
                                                 />
                                             ) : (
                                                 field.required ? "Oui" : "Non"
                                             )}
                                         </td>
-                                        <td className="align-middle">{field.phase || "-"}</td>
-                                        <td className="align-middle text-center">
-                                            {editingIndex === index ? (
+                                        <td className="align-middle">
+                                            {editingIndex === index && selectedPhase === rf.phase ? (
                                                 <Button color="success" size="sm" onClick={handleSaveField} className="me-2">
                                                     Enregistrer
                                                 </Button>
                                             ) : (
-                                                <Button color="warning" size="sm" onClick={() => handleEditField(index, field)} className="me-2">
+                                                <Button
+                                                    color="warning"
+                                                    size="sm"
+                                                    onClick={() => handleEditField(rf.phase, index, field)}
+                                                    className="me-2"
+                                                >
                                                     Modifier
                                                 </Button>
                                             )}
-                                            <Button color="danger" size="sm" onClick={() => handleRemoveField(field.id)}>
+                                            <Button color="danger" size="sm" onClick={() => handleRemoveField(rf.phase, field.id)}>
                                                 Supprimer
                                             </Button>
                                         </td>
                                     </tr>
                                 ))}
-                            </tbody>
-                        </Table>
-                    </Col>
+                                </tbody>
+                            </Table>
+                        </Col>
+                    ))}
 
                     {selectedPhase && (
                         <Col xs="12" className="mt-2">
-                            <h4 className="mb-3">Ajouter un champ de curation</h4>
+                            <h4 className="mb-3">Ajouter un champ à la phase : {selectedPhase}</h4>
+
                             <FormGroup>
                                 <Label for="fieldLabel">Nom du champ</Label>
                                 <Input
@@ -213,7 +249,7 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
                             {newField.type === "select" && (
                                 <FormGroup>
                                     <Label>Options du Select</Label>
-                                    {newField.options.map((option: string, index: number) => (
+                                    {newField.options.map((option, index) => (
                                         <Row key={index} className="align-items-center mb-2">
                                             <Col xs="10">
                                                 <Input

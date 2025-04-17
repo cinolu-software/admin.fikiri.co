@@ -59,6 +59,7 @@ export interface Application {
 }
 
 export interface Reviewer {
+    phase: string;
     email: string;
     organization: string;
     solutions: number;
@@ -164,6 +165,11 @@ export interface FormField {
     label: string;
     options: string[];
     required: boolean;
+}
+
+export interface ReviewForm {
+    phase : string;
+    fields: FormField[];
 }
 
 export interface Requirement {

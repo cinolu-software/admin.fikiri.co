@@ -36,7 +36,7 @@ const Review = () => {
       <Row>
         <Col>
             <div className="list-product-header mb-4">
-               <h4 className="mb-0">Liste des solutions à currer</h4>
+               <h4 className="mb-0">Liste des solutions à curer</h4>
             </div>
             
             <DataTable 
