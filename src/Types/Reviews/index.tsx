@@ -18,7 +18,10 @@ export interface Reviewes {
     updated_at: string;
     deleted_at: string | null;
     reviewer: string;
-    data: ResponsesData[]
+    data: {
+        phase: string;
+        responses: ResponsesData[];
+    }
 }
 
 export interface ReviewerForm {
@@ -31,14 +34,12 @@ export interface ReviewerData {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-    response: Object[];
+    responses: Object[];
     reviews: Reviewes[];
     reviewer: string;
     user: User;
     call: CallType;
 }
-
-
 
 export interface ErrorType{
     message: string;
@@ -61,19 +62,10 @@ export interface CurationData {
 export interface InitialStateReviewers {
     token: string;
     data: ReviewerData[];
-    dataForm: ReviewerForm[];
+    dataForm: ReviewerForm | null;
     isValidating: boolean;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    statusForm: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
     selectedSolution: ReviewerData | null;
-}
-
-export interface SelectedSolution {
-    id: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
-    response: Object[];
-    reviewer: string;
-    user: User;
 }

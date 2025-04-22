@@ -6,7 +6,8 @@ import { StepPropsType, FormField, ReviewForm } from "@/Types/Call/CallType";
 import { toast } from "react-toastify";
 import {phases} from "@/utils";
 
-const StepFive: React.FC<StepPropsType> = ({ data }) => {
+const StepFive: React.FC<StepPropsType> = () => {
+
     const dispatch = useAppDispatch();
     const { AddFormValue } = useAppSelector((state) => state.call);
 
@@ -32,12 +33,19 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
 
         const updatedField = { ...newField, id: Date.now() };
 
-        let updatedReviewForms = [...reviewForms];
+
+        const updatedReviewForms = reviewForms.map(rf => ({ ...rf, fields: [...rf.fields] }));
+
         const phaseIndex = updatedReviewForms.findIndex(rf => rf.phase === selectedPhase);
 
         if (phaseIndex !== -1) {
-            updatedReviewForms[phaseIndex].fields.push(updatedField);
+
+            updatedReviewForms[phaseIndex] = {
+                ...updatedReviewForms[phaseIndex],
+                fields: [...updatedReviewForms[phaseIndex].fields, updatedField]
+            };
         } else {
+            // Création d'un nouvel objet phase
             updatedReviewForms.push({
                 phase: selectedPhase,
                 fields: [updatedField]
@@ -46,7 +54,6 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
 
         setReviewForms(updatedReviewForms);
         dispatch(setFormField({ curationForm: updatedReviewForms }));
-
         setNewField({ id: 0, label: "", type: "text", required: false, options: [""] });
     };
 
@@ -55,10 +62,10 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
             if (rf.phase === phase) {
                 return {
                     ...rf,
-                    fields: rf.fields.filter(f => f.id !== fieldId)
+                    fields: rf.fields.filter(f => f.id !== fieldId) // Création nouveau tableau
                 };
             }
-            return rf;
+            return { ...rf }; // Copie de l'objet phase
         });
 
         setReviewForms(updatedReviewForms);
@@ -75,11 +82,12 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
         if (selectedPhase && editingIndex !== null && editedField) {
             const updatedReviewForms = reviewForms.map(rf => {
                 if (rf.phase === selectedPhase) {
-                    const updatedFields = [...rf.fields];
-                    updatedFields[editingIndex] = editedField;
+                    const updatedFields = rf.fields.map((f, i) =>
+                        i === editingIndex ? editedField : f
+                    );
                     return { ...rf, fields: updatedFields };
                 }
-                return rf;
+                return { ...rf };
             });
 
             setReviewForms(updatedReviewForms);
@@ -87,10 +95,7 @@ const StepFive: React.FC<StepPropsType> = ({ data }) => {
 
             setEditingIndex(null);
             setEditedField(null);
-            toast.success("Champ mis à jour avec succès", {
-                autoClose: 5000,
-                position: toast.POSITION.TOP_CENTER,
-            });
+            toast.success("Champ mis à jour avec succès");
         }
     };
 

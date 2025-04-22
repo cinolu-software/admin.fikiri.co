@@ -33,7 +33,7 @@ const Review = () => {
   return (
     <Container className="mt-5" fluid>
             <div className="list-product-header mb-4">
-               <h4 className="mb-0">Liste des solutions à curer</h4>
+               <h4 className="mb-0">Liste de solutions à curer</h4>
             </div>
             <div className={'list-program'}>
                 <div className={'table-responsive'}>
