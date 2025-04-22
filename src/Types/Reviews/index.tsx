@@ -1,4 +1,5 @@
 import { CallType } from "../Call/CallType";
+import {FormInputType} from "../Call/CallType";
 
 export interface User{
     id: string;
@@ -20,6 +21,11 @@ export interface Reviewes {
     data: ResponsesData[]
 }
 
+export interface ReviewerForm {
+    phase: string;
+    fields: FormInputType[];
+}
+
 export interface ReviewerData {
     id: string;
     created_at: string;
@@ -31,6 +37,8 @@ export interface ReviewerData {
     user: User;
     call: CallType;
 }
+
+
 
 export interface ErrorType{
     message: string;
@@ -53,6 +61,7 @@ export interface CurationData {
 export interface InitialStateReviewers {
     token: string;
     data: ReviewerData[];
+    dataForm: ReviewerForm[];
     isValidating: boolean;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;

@@ -6,7 +6,6 @@ import ErrorMessage from "@/Components/review/ErrorMessage";
 import DataTable from "react-data-table-component";
 import {SolutionListTableDataColumn} from "@/Data/Review";
 
-
 const Review = () => {
 
   const { token, status, data } = useAppSelector((state) => state.reviewer);
@@ -32,25 +31,25 @@ const Review = () => {
   }
 
   return (
-    <Container className="mt-5">
-      <Row>
-        <Col>
+    <Container className="mt-5" fluid>
             <div className="list-product-header mb-4">
                <h4 className="mb-0">Liste des solutions à curer</h4>
             </div>
-            
-            <DataTable 
-                className="theme-scrollbar"
-                columns={SolutionListTableDataColumn} 
-                data={data} 
-                highlightOnHover
-                pagination
-                subHeader
-            />
-        </Col>
-      </Row>
+            <div className={'list-program'}>
+                <div className={'table-responsive'}>
+                    <DataTable
+                        className="theme-scrollbar"
+                        columns={SolutionListTableDataColumn}
+                        data={data}
+                        highlightOnHover
+                        pagination
+                        subHeader
+                    />
+                </div>
+            </div>
     </Container>
   );
+
 };
 
 export default Review;

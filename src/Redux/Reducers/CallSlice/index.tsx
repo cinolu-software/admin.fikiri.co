@@ -230,9 +230,9 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
 
 export const addReviewer = createAsyncThunk<CallInstance, {email: string, organization: string, callId: string, solutions: number, phase: string}, {rejectValue: any}>(
     "call/addReviewer",
-    async({email, organization, callId, solutions}, {rejectWithValue}) => {
+    async({email, organization, callId, solutions, phase}, {rejectWithValue}) => {
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/calls/add-reviewer/${callId}`, {email, organization, solutions});
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/add-reviewer/${callId}`, {email, organization, solutions, phase});
             return response.data.data as CallInstance
 
         }catch(error : any){
@@ -286,7 +286,7 @@ export const updateReviewerSolution = createAsyncThunk<CallInstance, UpdateRevie
     "call/updateReviewerSolution",
     async({email, id, solutions, organization, phase}, {rejectWithValue}) => {
         try{
-            const response = await axiosInstance.patch(`${apiBaseUrl}/calls/update-reviewer/${id}/${email}`, {solutions, organization, email});
+            const response = await axiosInstance.patch(`${apiBaseUrl}/calls/update-reviewer/${id}/${email}`, {solutions, organization, email, phase});
             return response.data.data as CallInstance;
         }catch(error: any){
             const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la mise à jour du nombre de solutions";

@@ -116,7 +116,7 @@ const UpdateMultiple = () => {
                     isMulti
                     options={userOptions}
                     value={userOptions.filter(option => selectedUserIds.includes(option.value))}
-
+                    //@ts-ignore
                     onChange={handleUserSelect}
                     placeholder="Sélectionner des utilisateurs..."
                     className="basic-multi-select"
@@ -133,6 +133,7 @@ const UpdateMultiple = () => {
                     isMulti
                     options={roleOptions}
                     value={roleOptions.filter(option => selectedRoleIds.includes(option.value))}
+                    //@ts-ignore
                     onChange={handleRoleSelect}
                     placeholder="Sélectionner des rôles..."
                     className="basic-multi-select"

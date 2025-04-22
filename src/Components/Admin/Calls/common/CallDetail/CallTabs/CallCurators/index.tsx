@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import { fetchOrganization } from "@/Redux/Reducers/OrganizationSlice";
 import { showToast } from "@/utils";
 import { fetchApplicationsByCall } from "@/Redux/Reducers/CallSlice/CallApplication";
-import {phases} from "@/utils";
+import { phases } from "@/utils";
 
 const CallCurators = () => {
-
     const dispatch = useAppDispatch();
     const router = useRouter();
 
@@ -20,6 +19,8 @@ const CallCurators = () => {
     const [email, setEmail] = useState("");
     const [organization, setOrganization] = useState("");
     const [solution, setSolution] = useState<number>(0);
+    const [phase, setPhase] = useState<string>("");
+
     const [solutionsByReviewer, setSolutionsByReviewer] = useState<{ [key: string]: number }>({});
 
     useEffect(() => {
@@ -41,13 +42,22 @@ const CallCurators = () => {
     }, [dispatch, statusOrganization]);
 
     const handleAddReviewer = async () => {
-        if (selectedCall && email && organization && solution > 0) {
+        if (selectedCall && email && organization && solution > 0 && phase) {
             try {
-                await dispatch(addReviewer({ email, organization, callId: selectedCall.id, solutions: solution }));
+                await dispatch(
+                    addReviewer({
+                        email,
+                        organization,
+                        callId: selectedCall.id,
+                        solutions: solution,
+                        phase
+                    })
+                );
                 showToast("Le curateur a été ajouté avec succès", "success");
                 setEmail("");
                 setOrganization("");
                 setSolution(0);
+                setPhase("");
             } catch (error) {
                 showToast("Erreur lors de l'ajout du curateur", "error");
                 console.error("Error adding reviewer:", error);
@@ -96,7 +106,8 @@ const CallCurators = () => {
                         email,
                         id: selectedCall.id,
                         solutions: solutionsByReviewer[email],
-                        organization: reviewer.organization
+                        organization: reviewer.organization,
+                        phase: reviewer.phase
                     })
                 );
                 showToast("Nombre de solutions mis à jour avec succès", "success");
@@ -122,7 +133,10 @@ const CallCurators = () => {
                 <div className="row mb-4 mt-5">
                     <div className="col">
                         <div className="p-3 border rounded bg-white text-center">
-                            <h6 className="text-muted">Total des candidatures pour l'appel : <span className="fw-bold">{selectedCall.name}</span></h6>
+                            <h6 className="text-muted">
+                                Total des candidatures pour l'appel :{" "}
+                                <span className="fw-bold">{selectedCall.name}</span>
+                            </h6>
                             <h2 className="fw-bold text-primary">{applicationData ? applicationData.length : 0}</h2>
                             <div className="progress mt-2" style={{ height: "2px" }}>
                                 <div className="progress-bar bg-primary" role="progressbar" style={{ width: "100%" }}></div>
@@ -137,7 +151,7 @@ const CallCurators = () => {
                         <div className="mb-4">
                             <h5 className="mb-4">Ajouter un nouveau curateur</h5>
                             <div className="row g-3">
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <input
                                         type="email"
                                         className="form-control"
@@ -146,7 +160,7 @@ const CallCurators = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <select
                                         className="form-select"
                                         value={organization}
@@ -173,10 +187,24 @@ const CallCurators = () => {
                                     />
                                 </div>
                                 <div className="col-md-2">
+                                    <select
+                                        className="form-select"
+                                        value={phase}
+                                        onChange={(e) => setPhase(e.target.value)}
+                                    >
+                                        <option value="">Phase de curation</option>
+                                        {phases.map((p, i) => (
+                                            <option key={i} value={p}>
+                                                {p}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="col-md-2">
                                     <button
                                         className="btn btn-primary w-100"
                                         onClick={handleAddReviewer}
-                                        disabled={!email || !organization || solution <= 0}
+                                        disabled={!email || !organization || solution <= 0 || !phase}
                                     >
                                         Ajouter
                                     </button>
@@ -189,34 +217,51 @@ const CallCurators = () => {
                             <h5 className="mb-4">Liste des curateurs</h5>
                             <table className="table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>Email</th>
-                                        <th>Organisation</th>
-                                        <th>Solutions</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Organisation</th>
+                                    <th>Solutions</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedCall.reviewers?.map((reviewer, index) => (
-                                        <tr key={index}>
-                                            <td>{reviewer.email}</td>
-                                            <td>{getOrganizationName(reviewer.organization)}</td>
-                                            <td>
-                                                <input
-                                                    type="number"
-                                                    value={solutionsByReviewer[reviewer.email] || reviewer.solutions}
-                                                    onChange={(e) => handleSolutionChange(reviewer.email, Number(e.target.value))}
-                                                    className="form-control"
-                                                    style={{ width: "80px" }}
-                                                />
-                                            </td>
-                                            <td>
-                                                <button className="btn btn-warning btn-sm me-2" onClick={() => handleResendLink(reviewer.email)}>Renvoyer le lien</button>
-                                                <button className="btn btn-success btn-sm me-2" onClick={() => handleUpdateSolution(reviewer.email)}>Mettre à jour</button>
-                                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteReviewer(reviewer.email)}>Supprimer</button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                {selectedCall.reviewers?.map((reviewer, index) => (
+                                    <tr key={index}>
+                                        <td>{reviewer.email}</td>
+                                        <td>{getOrganizationName(reviewer.organization)}</td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                value={solutionsByReviewer[reviewer.email] || reviewer.solutions}
+                                                onChange={(e) =>
+                                                    handleSolutionChange(reviewer.email, Number(e.target.value))
+                                                }
+                                                className="form-control"
+                                                style={{ width: "80px" }}
+                                            />
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn btn-warning btn-sm me-2"
+                                                onClick={() => handleResendLink(reviewer.email)}
+                                            >
+                                                Renvoyer le lien
+                                            </button>
+                                            <button
+                                                className="btn btn-success btn-sm me-2"
+                                                onClick={() => handleUpdateSolution(reviewer.email)}
+                                            >
+                                                Mettre à jour
+                                            </button>
+                                            <button
+                                                className="btn btn-danger btn-sm"
+                                                onClick={() => handleDeleteReviewer(reviewer.email)}
+                                            >
+                                                Supprimer
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                                 </tbody>
                             </table>
                         </div>

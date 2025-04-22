@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import { InitialStateReviewers, ReviewerData, ErrorType, CurationData} from "@/Types/Reviews";
+import { InitialStateReviewers, ReviewerData, ErrorType, CurationData, ReviewerForm} from "@/Types/Reviews";
 
 const initialState : InitialStateReviewers = {
     token: '',
     data: [],
+    dataForm: [],
     isValidating: false,
     status: 'idle',
     error: null,
@@ -28,6 +29,24 @@ export const fetchReviewer = createAsyncThunk<ReviewerData[], {token: string}, {
     }
 );
 
+export const findReviewForm = createAsyncThunk<ReviewerForm[], {token: string}, {rejectValue: ErrorType}>(
+    "reviewer/fetchReviewForm",
+    async({token}, {rejectWithValue}) => {
+        try{
+            const response = await axiosInstance.get(`${apiBaseUrl}/find-review-form/${token}`);
+            return response.data.data as ReviewerForm[];
+        }catch (error : any) {
+            const errorMessage = error.response?.data?.error?.message || "Erreur lors de la récupération des forms";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "REVIEWER_FETCH_ERROR",
+                statusCode: error.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+);
+
+
 export const curateSolution = createAsyncThunk<CurationData, {token: string, data: CurationData["data"], solution: string}, {rejectValue: ErrorType}>(
     "reviewer/curation",
     async ({token, data, solution}, {rejectWithValue}) => {
@@ -44,9 +63,6 @@ export const curateSolution = createAsyncThunk<CurationData, {token: string, dat
         }
     }
 );
-
-
-
 
 const ReviewerSlice = createSlice ({
     name: "reviewer",
@@ -74,6 +90,9 @@ const ReviewerSlice = createSlice ({
             state.status = 'failed';
             state.error = action.payload?.error || 'An error occurred';
             state.isValidating = false;
+        })
+        builder.addCase(findReviewForm.fulfilled, (state, action: PayloadAction<ReviewerForm[]>) => {
+            state.dataForm = action.payload
         })
     }
 })
