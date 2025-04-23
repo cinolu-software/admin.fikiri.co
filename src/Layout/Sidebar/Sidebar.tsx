@@ -9,7 +9,6 @@ import { LogoWrapper } from "./LogoWrapper";
 import SidebarMenuList from "./SideBarMenuList";
 
 export const SideBar = () => {
-  
 
   const { toggleSidebar, margin } = useAppSelector((state) => state.layout);
   const { pinedMenu } = useAppSelector((state) => state.layout);
