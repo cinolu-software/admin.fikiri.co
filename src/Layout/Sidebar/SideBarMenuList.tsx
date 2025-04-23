@@ -4,6 +4,7 @@ import { MenuList } from "@/Data/Layout/Menu";
 import { MenuItem } from "@/Types/LayoutTypes";
 import Menulist from "./Menulist";
 import { useTranslation } from "react-i18next";
+import Link from 'next/link';
 
 const SidebarMenuList = () => {
 
@@ -44,6 +45,13 @@ const SidebarMenuList = () => {
             </Fragment>
           ))
       }
+      <Link
+          href={'http://localhost:4000/'}
+          className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"
+          target="_blank"
+      >
+        Dashboard Fikiri V1
+      </Link>
     </>
   );
 };

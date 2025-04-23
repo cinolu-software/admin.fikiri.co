@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, TabPane, Form, FormGroup, Label, Input, Button, Table, Row, Col, Badge } from "reactstrap";
+import { Container, TabPane, Form, FormGroup, Label, Input, Button, Row, Col, Badge } from "reactstrap";
 import { useAppSelector, useAppDispatch } from "@/Redux/Hooks";
 import { toast } from "react-toastify";
 import { curateSolution } from "@/Redux/Reducers/ReviewerSlice";
-import { FormField } from "@/Types/Call/CallType";
 import { findReviewForm } from "@/Redux/Reducers/ReviewerSlice";
 
 const Curation = () => {

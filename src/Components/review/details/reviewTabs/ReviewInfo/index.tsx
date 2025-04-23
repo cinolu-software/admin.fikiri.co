@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardBody, CardTitle, Row, Col, ListGroup, ListGroupItem, Badge, Container, TabPane } from 'reactstrap';
-import { Calendar, FileText, User, CheckCircle, XCircle, Phone, Home } from 'react-feather';
+import {  Row, ListGroup, ListGroupItem, Badge, Container, TabPane } from 'reactstrap';
+import { Calendar, FileText, User, CheckCircle } from 'react-feather';
 import { useAppSelector } from "@/Redux/Hooks";
 import { useRouter } from "next/navigation";
 

@@ -38,7 +38,6 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['volunteer'],
   },
-
   {
     title: "Curation",
     lanClass: "lan-8",

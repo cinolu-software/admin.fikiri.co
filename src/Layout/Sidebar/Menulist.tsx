@@ -1,4 +1,3 @@
-import SVG from "@/CommonComponent/SVG";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { handlePined } from "@/Redux/Reducers/LayoutSlice";
 import { MenuListType, SidebarItemTypes } from "@/Types/LayoutTypes";
