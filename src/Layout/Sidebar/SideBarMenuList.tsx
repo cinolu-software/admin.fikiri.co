@@ -1,10 +1,11 @@
-import { useAppSelector } from "@/Redux/Hooks";
+import { useAppSelector, useAppDispatch } from "@/Redux/Hooks";
 import { Fragment, useState, useEffect } from "react";
 import { MenuList } from "@/Data/Layout/Menu";
 import { MenuItem } from "@/Types/LayoutTypes";
 import Menulist from "./Menulist";
 import { useTranslation } from "react-i18next";
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
 const SidebarMenuList = () => {
 
@@ -13,6 +14,8 @@ const SidebarMenuList = () => {
   const { t } = useTranslation("common");
   const {userData} = useAppSelector(state => state.authentication);
   const [userRoles, setUserRoles] = useState<string[]>([]);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(()=>{
     setUserRoles(userData?.roles?.map((role:string) => role) || []);
@@ -46,7 +49,7 @@ const SidebarMenuList = () => {
           ))
       }
       <Link
-          href={'http://localhost:4000/'}
+          href={process.env.NEXT_PUBLIC_DASHBOARD_FIKIRIV1 as string}
           className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"
           target="_blank"
       >
