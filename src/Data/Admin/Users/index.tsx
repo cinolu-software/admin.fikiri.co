@@ -1,26 +1,22 @@
 import React, {useState} from 'react';
 import RatioImage from "@/CommonComponent/RatioImage";
 import {UsersListTableColumnType, DataGetUserType} from "@/Types/User/UserType";
-import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
-import {setModalDeleteUser, setModalUpdateUser, setSelectedUser} from "@/Redux/Reducers/UserSlice";
+import { useAppDispatch} from "@/Redux/Hooks";
+import {setModalDeleteUser, setSelectedUser} from "@/Redux/Reducers/UserSlice";
 import {imageBaseUrl} from "@/Services/axios";
 import SVG from "@/CommonComponent/SVG";
 import {useRouter} from "next/navigation";
 import {Spinner} from "reactstrap";
 
 const UsersListTableName : React.FC<{image: string; name: string}> = ({image, name}) => {
-
   return (
       <div className={'product-names my-2'}>
         <div className={'light-product-box bg-img-cover'}>
           <RatioImage src={`${image}`} alt={'image'} />
         </div>
-        <p>
-          {name}
-        </p>
+        <p>{name}</p>
       </div>
   );
-
 }
 
 const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
@@ -55,16 +51,12 @@ const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
       <div className="product-action">
         <div className={'row w-100 justify-content-center'}>
           <div className={'col-4'}>
-            <button
-                style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}
-                onClick={handleModifiedUser}
-            >
+            <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleModifiedUser}>
               <span>
                 {loadingEdit ? <Spinner size="sm"/> : <SVG iconId="editTable"/>}
               </span>
             </button>
           </div>
-
           <div className={'col-4'}>
             <button onClick={handleViewDetail} style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}>
               <span>
@@ -72,7 +64,6 @@ const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
               </span>
             </button>
           </div>
-
           <div className={'col-4'}>
             <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleDelete} >
               {loadingDelete ? <Spinner size="sm"/> : <SVG iconId="trashTable"/>}
