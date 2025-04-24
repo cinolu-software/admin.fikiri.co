@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
+
 const SidebarMenuList = () => {
 
   const [activeMenu, setActiveMenu] = useState([]);
@@ -16,6 +17,7 @@ const SidebarMenuList = () => {
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const router = useRouter();
   const dispatch = useAppDispatch();
+
 
   useEffect(()=>{
     setUserRoles(userData?.roles?.map((role:string) => role) || []);
@@ -33,6 +35,8 @@ const SidebarMenuList = () => {
     return mainMenu?.Items?.map((data) => data.title).every((titles) => pinedMenu.includes(titles || ""));
   };
 
+  console.log("====>",userData)
+
   return (
     <>
       {
@@ -48,13 +52,15 @@ const SidebarMenuList = () => {
             </Fragment>
           ))
       }
-      <Link
-          href={process.env.NEXT_PUBLIC_DASHBOARD_FIKIRIV1 as string}
-          className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"
-          target="_blank"
-      >
-        Dashboard Fikiri V1
-      </Link>
+      {!userRoles.includes('user') && !userRoles.includes('volunteer') && (
+          <Link
+              href={process.env.NEXT_PUBLIC_DASHBOARD_FIKIRIV1 as string}
+              className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"
+              target="_blank"
+          >
+            Dashboard Fikiri V1
+          </Link>
+      )}
     </>
   );
 };

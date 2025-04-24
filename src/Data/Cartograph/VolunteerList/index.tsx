@@ -50,6 +50,7 @@ const UsersListTableAction : React.FC<{user: DataGetUserType}> = ({ user}) => {
     return (
         <div className="product-action">
             <div className={'row w-100 justify-content-center'}>
+
                 {/*<div className={'col-4'}>*/}
                 {/*    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleModifiedUser}>*/}
                 {/*      <span>*/}
