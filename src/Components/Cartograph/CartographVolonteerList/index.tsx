@@ -5,37 +5,33 @@ import {fetchUsers, setModalDeleteUser, deleteUser} from "@/Redux/Reducers/UserS
 import {DataGetUserType} from "@/Types/User/UserType";
 import {UsersListTableDataColumn} from "@/Data/Admin/Users";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
-import {UserHeader} from "@/Components/General/Users/UserHeader";
-import {CollapseFilterData} from "@/Components/General/Users/CollapseFilterData";
 import DeleteEntityModal from "@/CommonComponent/DeleteEntityModal";
 import UpdateUserModal from "@/Components/General/Users/Common/UpdateUserModal";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
 
-
 const UsersListContainer: React.FC = () => {
-
     const [filterText, setFilterText] = useState("");
     const dispatch = useAppDispatch();
     const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
-    const [roleFilter, setRoleFilter] = useState<string>("");
+    const [volunteersData, setVolunteersData] = useState<DataGetUserType[]>([]);
 
     useEffect(() => {
         if (statusUsers === 'idle') {
             dispatch(fetchUsers());
+        } else if (statusUsers === 'succeeded' && usersData) {
+            const onlyVolunteers = usersData.filter((user: DataGetUserType) =>
+                user.roles.some((role) => role.name === "volunteer")
+            );
+            setVolunteersData(onlyVolunteers);
         }
-    }, [statusUsers, dispatch]);
+    }, [statusUsers, usersData, dispatch]);
 
-    const filteredUsers = usersData.filter((user: DataGetUserType) => {
-        const matchesText =
+    const filteredVolunteers = useMemo(() => {
+        return volunteersData.filter((user: DataGetUserType) =>
             user.name.toLowerCase().includes(filterText.toLowerCase()) ||
-            user.email.toLowerCase().includes(filterText.toLowerCase());
-
-        const matchesRole = roleFilter
-            ? user.roles.some((role) => role.name === roleFilter)
-            : true;
-
-        return matchesText && matchesRole;
-    });
+            user.email.toLowerCase().includes(filterText.toLowerCase())
+        );
+    }, [filterText, volunteersData]);
 
     const subHeaderComponentMemo = useMemo(() => {
         return (
@@ -50,13 +46,14 @@ const UsersListContainer: React.FC = () => {
         );
     }, [filterText]);
 
+
     return (
         <Container fluid>
             <DeleteEntityModal
                 isOpen={isOpenModalDeleteUser}
                 entityName="utilisateur"
                 selectedEntity={selectedUser}
-                entities={usersData}
+                entities={volunteersData}
                 // @ts-ignore
                 setModalAction={setModalDeleteUser}
                 deleteEntityThunk={deleteUser}
@@ -71,15 +68,13 @@ const UsersListContainer: React.FC = () => {
                             <Card>
                                 <CardBody>
                                     <div className="list-product-header">
-                                        <h5>Liste d'utilisateurs</h5>
-                                        <UserHeader/>
-                                        <CollapseFilterData setRoleFilter={setRoleFilter} />
+                                        <h5>Liste de volontaires</h5>
                                     </div>
                                     <div className="list-user">
                                         <div className="table-responsive">
                                             <DataTable
                                                 className="theme-scrollbar"
-                                                data={filteredUsers}
+                                                data={filteredVolunteers}
                                                 columns={UsersListTableDataColumn}
                                                 striped
                                                 highlightOnHover
