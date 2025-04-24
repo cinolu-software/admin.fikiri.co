@@ -38,6 +38,8 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['volunteer'],
   },
+
+
   {
     title: "Curation",
     lanClass: "lan-8",
@@ -164,14 +166,12 @@ export const MenuList: MenuItem[] = [
         active: false,
         children: [
           {path: "/admin/call", type: "link", title: "Liste" },
+          {path: "/cartograph/volunteer", type: "link", title: "Volontaires" },
         ]
-
       },
     ],
     requiredRoles: ['cartograph']
   },
-
-
   {
     title: "General",
     lanClass: "lan-8",

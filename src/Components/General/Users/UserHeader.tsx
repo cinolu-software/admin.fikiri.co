@@ -1,9 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import {setFilterToggle} from "@/Redux/Reducers/UserSlice";
 import { Filter } from "react-feather";
-import Link from 'next/link';
 import React from "react";
-import AddButton from "@/CommonComponent/AddButton";
+import ManageButton from "@/CommonComponent/ManageButton";
 
 export const UserHeader = () => {
 
@@ -23,7 +22,7 @@ export const UserHeader = () => {
           {/* <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} /> */}
         </a>
       </div>
-        <AddButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />
+        <ManageButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />
     </div>
   );
 

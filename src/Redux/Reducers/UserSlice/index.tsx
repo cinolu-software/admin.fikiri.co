@@ -28,7 +28,8 @@ export const fetchUsers = createAsyncThunk<DataGetUserType[], void, {rejectValue
             try{
                 const response = await axiosInstance.get(`${apiBaseUrl}/users`);
                 return response.data.data as DataGetUserType[];
-            }catch(e: any){
+            }
+            catch(e: any){
                 const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération des utilisateurs";
                 return rejectWithValue({
                     message: errorMessage,

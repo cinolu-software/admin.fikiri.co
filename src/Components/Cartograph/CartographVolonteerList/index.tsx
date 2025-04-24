@@ -14,14 +14,14 @@ import TableSkeleton from "@/CommonComponent/TableSkeleton";
 
 const UsersListContainer: React.FC = () => {
 
-  const [filterText, setFilterText] = useState("");
-  const dispatch = useAppDispatch();
-  const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
-  const [roleFilter, setRoleFilter] = useState<string>("");
+    const [filterText, setFilterText] = useState("");
+    const dispatch = useAppDispatch();
+    const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
+    const [roleFilter, setRoleFilter] = useState<string>("");
 
     useEffect(() => {
         if (statusUsers === 'idle') {
-        dispatch(fetchUsers());
+            dispatch(fetchUsers());
         }
     }, [statusUsers, dispatch]);
 
@@ -37,32 +37,32 @@ const UsersListContainer: React.FC = () => {
         return matchesText && matchesRole;
     });
 
-  const subHeaderComponentMemo = useMemo(() => {
-    return (
-        <div className="dataTables_filter d-flex align-items-center">
-          <Label className="me-2">Chercher:</Label>
-          <Input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
-              type="search"
-              value={filterText} 
-          />
-        </div>
-    );
-  }, [filterText]);
+    const subHeaderComponentMemo = useMemo(() => {
+        return (
+            <div className="dataTables_filter d-flex align-items-center">
+                <Label className="me-2">Chercher:</Label>
+                <Input
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+                    type="search"
+                    value={filterText}
+                />
+            </div>
+        );
+    }, [filterText]);
 
     return (
-      <Container fluid>
-          <DeleteEntityModal
-              isOpen={isOpenModalDeleteUser}
-              entityName="utilisateur"
-              selectedEntity={selectedUser}
-              entities={usersData}
-              // @ts-ignore
-              setModalAction={setModalDeleteUser}
-              deleteEntityThunk={deleteUser}
-          />
-          <UpdateUserModal selectedUser={selectedUser as DataGetUserType}/>
-          {
+        <Container fluid>
+            <DeleteEntityModal
+                isOpen={isOpenModalDeleteUser}
+                entityName="utilisateur"
+                selectedEntity={selectedUser}
+                entities={usersData}
+                // @ts-ignore
+                setModalAction={setModalDeleteUser}
+                deleteEntityThunk={deleteUser}
+            />
+            <UpdateUserModal selectedUser={selectedUser as DataGetUserType}/>
+            {
                 statusUsers !== 'succeeded' ? (
                     <TableSkeleton/>
                 ) : (
@@ -94,9 +94,9 @@ const UsersListContainer: React.FC = () => {
                         </Col>
                     </Row>
                 )
-          }
-      </Container>
-  );
+            }
+        </Container>
+    );
 };
 
 export default UsersListContainer;

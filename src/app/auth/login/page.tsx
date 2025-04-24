@@ -39,16 +39,18 @@ const UserLogin = () => {
         if (roles.includes('user')) {
             return '/user/homeUser';
         }
-
         return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
     };
 
     useEffect(
         () => {
-            if(statusAuthentication === "succeeded" && isAuthenticated && userData){
+            if(statusAuthentication === "succeeded" && isAuthenticated && userData)
+            {
                 const redirectPath = handleRoleBasedRedirection(userData.roles);
                 router.push(redirectPath);
-            }else if(statusAuthentication === 'failed'){
+            }
+            else if(statusAuthentication === 'failed')
+            {
                 router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
             }
         },
