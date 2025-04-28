@@ -8,10 +8,11 @@ import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import Link from 'next/link'
 
 const SolutionListTableName: React.FC<{ image: string; name: string }> = ({ image, name }) => {
     return (
-        <div className="product-names my-2" style={{ maxWidth: '200px' }}>
+        <div className="product-names" style={{ maxWidth: '200px' }}>
             <div className="light-product-box bg-img-cover">
                 <RatioImage
                     className="img-fluid"
@@ -75,9 +76,10 @@ const generateDynamicColumns = (sampleResponse: Record<string, any>): TableColum
                 if (typeof cellValue === 'string') {
                     if (cellValue.startsWith('http')) {
                         return (
-                            <a href={cellValue} target="_blank" rel="noopener noreferrer">
-                                <SVG iconId="external-link" />
-                            </a>
+                            <Link href={cellValue} target="_blank" rel="noopener noreferrer" className={"link link-primary text-truncate"} >
+                                {/*<SVG iconId="external-link" />*/}
+                                {cellValue}
+                            </Link>
                         );
                     }
                     return <div className="text-truncate" style={{ maxWidth: '200px' }}>{cellValue}</div>;
