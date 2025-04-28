@@ -46,7 +46,7 @@ export const fetchApplicationByUser = createAsyncThunk<ApplicationsByUser[], {us
             });
         }
     }
-)
+);
 
 export const submitSolution = createAsyncThunk<ApplicationInstance, SubmitSolutionPayload, { rejectValue: ErrorType }>(
     "application/submitSolution",
@@ -104,8 +104,6 @@ const ApplicationsSlice = createSlice({
                 state.applicationByUserStatus = 'failed';
                 state.error = action.payload ?? null;
             })
-
-
             .addCase(submitSolution.pending, (state) => {
                 state.applicationStatus = 'loading';
                 state.error = null;

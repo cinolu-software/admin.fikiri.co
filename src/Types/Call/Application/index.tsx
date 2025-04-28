@@ -6,11 +6,11 @@ export interface ApplicationInstance {
     created_at: string;
     updated_at: string;
     deleted_at: string;
-    response : Object;
+    responses : Object;
+    status: "PENDING" | "MAPPED" | "EXPLORED" | "EXPERIMENTED";
     document: string | null;
-    applicant: Author
+    applicant: Author;
 }
-
 export interface ApplicationData {
     id: string;
     created_at: string;
@@ -18,18 +18,17 @@ export interface ApplicationData {
     deleted_at: string;
     responses: Object ;
     reviewers: Object | null;
+    status: "PENDING" | "MAPPED" | "EXPLORED" | "EXPERIMENTED";
     document: string | null;
     applicant: Author;
     user: Author;
     call: CallInstance;
 }
-
 export interface ErrorType{
     message: string;
     error: string;
     statusCode: number;
 }
-
 export interface ApplicationsByUser {
     id: string;
     created_at: string;
@@ -40,9 +39,7 @@ export interface ApplicationsByUser {
     user: Author;
     call: CallType | CallInstance;
 }
-
 export interface InitialStateType {
-
     applicationData: ApplicationInstance[];
     applicationDataByUser: ApplicationsByUser[];
     selectedApplication:  ApplicationData | null;
@@ -50,12 +47,8 @@ export interface InitialStateType {
     applicationByUserStatus: "idle" | "loading" | "succeeded" | "failed";
     error : ErrorType | null;
     totalApplication: number;
-
 }
-
 export type SubmitSolutionPayload = {
     call: string;
     responses: Record<string, any>;
 };
-  
-

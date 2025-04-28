@@ -18,7 +18,6 @@ const SidebarMenuList = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-
   useEffect(()=>{
     setUserRoles(userData?.roles?.map((role:string) => role) || []);
   }, [userData]);
@@ -35,7 +34,6 @@ const SidebarMenuList = () => {
     return mainMenu?.Items?.map((data) => data.title).every((titles) => pinedMenu.includes(titles || ""));
   };
 
-  console.log("====>",userData)
 
   return (
     <>
