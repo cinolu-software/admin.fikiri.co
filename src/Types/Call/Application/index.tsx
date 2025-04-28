@@ -5,11 +5,12 @@ export interface ApplicationInstance {
     id: string;
     created_at: string;
     updated_at: string;
-    deleted_at: string;
-    responses : Object;
-    status: "PENDING" | "MAPPED" | "EXPLORED" | "EXPERIMENTED";
+    deleted_at: string | null;
+    responses: Record<string, any>;
+    status: "pending" | "mapped" | "explored" | "experimented";
     document: string | null;
     applicant: Author;
+    image: string;
 }
 export interface ApplicationData {
     id: string;

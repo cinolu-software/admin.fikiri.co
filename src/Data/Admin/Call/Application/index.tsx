@@ -38,23 +38,19 @@ const SolutionListTableName: React.FC<{ image: string; name: string }> = ({ imag
 
 const SolutionListTableAction : React.FC<{ solution : ApplicationInstance }> = ({ solution }) => {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [loadingDetail, setLoadingDetail] = useState(false);
 
     const handleViewDetail = async () => {
-        setLoading(true);
+        setLoadingDetail(true);
         router.push(`/admin/call/detail_call/application_detail/${solution.id}`);
-        setLoading(false);
+        setLoadingDetail(false);
     };
 
     return (
         <div className="product-action">
             <div className="d-flex gap-2">
-                <button
-                    onClick={handleViewDetail}
-                    disabled={loading}
-                    className="btn btn-icon btn-sm btn-outline-primary"
-                >
-                    {loading ? <Spinner size="sm" /> : <SVG iconId="moreTable" />}
+                <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} >
+                    {loadingDetail ? <Spinner size="sm" /> : <SVG iconId="moreTable" />}
                 </button>
             </div>
         </div>
@@ -76,8 +72,7 @@ const generateDynamicColumns = (sampleResponse: Record<string, any>): TableColum
                 if (typeof cellValue === 'string') {
                     if (cellValue.startsWith('http')) {
                         return (
-                            <Link href={cellValue} target="_blank" rel="noopener noreferrer" className={"link link-primary text-truncate"} >
-                                {/*<SVG iconId="external-link" />*/}
+                            <Link href={cellValue} target="_blank" rel="noopener noreferrer" className={"text-sm-start text-truncate"} >
                                 {cellValue}
                             </Link>
                         );
