@@ -1,536 +1,133 @@
-export const InboxEmailData = [
-    {
-        id: 1,
-        image: "6.jpg",
-        name: "Marvin McKinney",
-        color: "primary",
-        message: "New comments on MSR2023 draft presentation -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-        ],
-        time: "2:30 AM",
-        star: false,
-    },
-    {
-        id: 2,
-        image: "3.png",
-        name: "Brooklyn Simmons",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        badge: [
-            {
-                title: "deadline",
-                color: "primary",
-            },
-        ],
-        time: "7:50 AM",
-        star: false,
-    },
-    {
-        id: 3,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "work",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-        star: false,
-    },
-    {
-        id: 4,
-        shortName: "CW",
-        name: "Cameron Williamson",
-        color: "primary",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-        star: false,
-    },
-    {
-        id: 5,
-        image: "6.jpg",
-        name: "Ronald Richards",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident - Samsa was a travelling",
-        badge: [
-            {
-                title: "Update.Zip",
-                color: "light",
-            },
-        ],
-        time: "7 April",
-        star: false,
-    },
-    {
-        id: 6,
-        image: "10.jpg",
-        name: "Darlene Robertson",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda ...",
-        badge: [
-            {
-                title: "Import File..",
-                color: "light",
-            },
-        ],
-        time: "04 April",
-        star: false,
-    },
-    {
-        id: 7,
-        image: "12.png",
-        name: "Jacob Jones",
-        color: "primary",
-        message: "Welcome to our new office -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        time: "01 April",
-        star: false,
-    },
-    {
-        id: 8,
-        image: "3.png",
-        name: "Ralph Edwards",
-        color: "primary",
-        message: "Your Order #224820098 has been Confirmed-",
-        subMessage: "A collection of textile samples lay spread out on the table...",
-        time: "1:00 PM",
-        star: false,
-    },
-    {
-        id: 9,
-        image: "10.jpg",
-        name: "Darlene Robertson",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda ...",
-        badge: [
-            {
-                title: "Import File..",
-                color: "light",
-            },
-        ],
-        time: "04 April",
-        star: false,
-    },
-    {
-        id: 10,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "work",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-        star: false,
-    },
-    {
-        id: 11,
-        image: "6.jpg",
-        name: "Marvin McKinney",
-        color: "primary",
-        message: "New comments on MSR2023 draft presentation -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-        ],
-        time: "2:30 AM",
-        star: false,
-    },
-    {
-        id: 12,
-        shortName: "CW",
-        name: "Cameron Williamson",
-        color: "primary",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-        star: false,
-    },
-];
+import React, {useState} from 'react';
+import {ApplicationInstance} from "@/Types/Call/Application";
+import RatioImage from "@/CommonComponent/RatioImage";
+import {TableColumn} from "react-data-table-component";
+import {useRouter} from "next/navigation";
+import {imageBaseUrl} from "@/Services/axios";
+import SVG from '@/CommonComponent/SVG';
+import {Spinner} from 'reactstrap';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
-export const LetterBoxSidebar = [
-    {
-        title: "Inbox",
-        icon: "inbox",
-        id: "1",
-        badge: true,
-    },
-    {
-        title: "Sent",
-        icon: "sent",
-        id: "2",
-    },
-    {
-        title: "Starred",
-        icon: "star",
-        id: "3",
-        badge: true,
-    },
-    {
-        title: "Draft",
-        icon: "draft",
-        id: "4",
-    },
-    {
-        title: "Trash",
-        icon: "trash",
-        id: "5",
-    },
-    {
-        title: "Work",
-        icon: "pintag",
-        id: "6",
-        color: "primary",
-    },
-    {
-        title: "Private",
-        icon: "pintag",
-        id: "7",
-        color: "warning",
-    },
-    {
-        title: "Support",
-        icon: "pintag",
-        id: "8",
-        color: "success",
-    },
-];
+const SolutionListTableName: React.FC<{ image: string; name: string }> = ({ image, name }) => {
+    return (
+        <div className="product-names my-2" style={{ maxWidth: '200px' }}>
+            <div className="light-product-box bg-img-cover">
+                <RatioImage
+                    className="img-fluid"
+                    src={image ? `${imageBaseUrl}/solutions/${image}` : '/assets/images/calls/call.jpg'}
+                    alt="solution"
+                />
+            </div>
+            <p
+                className="mt-2 text-truncate mb-0"
+                title={name}
+                style={{
+                    maxWidth: '180px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}
+            >
+                {name}
+            </p>
+        </div>
+    );
+};
 
-export const EmailNavTabs = [
-    {
-        title: "Important",
-        icon: "mail",
-        id: "pills-important-tab",
-    },
-    {
-        title: "Social",
-        icon: "goal",
-        id: "pills-social-tab",
-    },
-    {
-        title: "Promotion",
-        icon: "tread",
-        id: "pills-promotion-tab",
-    },
-];
+const SolutionListTableAction : React.FC<{ solution : ApplicationInstance }> = ({ solution }) => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
-export const DropMenuData = ["All", "None", "Read", "UnRead", "Starred", "UnStarred"];
+    const handleViewDetail = async () => {
+        setLoading(true);
+        router.push(`/admin/call/detail_call/application_detail/${solution.id}`);
+        setLoading(false);
+    };
 
-export const SentEmailData = [
-    {
-        id: 1,
-        image: "14.png",
-        name: "Brooklyn Simmons",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "offer",
-                color: "secondary",
-            },
-        ],
-        time: "7:50 AM",
-    },
-    {
-        id: 2,
-        image: "6.jpg",
-        name: "Marvin McKinney",
-        color: "primary",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "2:30 PM",
-    },
-    {
-        id: 3,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-    {
-        id: 4,
-        shortName: "JW",
-        name: "Jack Williamson",
-        color: "primary",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-    },
-];
+    return (
+        <div className="product-action">
+            <div className="d-flex gap-2">
+                <button
+                    onClick={handleViewDetail}
+                    disabled={loading}
+                    className="btn btn-icon btn-sm btn-outline-primary"
+                >
+                    {loading ? <Spinner size="sm" /> : <SVG iconId="moreTable" />}
+                </button>
+            </div>
+        </div>
+    );
+};
 
-export const DraftEmailData = [
-    {
-        id: 1,
-        name: "Ralph Edwards",
-        image: "3.png",
-        color: "primary",
-        message: "Your Order #224820098 has been Confirmed -",
-        subMessage: "A collection of textile samples lay spread out on the table...",
-        time: "1:00 PM",
-    },
-    {
-        id: 2,
-        name: "Ronald Richards",
-        image: "6.jpg",
-        color: "primary",
-        badge: [
-            {
-                title: "Update.Zip",
-                color: "light",
-            },
-        ],
-        message: "Confirm your booking id -",
-        subMessage: "Confirm your booking id - A collection of textile samples lay spread out on the table - Samsa was a travelling salesman..",
-        time: "7 April",
-    },
-    {
-        id: 3,
-        shortName: "CW",
-        name: "Cameron Williamson",
-        color: "success",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-    },
-    {
-        id: 4,
-        name: "Jacob Jones",
-        color: "primary",
-        image: "12.png",
-        message: "Welcome to our new office -",
-        subMessage: "A collection of textile samples lay spread out on the table - Samsa was a travelling salesman..",
-        time: "01 April",
-    },
-    {
-        id: 5,
-        name: "Ralph Edwards",
-        color: "primary",
-        image: "3.png",
-        message: "Your Order #224820098 has been Confirmed -",
-        subMessage: "A collection of textile samples lay spread out on the table -",
-        time: "1:00 PM",
-    },
-];
+const generateDynamicColumns = (sampleResponse: Record<string, any>): TableColumn<ApplicationInstance>[] => {
+    if (!sampleResponse) return [];
 
-export const TrashEmailData = [
-    {
-        id: 1,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "offer",
-                color: "secondary",
-            },
-        ],
-        time: "1:00 PM",
-    },
-    {
-        id: 2,
-        shortName: "CH",
-        name: "Cameron Hill",
-        color: "success",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-    },
-    {
-        id: 3,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-    {
-        id: 4,
-        shortName: "CW",
-        name: "Cameron Williamson",
-        color: "success",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-    },
-];
+    return Object.keys(sampleResponse).map((key) => {
+        const value = sampleResponse[key];
 
-export const WorkEmailData = [
-    {
-        id: 1,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-    {
-        id: 2,
-        image: "3.png",
-        name: "Brooklyn Simmons",
-        color: "success",
-        message: "Confirm your booking id -",
-        subMessage: "A collection of textile samples lay spread out on the table - Samsa was a travelling salesman..",
-        badge: [
-            {
-                title: "deadline",
-                color: "primary",
-            },
-        ],
-        time: "7:50 AM",
-    },
-    {
-        id: 3,
-        shortName: "EV",
-        name: "Esther Voward",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-];
+        return {
+            name: key,
+            cell: (row: ApplicationInstance) => {
+                const cellValue = row.responses[key];
 
-export const PrivateEmailData = [
-    {
-        id: 1,
-        shortName: "AD",
-        name: "Asther Dolly",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-];
 
-export const SupportEmailData = [
-    {
-        id: 1,
-        shortName: "EH",
-        name: "Esther Howard",
-        color: "primary",
-        message: "Confirm your booking id -",
-        subMessage: "craft beer labore wes anderson cred nesciunt sapiente ea proident...",
-        badge: [
-            {
-                title: "new",
-                color: "primary",
-            },
-            {
-                title: "Task",
-                color: "success",
-            },
-        ],
-        time: "1:00 PM",
-    },
-    {
-        id: 2,
-        shortName: "CW",
-        name: "Cameron Williamson",
-        color: "success",
-        message: "Very fiction Link -",
-        subMessage: "Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-        time: "5 Day ago",
-    },
-];
+                if (typeof cellValue === 'string') {
+                    if (cellValue.startsWith('http')) {
+                        return (
+                            <a href={cellValue} target="_blank" rel="noopener noreferrer">
+                                <SVG iconId="external-link" />
+                            </a>
+                        );
+                    }
+                    return <div className="text-truncate" style={{ maxWidth: '200px' }}>{cellValue}</div>;
+                }
 
-export const MailHeader = [
-    {
-        icon: "sms",
-        tooltip: "Archive",
-    },
-    {
-        icon: "bookmark",
-        tooltip: "Bookmark",
-        className: "bookmark-box",
-    },
-    {
-        icon: "spam",
-        tooltip: "Spam",
-    },
-    {
-        icon: "mail-trash",
-        tooltip: "Trash",
-        className: "stroke-danger",
-    },
-    {
-        icon: "setting",
-        tooltip: "Settings",
-    },
-];
+                return JSON.stringify(cellValue);
+            },
+            sortable: true,
+            grow: 1,
+            omit: key === 'Nom de la solution'
+        };
+    });
+};
+
+export const SolutionListTableDataColumn = (applications: ApplicationInstance[]): TableColumn<ApplicationInstance>[] => {
+    const sampleResponse = applications[0]?.responses || {};
+
+    return [
+        {
+            name: "Solution",
+            cell: (row: ApplicationInstance) => (
+                <SolutionListTableName
+                    image={row.image}
+                    name={row.responses["Nom de la solution"] || 'Sans nom'}
+                />
+            ),
+            sortable: true,
+            grow: 1
+        },
+        ...generateDynamicColumns(sampleResponse),
+        {
+            name: "Date de soumission",
+            cell: (row: ApplicationInstance) => format(new Date(row.created_at), 'dd MMMM yyyy', { locale: fr }),
+            sortable: true,
+            grow: 1
+        },
+        {
+            name: "Statut",
+            cell: (row: ApplicationInstance) => (
+                <span className={`badge badge-${row.status === 'mapped' ? 'success' : 'warning'}`}>
+                    {row.status}
+                </span>
+            ),
+            sortable: true,
+            grow: 1
+        },
+        {
+            name: "Actions",
+            cell: (row: ApplicationInstance) => <SolutionListTableAction solution={row} />,
+            grow: 1
+        }
+    ];
+};

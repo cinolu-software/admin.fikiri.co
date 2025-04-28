@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {CallType, CallInstance} from "@/Types/Call/CallType";
+import { CallInstance} from "@/Types/Call/CallType";
 import RatioImage from "@/CommonComponent/RatioImage";
 import {useAppDispatch} from "@/Redux/Hooks";
 import {setModalDeleteCall, setSelectedCall, publishCall, unpublishCall} from "@/Redux/Reducers/CallSlice";
@@ -10,7 +10,7 @@ import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { Flip, toast } from "react-toastify";
 
-const CallListTableName: React.FC<{ image: string, name: string }> = ({image, name}) => {
+const CallListTableName : React.FC<{ image: string, name: string }> = ({image, name}) => {
     return (
         <div className="product-names my-2">
             <div className="light-product-box bg-img-cover">
@@ -21,7 +21,7 @@ const CallListTableName: React.FC<{ image: string, name: string }> = ({image, na
     );
 };
 
-const CallListTableAction: React.FC<{ call: CallInstance, isPublished?: boolean }> = ({ call, isPublished }) => {
+const CallListTableAction : React.FC<{ call: CallInstance, isPublished?: boolean }> = ({ call, isPublished }) => {
 
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -107,7 +107,7 @@ const CallListTableAction: React.FC<{ call: CallInstance, isPublished?: boolean 
     );
 };
 
-export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
+export const CallListTableDataColumn : TableColumn<CallInstance>[] = [
     {
         name: "Nom",
         cell: (row: CallInstance) => (
@@ -144,8 +144,7 @@ export const CallListTableDataColumn: TableColumn<CallInstance>[] = [
     },
 ];
 
-
-export const PublishedCallListTableDataColumn: TableColumn<CallInstance>[] = [
+export const PublishedCallListTableDataColumn : TableColumn<CallInstance>[] = [
     {
         name: "Nom",
         cell: (row: CallInstance) => (
