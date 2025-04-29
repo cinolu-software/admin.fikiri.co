@@ -54,7 +54,7 @@ const UpdateStatusApplication = () => {
             <CardBody>
                 <h4 className="mb-4 text-success">Changement de statut</h4>
 
-                <Row className="justify-content-between text-center">
+                <Row className="justify-content- text-center">
                     {STATUSES.map((status, index) => {
                         const isActive = status === currentStatus;
                         const isCompleted = STATUSES.indexOf(currentStatus) > index;
