@@ -1,6 +1,7 @@
 import React from 'react';
 import {TabContent, TabPane} from "reactstrap";
 import InfoApplication from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallApplication/CallApplicatonDetail/TabsApplication/TabsContent/InfoApplication";
+import UpdateStatusApplication from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallApplication/CallApplicatonDetail/TabsApplication/TabsContent/UpdateStatus";
 
 
 const TabsContent : React.FC<{basicTab : string}> = ({basicTab}) => {
@@ -11,7 +12,7 @@ const TabsContent : React.FC<{basicTab : string}> = ({basicTab}) => {
                 <InfoApplication/>
             </TabPane>
             <TabPane tabId={'2'}>
-
+                <UpdateStatusApplication/>
             </TabPane>
             <TabPane tabId={'3'}>
 

@@ -15,6 +15,14 @@ export interface ApplicationInstance {
     call: CallType;
     reviewers: Object | null;
 }
+
+export interface UpdateApplicationStatus {
+    applicationId: string,
+    call: string,
+    responses: Record<string, any>,
+    status : "pending" | "mapped" | "explored" | "experimented"
+}
+
 export interface ApplicationData {
     id: string;
     created_at: string;

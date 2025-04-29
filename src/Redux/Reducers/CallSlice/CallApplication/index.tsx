@@ -1,4 +1,4 @@
-import {InitialStateType, ApplicationInstance, ApplicationsByUser, ErrorType, SubmitSolutionPayload} from "@/Types/Call/Application";
+import {InitialStateType, ApplicationInstance, ApplicationsByUser, ErrorType, SubmitSolutionPayload, UpdateApplicationStatus} from "@/Types/Call/Application";
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
@@ -81,6 +81,23 @@ export const submitSolution = createAsyncThunk<ApplicationInstance, SubmitSoluti
     }
 );
 
+export const updateStatusSolution = createAsyncThunk<ApplicationInstance, UpdateApplicationStatus, {rejectValue: ErrorType} >(
+    "application/statusUpdate",
+    async({applicationId, ...applicationData}, {rejectWithValue}) => {
+        try{
+            const response = await axiosInstance.patch(`${apiBaseUrl}/solutions/${applicationId}`, applicationData);
+            return response.data.data as ApplicationInstance;
+        }catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la mise à jour de la solution.";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "SUBMIT_SOLUTION_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+)
+
 
 
 const ApplicationsSlice = createSlice({
@@ -133,6 +150,9 @@ const ApplicationsSlice = createSlice({
             })
             .addCase(fetchOneApplication.fulfilled, (state, action : PayloadAction<ApplicationInstance>) => {
                 state.selectedApplication = action.payload
+            })
+            .addCase(updateStatusSolution.fulfilled, (state, action: PayloadAction<ApplicationInstance>) => {
+                state.selectedApplication = action.payload;
             })
         ;
     }
