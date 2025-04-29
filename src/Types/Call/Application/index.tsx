@@ -11,6 +11,9 @@ export interface ApplicationInstance {
     document: string | null;
     applicant: Author;
     image: string;
+    user: Author;
+    call: CallType;
+    reviewers: Object | null;
 }
 export interface ApplicationData {
     id: string;
@@ -43,7 +46,7 @@ export interface ApplicationsByUser {
 export interface InitialStateType {
     applicationData: ApplicationInstance[];
     applicationDataByUser: ApplicationsByUser[];
-    selectedApplication:  ApplicationData | null;
+    selectedApplication:  ApplicationInstance | null;
     applicationStatus: "idle" | "loading" | "succeeded" | "failed";
     applicationByUserStatus: "idle" | "loading" | "succeeded" | "failed";
     error : ErrorType | null;

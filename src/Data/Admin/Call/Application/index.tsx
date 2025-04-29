@@ -8,7 +8,9 @@ import SVG from '@/CommonComponent/SVG';
 import {Spinner} from 'reactstrap';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import Link from 'next/link'
+import Link from 'next/link';
+import {setSelectedApplication} from "@/Redux/Reducers/CallSlice/CallApplication";
+import {useAppDispatch} from "@/Redux/Hooks";
 
 const SolutionListTableName: React.FC<{ image: string; name: string }> = ({ image, name }) => {
     return (
@@ -39,17 +41,22 @@ const SolutionListTableName: React.FC<{ image: string; name: string }> = ({ imag
 const SolutionListTableAction : React.FC<{ solution : ApplicationInstance }> = ({ solution }) => {
     const router = useRouter();
     const [loadingDetail, setLoadingDetail] = useState(false);
+    const dispatch = useAppDispatch();
 
     const handleViewDetail = async () => {
         setLoadingDetail(true);
-        router.push(`/admin/call/detail_call/application_detail/${solution.id}`);
+        dispatch(setSelectedApplication(solution));
+        router.push(`/admin/call/detail_call/application_detail/`);
         setLoadingDetail(false);
     };
 
     return (
         <div className="product-action">
             <div className="d-flex gap-2">
-                <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} >
+                <button
+                    style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}}
+                    onClick={handleViewDetail}
+                >
                     {loadingDetail ? <Spinner size="sm" /> : <SVG iconId="moreTable" />}
                 </button>
             </div>

@@ -1,4 +1,3 @@
-
 import {InitialStateType, ApplicationInstance, ApplicationsByUser, ErrorType, SubmitSolutionPayload} from "@/Types/Call/Application";
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -22,6 +21,23 @@ export const fetchApplicationsByCall = createAsyncThunk<ApplicationInstance[], {
             return response.data.data as ApplicationInstance[];
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération d'appels";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALL_FETCH_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+);
+
+export const fetchOneApplication  = createAsyncThunk<ApplicationInstance, { solutionId: string }, { rejectValue: ErrorType }>(
+    "application/fetchOneApplication",
+    async ({ solutionId }, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`${apiBaseUrl}/solutions/${solutionId}`);
+            return response.data.data as ApplicationInstance;
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération de la solution";
             return rejectWithValue({
                 message: errorMessage,
                 error: "CALL_FETCH_ERROR",
@@ -91,7 +107,6 @@ const ApplicationsSlice = createSlice({
                 state.applicationStatus = 'failed';
                 state.error = action.payload ?? null;
             })
-
             .addCase(fetchApplicationByUser.pending, (state) => {
                 state.applicationByUserStatus = 'loading';
                 state.error = null;
@@ -115,7 +130,11 @@ const ApplicationsSlice = createSlice({
             .addCase(submitSolution.rejected, (state, action) => {
                 state.applicationStatus = 'failed';
                 state.error = action.payload ?? null;
-            });
+            })
+            .addCase(fetchOneApplication.fulfilled, (state, action : PayloadAction<ApplicationInstance>) => {
+                state.selectedApplication = action.payload
+            })
+        ;
     }
 });
 
