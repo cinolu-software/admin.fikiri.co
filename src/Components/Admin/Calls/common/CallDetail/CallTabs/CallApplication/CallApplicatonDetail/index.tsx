@@ -8,11 +8,8 @@ import { fr } from "date-fns/locale";
 import { imageBaseUrl } from "@/Services/axios";
 import { ImagePath } from "@/Constant";
 import { fetchOneApplication } from "@/Redux/Reducers/CallSlice/CallApplication";
-
-const safeFormatDate = (dateStr?: string | null, formatStr = "dd MMMM yyyy") => {
-    const date = dateStr ? new Date(dateStr) : null;
-    return date && !isNaN(date.getTime()) ? format(date, formatStr, { locale: fr }) : "Non renseignée";
-};
+import TabsApplication from "@/Components/Admin/Calls/common/CallDetail/CallTabs/CallApplication/CallApplicatonDetail/TabsApplication";
+import {safeFormatDate} from "@/utils";
 
 const CallApplicationDetail = () => {
     const { selectedApplication } = useAppSelector(state => state.application);
@@ -29,15 +26,13 @@ const CallApplicationDetail = () => {
 
     if (!selectedApplication) return null;
 
-    const { user, responses, created_at } = selectedApplication;
+    const { user } = selectedApplication;
 
     return (
         <div className="container-fluid">
             <BackButton link="/admin/call/" />
-
             <Card className="mb-4 shadow-sm">
                 <CardBody>
-
                     <Row className="align-items-center">
                         <Col md={2}>
                             <img
@@ -70,35 +65,7 @@ const CallApplicationDetail = () => {
                     </Row>
                 </CardBody>
             </Card>
-
-
-            <Card className="shadow-sm">
-                <CardBody>
-                    <h4 className="mb-4 text-success">Détails de la soumission</h4>
-                    <Row>
-                        {Object.entries(responses).map(([key, value], index) => (
-                            <Col md={12} key={index} className="mb-3">
-                                <Badge color="info" className="mb-2">{key}</Badge>
-                                <div
-                                    style={{
-                                        backgroundColor: "#f8f9fa",
-                                        padding: "15px",
-                                        borderRadius: "5px",
-                                        border: "1px solid #dee2e6",
-                                        whiteSpace: "pre-line",
-                                        minHeight: "40px"
-                                    }}
-                                >
-                                    {value || "Non fourni"}
-                                </div>
-                            </Col>
-                        ))}
-                        <Col md={12}>
-                            <p className="mt-4"><strong>Date de soumission :</strong> {safeFormatDate(created_at)}</p>
-                        </Col>
-                    </Row>
-                </CardBody>
-            </Card>
+            <TabsApplication />
         </div>
     );
 };

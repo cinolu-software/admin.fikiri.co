@@ -1,7 +1,15 @@
 
 import { toast, Flip, ToastOptions } from "react-toastify";
+import {format} from "date-fns";
+import {fr} from "date-fns/locale";
 
 export const phases = ["Cartographie", "Exploration", "Experimentation"];
+
+export const safeFormatDate = (dateStr?: string | null, formatStr = "dd MMMM yyyy") => {
+    const date = dateStr ? new Date(dateStr) : null;
+    return date && !isNaN(date.getTime()) ? format(date, formatStr, { locale: fr }) : "Non renseignée";
+};
+
 
 export const ShowError = () => {
     return toast.error(
