@@ -79,7 +79,10 @@ const CallCurators = () => {
 
     const handleResendLink = async (email: string) => {
         try {
-            await dispatch(resendReviewerLink({ email }));
+            if (!selectedCall) {
+                throw new Error("No selected call");
+            }
+            await dispatch(resendReviewerLink({ email, id: selectedCall?.id }));
             showToast("Le lien a été renvoyé avec succès", "success");
         } catch (error) {
             showToast("Erreur lors du renvoi du lien", "error");
@@ -113,7 +116,6 @@ const CallCurators = () => {
                 showToast("Nombre de solutions mis à jour avec succès", "success");
             } catch (error) {
                 showToast("Erreur lors de la mise à jour du nombre de solutions", "error");
-                console.error("Error updating reviewer solutions:", error);
             }
         }
     };

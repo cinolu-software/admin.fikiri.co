@@ -97,6 +97,7 @@ export interface RequirementType {
 }
 
 export type ReviewPhase = 'cartographie' | 'exploration' | 'experimentation';
+
 export interface ReviewFormSection {
     phase: ReviewPhase;
     fields: FormField[];

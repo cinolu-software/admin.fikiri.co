@@ -105,7 +105,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                                 disabled={!!showFinish}
                                 color="primary"
                                 onClick={() => dispatch(handleNextButton())}
-                            >
+                            >r
                                 {showFinish ? buttonFinish : buttonNext}
                             </Button>
                         </div>

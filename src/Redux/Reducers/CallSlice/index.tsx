@@ -265,11 +265,11 @@ export const deleteReviewer = createAsyncThunk<CallInstance, {email: string, cal
     }
 );
 
-export const resendReviewerLink = createAsyncThunk<{data: string}, {email: string}, {rejectValue: any}>(
+export const resendReviewerLink = createAsyncThunk<{data: string}, {email: string , id:string}, {rejectValue: any}>(
     "call/resendReviewLink",
-    async({email}, { rejectWithValue })=>{
+    async({email, id}, { rejectWithValue })=>{
         try{
-            const response = await axiosInstance.post(`${apiBaseUrl}/calls/resend-review-link/${email}`)
+            const response = await axiosInstance.post(`${apiBaseUrl}/calls/resend-review-link/${id}/${email}`)
             return {data : response.data.data};
         }catch(error: any){
             const errorMessage = error.response?.data?.error?.statusCode || "Erreur lors de la suppression du curateur";
@@ -298,7 +298,6 @@ export const updateReviewerSolution = createAsyncThunk<CallInstance, UpdateRevie
         }
     }
 );
-
 
 const callSlice = createSlice({
     name: "call",
