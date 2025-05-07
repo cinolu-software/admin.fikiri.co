@@ -104,7 +104,7 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
                                         <button
                                             className={'btn btn-outline-primary'}
                                             onClick={handleSubmit}
-                                            disabled={!isFormValid}
+                                            // disabled={!isFormValid}
                                         >
                                             <i className="bi bi-save"></i>
                                             {"Modifier l'utilisateur"}

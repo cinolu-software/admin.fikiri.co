@@ -501,7 +501,6 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
-            
             ;
     }
 });
