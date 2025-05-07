@@ -75,7 +75,7 @@ const NumberingWizard = ({ mode = "add", initialValues }: { mode: "add" | "edit"
                         <FinishForm
                             isComplete={true}
                             onCreateProgram={handleSubmit}
-                            textButton={mode === "add" ? 'Créer l\'appel' : "Modifier l'appel"}
+                            textButton={mode === "add" ? "Créer l'appel" : "Modifier l'appel"}
                         />
                     </Form>
                 );

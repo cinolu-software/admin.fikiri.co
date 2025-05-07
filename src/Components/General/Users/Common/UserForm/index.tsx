@@ -59,8 +59,8 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
             const isValid =
                 formValue?.email &&
                 formValue?.name &&
-                formValue?.phone_number &&
-                formValue?.address &&
+                // formValue?.phone_number &&
+                // formValue?.address &&
                 formValue?.roles?.length > 0;
             setIsFormValid(Boolean(isValid));
         };

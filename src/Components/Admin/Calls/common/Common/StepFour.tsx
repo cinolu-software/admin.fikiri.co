@@ -4,9 +4,12 @@ import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { setRequirementsAction } from "@/Redux/Reducers/CallSlice";
 import { StepPropsType } from "@/Types/Call/CallType";
 
+
+
 const StepFour: React.FC<StepPropsType> = () => {
 
     const dispatch = useAppDispatch();
+
     const { AddFormValue } = useAppSelector((state) => state.call);
     const [requirements, setRequirements] = useState(AddFormValue.requirements || []); 
     const [newRequirement, setNewRequirement] = useState({ name: "", description: "" });
@@ -16,8 +19,12 @@ const StepFour: React.FC<StepPropsType> = () => {
             const updatedRequirements = [...requirements, newRequirement];
             setRequirements(updatedRequirements);
             dispatch(setRequirementsAction({ requirements: updatedRequirements }));
+
+
+            setNewRequirement({ name: "", description: "" });
         }
     };
+
 
     const handleRemoveRequirement = (index: number) => {
         const updatedRequirements = requirements?.filter((_: any, i: number) => i !== index);
