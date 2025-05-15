@@ -14,6 +14,8 @@ export interface UserProfileType {
     verified_at: string;
     roles: string[];
     detail: string;
+    popularization_link: string;
+    popularizer: string;
     chat_token: string;
 }
 

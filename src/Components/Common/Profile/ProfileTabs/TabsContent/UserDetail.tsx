@@ -19,7 +19,6 @@ const UserDetail = () => {
 
 
     const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-
         e.preventDefault();
         setLoading(true);
 
@@ -63,6 +62,7 @@ const UserDetail = () => {
     return (
         <Container fluid className="mt-5">
             <div>
+
                 <h5 className="mb-3">{'Informations personnelles'}</h5>
                 <Form onSubmit={handleProfileUpdate}>
                     <div className={'mb-3 m-form__group'}>

@@ -3,6 +3,7 @@ import axiosInstance, {apiBaseUrl} from "@/Services/axios";
 import Cookies from "js-cookie";
 import {UserProfileType, UserGetProfileErrorType, InitialState, UpdateProfilePassword, UpdateProfilePayload} from "@/Types/Authentication/AuthenticationType";
 
+
 export const getProfile = createAsyncThunk<UserProfileType, void, { rejectValue: UserGetProfileErrorType }>(
     "auth/getProfile",
     async (_, { rejectWithValue }) => {

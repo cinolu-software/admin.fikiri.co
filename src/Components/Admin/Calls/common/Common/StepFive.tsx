@@ -27,7 +27,6 @@ const StepFive: React.FC<StepPropsType> = () => {
         options: [""]
     });
 
-
     const handleAddField = () => {
         if (!selectedPhase) return;
 

@@ -1,16 +1,14 @@
 'use client';
 
-
 import {FunctionComponent, useEffect, useState} from "react";
 
-const AddUsers = () => {
-
+const Vulgarisation = () => {
     const [MyAwesomeMap, setMyAwesomeMap] = useState<FunctionComponent>();
 
     useEffect(() => {
         (async () => {
             if(typeof window !== 'undefined') {
-                const newClient = (await import("@/Components/General/Users/AddUser")).default;
+                const newClient = (await import("@/Components/User/Vulgarisation")).default;
                 setMyAwesomeMap(()=>newClient);
             }
         })();
@@ -19,4 +17,4 @@ const AddUsers = () => {
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
 
-export default AddUsers;
+export default Vulgarisation;
