@@ -4,11 +4,13 @@ import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { updateProfile } from "@/Redux/Reducers/AuthenticationSlice";
 import { Flip, toast } from "react-toastify";
 import { UpdateProfilePayload } from "@/Types/Authentication/AuthenticationType";
+import VulgarisationCard from "@/Components/Common/Profile/common/VulgarisationCard";
 
 
 
 const UserDetail = () => {
-    
+
+
     const { userData } = useAppSelector((state) => state.authentication);
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
@@ -16,7 +18,6 @@ const UserDetail = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
     const addressRef = useRef<HTMLInputElement>(null);
-
 
     const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -53,16 +54,19 @@ const UserDetail = () => {
                     theme: "colored",
                 }
             );
-        } finally {
+        }
+        finally {
             setLoading(false);
         }
-        
     };
 
     return (
         <Container fluid className="mt-5">
             <div>
-
+                {
+                    //@ts-ignore
+                    userData && <VulgarisationCard userData={userData} />
+                }
                 <h5 className="mb-3">{'Informations personnelles'}</h5>
                 <Form onSubmit={handleProfileUpdate}>
                     <div className={'mb-3 m-form__group'}>

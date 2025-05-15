@@ -8,6 +8,7 @@ import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {UserHeader} from "@/Components/General/Users/UserHeader";
 import {CollapseFilterData} from "@/Components/General/Users/CollapseFilterData";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
+import VulgarisationCard from "@/Components/Common/Profile/common/VulgarisationCard";
 
 
 const UsersListContainer: React.FC = () => {
@@ -15,6 +16,7 @@ const UsersListContainer: React.FC = () => {
   const [filterText, setFilterText] = useState("");
   const dispatch = useAppDispatch();
   const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
+  const {userData } = useAppSelector(state => state.authentication);
   const [roleFilter, setRoleFilter] = useState<string>("");
 
     useEffect(() => {
@@ -54,7 +56,12 @@ const UsersListContainer: React.FC = () => {
             <Col sm="12">
                 <Card>
                     <CardBody>
-
+                        <div>
+                            {
+                                //@ts-ignore
+                                userData && <VulgarisationCard user={userData} />
+                            }
+                        </div>
                         {
                             statusUsers !== 'succeeded' ? (
                                 <TableSkeleton/>
