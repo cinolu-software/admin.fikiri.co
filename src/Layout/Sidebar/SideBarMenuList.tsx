@@ -4,7 +4,6 @@ import { MenuList } from "@/Data/Layout/Menu";
 import { MenuItem } from "@/Types/LayoutTypes";
 import Menulist from "./Menulist";
 import { useTranslation } from "react-i18next";
-import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 

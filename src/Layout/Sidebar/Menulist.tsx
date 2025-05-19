@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import SVG from "@/CommonComponent/SVG";
+
 
 const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, level, className }) => {
 
@@ -55,6 +57,7 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
               temp[level] = item.title !== temp[level] && (item.title);
               setActiveMenu([...temp]);
             }}>
+            {item.icon && (<SVG className={`${sidebarIconType}-icon`} iconId={`${sidebarIconType}-${item.icon}`} />)}
             <span className={item.lanClass && item.lanClass}>{t(item.title)}</span>
             {item.children && (<div className="according-menu"><i className="fa fa-angle-right" /></div>)}
           </Link>
