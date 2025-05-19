@@ -50,15 +50,15 @@ const SidebarMenuList = () => {
             </Fragment>
           ))
       }
-      {!userRoles.includes('user') && !userRoles.includes('volunteer') && (
-          <Link
-              href={process.env.NEXT_PUBLIC_DASHBOARD_FIKIRIV1 as string}
-              className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"
-              target="_blank"
-          >
-            Dashboard Fikiri V1
-          </Link>
-      )}
+      {/*{!userRoles.includes('user') && !userRoles.includes('volunteer') && (*/}
+      {/*    <Link*/}
+      {/*        href={process.env.NEXT_PUBLIC_DASHBOARD_FIKIRIV1 as string}*/}
+      {/*        className="text-white ms-4 mt-5 link-offset-2 link-underline link-underline-opacity-100"*/}
+      {/*        target="_blank"*/}
+      {/*    >*/}
+      {/*      Dashboard Fikiri V1*/}
+      {/*    </Link>*/}
+      {/*)}*/}
     </>
   );
 };
