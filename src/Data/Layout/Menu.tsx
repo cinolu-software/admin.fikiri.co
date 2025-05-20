@@ -261,22 +261,22 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['user']
   },
-  {
-    title: "Mon Compte",
-    lanClass: "lan-8",
-    menucontent: "Mon Compte",
-    Items: [
-      {
-        title: "Compte",
-        id: 1,
-        icon: "contact",
-        type: "link",
-        active: false,
-        children: [
-          {path: "/user/profile", type: "link", title: "Profil" },
-        ]
-      },
-    ],
-    requiredRoles: ['admin', 'cartograph', 'explorator', 'experimentor', 'user']
-  },
+  // {
+  //   title: "Mon Compte",
+  //   lanClass: "lan-8",
+  //   menucontent: "Mon Compte",
+  //   Items: [
+  //     {
+  //       title: "Compte",
+  //       id: 1,
+  //       icon: "contact",
+  //       type: "link",
+  //       active: false,
+  //       children: [
+  //         {path: "/user/profile", type: "link", title: "Profil" },
+  //       ]
+  //     },
+  //   ],
+  //   requiredRoles: ['admin', 'cartograph', 'explorator', 'experimentor', 'user']
+  // },
 ];
