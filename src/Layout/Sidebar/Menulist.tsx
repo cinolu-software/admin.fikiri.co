@@ -13,7 +13,6 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
   const { pinedMenu } = useAppSelector((state) => state.layout);
   const pathname = usePathname();
   const dispatch = useAppDispatch();
-
   const { t } = useTranslation("common");
   const { sidebarIconType } = useAppSelector((state) => state.themeCustomizer);
 
@@ -30,6 +29,7 @@ const Menulist: React.FC<MenuListType> = ({ menu, setActiveMenu, activeMenu, lev
         return !returnValue;
       });
     }
+
     return returnValue;
   };
 

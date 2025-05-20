@@ -3,7 +3,10 @@ import { Container, Row, Col, Card, CardBody } from "reactstrap";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+
+
 const TableSkeleton = () => {
+
     return (
         <Container fluid>
             <Row>

@@ -1,7 +1,6 @@
 import { MenuItem } from "@/Types/LayoutTypes";
 
 export const MenuList: MenuItem[] = [
-
   {
     title: "General",
     lanClass: "lan-8",
@@ -54,7 +53,7 @@ export const MenuList: MenuItem[] = [
         ],
       },
     ],
-    requiredRoles: [], 
+    requiredRoles: [],
   },
   {
     title: "General",
@@ -123,7 +122,7 @@ export const MenuList: MenuItem[] = [
       {
         title: "Partenaires",
         id: 4,
-        icon: "",
+        icon: "support-tickets",
         type: "sub",
         active: false,
         children: [
@@ -202,7 +201,6 @@ export const MenuList: MenuItem[] = [
         children: [
           {path: "/admin/call", type: "link", title: "Liste" },
         ]
-
       },
     ],
     requiredRoles: ['explorator']
@@ -277,7 +275,6 @@ export const MenuList: MenuItem[] = [
         children: [
           {path: "/user/profile", type: "link", title: "Profil" },
         ]
-
       },
     ],
     requiredRoles: ['admin', 'cartograph', 'explorator', 'experimentor', 'user']
