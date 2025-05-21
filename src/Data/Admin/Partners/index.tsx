@@ -8,6 +8,7 @@ import SVG from '@/CommonComponent/SVG';
 import {useRouter} from "next/navigation";
 import {Spinner} from "reactstrap";
 import {imageBaseUrl} from "@/Services/axios";
+import {Button} from "reactstrap";
 
 
 const PartnerListTableName: React.FC<{image: string; name: string}> = ({image, name}) =>{
@@ -16,7 +17,14 @@ const PartnerListTableName: React.FC<{image: string; name: string}> = ({image, n
             <div className="light-product-box bg-img-cover">
                 <RatioImage className="img-fluid" src={`${image}`} alt="image"/>
             </div>
-            <p>{name}</p>
+            <span className="text-dark text-truncate text-start"
+                  style={{
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.02rem',
+                      transition: 'all 0.2s ease'
+                  }}>
+                {name}
+            </span>
         </div>
     )
 }
@@ -49,26 +57,75 @@ const PartnerListTableAction: React.FC<{partner: PartnerType}> = ({partner}) =>{
     }
 
     return (
-        <div className="product-action">
-            <div className={'row w-100 justify-content-center'}>
-                <div className={'col-4'}>
-                    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleEdit} >
-                      <span>
-                        {loadingEdit ? <Spinner size="sm"/> : <SVG iconId="editTable"/>}
-                      </span>
-                    </button>
+        <div className="product-action w-100">
+            <div className="row w-100 g-2">
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="primary"
+                        outline
+                        onClick={handleEdit}
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingEdit ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="editTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Modifier</span>
+                    </Button>
                 </div>
-                <div className={'col-4'}>
-                    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleShowDetail}>
-                      <span>
-                        {loadingDetail ? <Spinner size="sm"/> : <SVG iconId="moreTable"/>}
-                      </span>
-                    </button>
+
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="info"
+                        outline
+                        onClick={handleShowDetail}
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingDetail ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="moreTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Détails</span>
+                    </Button>
                 </div>
-                <div className={'col-4'}>
-                    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleDelete} >
-                        {loadingDelete ? <Spinner size="sm"/> : <SVG iconId="trashTable"/>}
-                    </button>
+
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="danger"
+                        outline
+                        onClick={handleDelete}
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingDelete ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="trashTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Supprimer</span>
+                    </Button>
                 </div>
             </div>
         </div>

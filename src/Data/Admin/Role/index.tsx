@@ -4,12 +4,12 @@ import RatioImage  from "@/CommonComponent/RatioImage";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {setModalCreateRole, setModalDeleteRole, setModalEditRole } from "@/Redux/Reducers/RoleSlice";
 import SVG from "@/CommonComponent/SVG";
-import {Spinner, Button} from "reactstrap";
+import {Button} from "reactstrap";
 
 const RoleListTableName: React.FC<{ name: string }> = ({ name }) => {
     return (
         <div className="d-flex align-items-center h-100 p-2">
-            <span className="fw-semibold text-dark text-truncate text-start" 
+            <span className="text-dark text-truncate text-start" 
                   style={{
                       fontSize: '0.75rem',
                       letterSpacing: '0.02rem',
@@ -38,6 +38,7 @@ const RoleListTableAction : React.FC<{role : DataGetRoleType}> = ({role}) =>{
                     <Button
                         color="primary"
                         outline
+                        onClick={handleEdit}
                         className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
                         style={{
                             padding: '6px 10px',
