@@ -4,14 +4,22 @@ import RatioImage  from "@/CommonComponent/RatioImage";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {setModalCreateRole, setModalDeleteRole, setModalEditRole } from "@/Redux/Reducers/RoleSlice";
 import SVG from "@/CommonComponent/SVG";
+import {Spinner, Button} from "reactstrap";
 
-const RoleListTableName : React.FC<{name: string}> = ({name}) => {
+const RoleListTableName: React.FC<{ name: string }> = ({ name }) => {
     return (
-        <div className={'product-name my-2'}>
-            {name}
+        <div className="d-flex align-items-center h-100 p-2">
+            <span className="fw-semibold text-dark text-truncate text-start" 
+                  style={{
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.02rem',
+                      transition: 'all 0.2s ease'
+                  }}>
+                {name}
+            </span>
         </div>
-    )
-}
+    );
+};
 
 const RoleListTableAction : React.FC<{role : DataGetRoleType}> = ({role}) =>{
 
@@ -27,17 +35,42 @@ const RoleListTableAction : React.FC<{role : DataGetRoleType}> = ({role}) =>{
         <div className="product-action">
             <div className={'row w-100 justify-content-center'}>
                 <div className={'col-6'}>
-                    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleEdit}>
-                <span>
-                  <SVG iconId="editTable"/>
-                </span>
-                    </button>
+                    <Button
+                        color="primary"
+                        outline
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {
+                            <SVG iconId="editTable" className="d-none d-md-inline flex-shrink-0" />
+                        }
+                        <span className="text-truncate">Modifier</span>
+                    </Button>
                 </div>
 
                 <div className={'col-6'}>
-                    <button style={{border: 'none', paddingTop: 10, paddingLeft: 10, paddingBottom: 5, borderRadius: 100}} onClick={handleDelete} >
-                        <SVG iconId="trashTable" />
-                    </button>
+                    <Button
+                        color="danger"
+                        outline
+                        onClick={handleDelete}
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {
+                            <SVG iconId="trashTable" className="d-none d-md-inline flex-shrink-0" />
+                        }
+                        <span className="text-truncate">Supprimer</span>
+                    </Button>
                 </div>
             </div>
         </div>
@@ -51,11 +84,11 @@ export const RoleListDataColumn = [
             <RoleListTableName name={row.name}/>
         ),
         sortable: true,
-        grow: 3,
+        grow: 2,
     },
     {
         name: "Action",
         cell: (row: DataGetRoleType) => <RoleListTableAction role={row} />,
-        grow: 1
+        grow: 2
     }
 ]
