@@ -45,70 +45,44 @@ const TotalSells = () => {
 
     return (
         <Row>
-            {
-                totalAllCall !== null ?
-                    <Stat
-                        className={"total-sells"}
-                        title={"Nombre Total d'appels"}
-                        image={"opportunity.png"}
-                        count={totalAllCall}
-                        icon={"fa-arrow-up"}
-                        color={"success"}
-                    />
-                    :
-                <Col xl={3} sm={6}>
-                    <CardSkeleton/>
-                </Col>
-            }
-            {
-                totalPublishedCall !== null ?
-                    <Stat
-                        className={"total-sells-2"}
-                        title={"Nombre Total d'appels publiés"}
-                        image={"bublishedOpportunity.png"}
-                        count={totalPublishedCall}
-                        icon={"fa-arrow-down"}
-                        color={"danger"}
-                    />
-                    :
-                <Col xl={3} sm={6}>
-                    <CardSkeleton/>
-                </Col>
-            }
+            <Stat
+                className={"total-sells"}
+                title={"Nombre Total d'appels"}
+                image={"opportunity.png"}
+                count={totalAllCall}
+                icon={"fa-arrow-up"}
+                color={"success"}
+            />
 
-            {
-                totalUsers !== null ?
+            <Stat
+                className={"total-sells-2"}
+                title={"Nombre Total d'appels publiés"}
+                image={"bublishedOpportunity.png"}
+                count={totalPublishedCall}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
 
-                    <Stat
-                        className={"total-sells-4"}
-                        title={"Nombre Total d'utilisateurs"}
-                        image={"users.png"}
-                        count={totalUsers}
-                        icon={"fa-arrow-down"}
-                        color={"danger"}
-                    />
-                    :
-                <Col xl={3} sm={6}>
-                    <CardSkeleton/>
-                </Col>
-            }
 
-            {
-                statData !== null ?
+            <Stat
+                className={"total-sells-4"}
+                title={"Nombre Total d'utilisateurs"}
+                image={"users.png"}
+                count={totalUsers}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
 
-                    <Stat
-                        className={"total-sells-3"}
-                        title={"Nombre Total de solutions"}
-                        image={"applications.png"}
-                        count={Number(statData.solutions)}
-                        icon={"fa-arrow-down"}
-                        color={"danger"}
-                    />
-                    :
-                <Col xl={3} sm={6}>
-                    <CardSkeleton/>
-                </Col>
-            }
+
+            <Stat
+                className={"total-sells-3"}
+                title={"Nombre Total de solutions"}
+                image={"applications.png"}
+                count={Number(statData.solutions)}
+                icon={"fa-arrow-down"}
+                color={"danger"}
+            />
+
         </Row>
     );
 };
