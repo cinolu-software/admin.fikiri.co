@@ -100,6 +100,16 @@ export const MenuList: MenuItem[] = [
 
       },
       {
+        title: "Galerie",
+        id: 1,
+        icon: "gallery",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/admin/gallery", type: "link", title: "Liste" },
+        ]
+      },
+      {
         title: "Rôles",
         id: 2,
         icon: "others",

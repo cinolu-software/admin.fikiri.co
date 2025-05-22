@@ -2,12 +2,14 @@
 
 import {FunctionComponent, useEffect, useState} from "react";
 
-const Call = () => {
+const Gallery = () => {
+
     const [MyAwesomeMap, setClient] = useState<FunctionComponent>();
+
     useEffect(() => {
         (async () => {
             if(typeof window !== "undefined") {
-                const newClient = (await import("@/Components/Admin/Calls")).default;
+                const newClient = (await import("@/Components/Admin/Gallery")).default;
                 setClient(()=> newClient);
             }
         })();
@@ -16,5 +18,4 @@ const Call = () => {
     return MyAwesomeMap ? <MyAwesomeMap /> : "";
 }
 
-export default Call;
-
+export default Gallery;

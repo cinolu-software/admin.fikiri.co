@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, Col, Spinner } from "reactstrap"; 
+import { Card, CardBody, Col, Spinner } from "reactstrap";
 import CommonHeader from "@/Components/Admin/AdminHomePage/common/CommonHeader";
 import {ImagePath} from "@/Constant";
 
