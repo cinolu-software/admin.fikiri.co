@@ -3,6 +3,7 @@ import {TabContent, TabPane} from 'reactstrap';
 import PublishedCallListContainer from "@/Components/Admin/Calls/published";
 import CallListContainer from "@/Components/Admin/Calls/all";
 import {useAppSelector, useAppDispatch } from "@/Redux/Hooks";
+import GalleryCall from "@/Components/Admin/Calls/common/CallEdit/GalleryCall";
 
 
 const TabsContent : React.FC<{basicTab: string}> = ({basicTab})=> {
@@ -18,6 +19,9 @@ const TabsContent : React.FC<{basicTab: string}> = ({basicTab})=> {
             </TabPane>
             <TabPane tabId={'2'}>
                 <PublishedCallListContainer/>
+            </TabPane>
+            <TabPane tabId={'3'}>
+                <GalleryCall/>
             </TabPane>
         </TabContent>
     )

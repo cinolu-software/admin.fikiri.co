@@ -1,3 +1,16 @@
+type GalleryCallType = {
+    id: string;
+}
+
+export interface GalleryType{
+    id: string;
+    call: GalleryCallType;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+    image: string;
+}
+
 export interface CallType {
     id: string;
     name: string;
@@ -8,6 +21,8 @@ export interface CallType {
     ended_at: string;
     started_at: string;
     published_at: string;
+    awards: [];
+    galery: GalleryType[];
     cover: string | null;
     document: string | null;
     form: FormField[];
@@ -124,6 +139,11 @@ export interface UpdateCoverCallType {
     imageFile: File;
 }
 
+export interface AddCallGalleryType {
+    id: string;
+    imageFiles: File[];
+}
+
 export interface DataGetCallErrorType{
     message: string;
     error: string;
@@ -136,6 +156,7 @@ export interface InitialStateCallType {
     totalPublishedCall: number | null;
     publishedCallData: CallType[];
     statusCall: "idle" | "loading" | "succeeded" | "failed";
+    statusOneCall: "idle" | "loading" | "succeeded" | "failed";
     publishedStatus: "idle" | "loading" | "succeeded" | "failed";
     error: DataGetCallErrorType | null;
     isOpenModalCreateCall: boolean;

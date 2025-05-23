@@ -37,9 +37,8 @@ const EditProjectTabs = () => {
                                 <NavItem>
                                     <NavLink  className={`nav-border txt-secondary ${activeTab === "3" ? "active" : ""}`}
                                              onClick={() => setActiveTab("3")}>
-                                        <i className="fa fa-file-text-o"></i>
-                                        
-                                        <span>Document</span>
+                                        <i className="fa fa-file-image-o"></i>
+                                        <span>Galerie</span>
                                     </NavLink>
                                 </NavItem>
                             </NavItem>

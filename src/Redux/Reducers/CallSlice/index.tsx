@@ -1,7 +1,17 @@
 import { createSlice, createAsyncThunk, PayloadAction, isRejectedWithValue } from "@reduxjs/toolkit";
 import axiosInstance, { apiBaseUrl } from "@/Services/axios";
-import { CallType, CallInstance, InitialStateCallType, DataGetCallErrorType, CreateCallType, UpdateCallType, UpdateCoverCallType, Author, ReceiveDataReviewer, UpdateReviewerSolution } from "@/Types/Call/CallType";
-import { ShowError } from "@/utils";
+import { CallType,
+    CallInstance,
+    InitialStateCallType,
+    DataGetCallErrorType,
+    CreateCallType,
+    UpdateCallType,
+    UpdateCoverCallType,
+    UpdateReviewerSolution,
+    GalleryType,
+    AddCallGalleryType
+    } from "@/Types/Call/CallType";
+
 
 const initialState: InitialStateCallType = {
     callData: [],
@@ -10,6 +20,7 @@ const initialState: InitialStateCallType = {
     totalPublishedCall: null,
     reviewerData: null,
     statusCall: 'idle',
+    statusOneCall: 'idle',
     filterToggle: false,
     publishedStatus: 'idle',
     error: null,
@@ -167,8 +178,35 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
     }
 );
 
+export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, { rejectValue: DataGetCallErrorType }>(
+    "call/addCallGallery",
+    async ({ id, imageFiles }, { rejectWithValue }) => { // Destructurer imageFiles
+        try {
+            const formData = new FormData();
+
+            imageFiles.forEach(file => {
+                formData.append("thumbs", file);
+            });
+
+            const response = await axiosInstance.post(
+                `${apiBaseUrl}/calls-galeries/${id}`,
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+            return response.data.data as GalleryType;
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de l'ajout de la galerie";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALLGALLERY_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            });
+        }
+    }
+);
+
 export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, document: any }, {rejectValue: any}>(
-    "call/addDocumentCall", 
+    "call/addDocumentCall",
     async ({callId, document}, {rejectWithValue}) => {
         try {
             const formData = new FormData();
@@ -193,7 +231,7 @@ export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, 
 );
 
 export const publishCall = createAsyncThunk<CallInstance, { callId: string }, { rejectValue: any}>(
-    "call/publishCall", 
+    "call/publishCall",
     async ({callId}, {rejectWithValue}) => {
         try {
             const response = await axiosInstance.post(`${apiBaseUrl}/calls/publish/${callId}`);
@@ -224,7 +262,7 @@ export const unpublishCall = createAsyncThunk<CallInstance, { callId: string }, 
                 error: "CALL_FETCH_ERROR",
                 statusCode: e.response?.data?.error?.statusCode || 500
             })
-        }   
+        }
     }
 )
 
@@ -433,9 +471,11 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+
             .addCase(deleteCall.fulfilled, (state, action: PayloadAction<string>) => {
                 state.callData = state.callData.filter(call => call.id !== action.payload);
             })
+
             .addCase(createCall.pending, (state) => {
                 state.statusCall = 'loading';
                 state.error = null;
@@ -448,18 +488,20 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+
             .addCase(fetchCallById.pending, (state) => {
-                state.statusCall = 'loading';
+                state.statusOneCall = 'loading';
                 state.error = null;
             })
             .addCase(fetchCallById.fulfilled, (state, action: PayloadAction<CallInstance>) => {
-                state.statusCall = "succeeded";
+                state.statusOneCall = "succeeded";
                 state.selectedCall = action.payload;
             })
             .addCase(fetchCallById.rejected, (state, action) => {
-                state.statusCall = "failed";
+                state.statusOneCall = "failed";
                 state.error = action.payload ?? null;
             })
+
             .addCase(fetchPublishedCall.pending, (state) => {
                 state.publishedStatus = 'loading';
                 state.error = null;
@@ -473,6 +515,7 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+
             .addCase(updatedCoverCall.pending, (state) => {
                 state.statusCall = "loading";
                 state.error = null;
@@ -488,18 +531,25 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+
             .addCase(addReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })
-            .addCase(deleteReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => { 
+
+            .addCase(deleteReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })
-            .addCase(updateReviewerSolution.fulfilled, (state, action: PayloadAction<CallInstance>) => { 
+
+            .addCase(updateReviewerSolution.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })
             .addCase(updateReviewerSolution.rejected, (state, action) => {
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
+            })
+
+            .addCase(addCallGallery.fulfilled, (state, action: PayloadAction<GalleryType>)=>{
+                state.callData
             })
             ;
     }

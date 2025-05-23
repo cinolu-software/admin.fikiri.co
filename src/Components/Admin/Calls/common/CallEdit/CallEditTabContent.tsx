@@ -2,7 +2,7 @@ import React from 'react';
 import {TabContent, TabPane} from "reactstrap";
 import EditCallContainer from "@/Components/Admin/Calls/common/CallEdit/EditInfoCall";
 import AttachmentCall from "@/Components/Admin/Calls/common/CallEdit/AttachmentCall";
-import DocumentCall from "@/Components/Admin/Calls/common/CallEdit/DocumentCall";
+import GalleryCall from "@/Components/Admin/Calls/common/CallEdit/GalleryCall";
 
 
 const CallEditTabContent: React.FC<{activeTab: string}> = ({activeTab}) => {
@@ -16,7 +16,7 @@ const CallEditTabContent: React.FC<{activeTab: string}> = ({activeTab}) => {
                 <AttachmentCall/>
             </TabPane>
             <TabPane tabId={'3'}>
-                <DocumentCall/>
+                <GalleryCall/>
             </TabPane>
         </TabContent>
     )

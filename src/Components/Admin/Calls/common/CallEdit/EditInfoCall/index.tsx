@@ -10,16 +10,20 @@ const EditCallContainer = () => {
     const {selectedCall} = useAppSelector(state => state.call);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    
 
-    useEffect(() => {
-        if (selectedCall === null) {
-            router.push('/admin/call');
-        } else {
-            if (selectedCall?.id) {
-                dispatch(fetchCallById(selectedCall?.id));
+    useEffect(
+        () => {
+            if (selectedCall === null) {
+                router.push('/admin/call');
+            } else {
+                if (selectedCall?.id) {
+                    dispatch(fetchCallById(selectedCall?.id));
+                }
             }
-        }
-    }, []);
+        }, []
+    );
+
 
     return (
         <Container fluid>
