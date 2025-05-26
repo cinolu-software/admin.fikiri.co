@@ -180,7 +180,7 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
 
 export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, { rejectValue: DataGetCallErrorType }>(
     "call/addCallGallery",
-    async ({ id, imageFiles }, { rejectWithValue }) => { // Destructurer imageFiles
+    async ({ id, imageFiles }, { rejectWithValue }) => {
         try {
             const formData = new FormData();
 
