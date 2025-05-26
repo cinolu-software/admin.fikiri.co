@@ -205,6 +205,23 @@ export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, 
     }
 );
 
+export const deleteImageGallery = createAsyncThunk<{}, {imageId: string }, { rejectValue: DataGetCallErrorType }>(
+    "call/deleteImageGallery",
+    async ({imageId }, { rejectWithValue }) => {
+        try {
+            await axiosInstance.delete(`${apiBaseUrl}/calls-galeries/${imageId}`);
+            return {};
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de la suppression de l'image de la galerie";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "CALLGALLERY_ERROR",
+                statusCode: e.response?.data?.error?.statusCode || 500
+            })
+        }
+    }
+)
+
 export const addDocumentCall = createAsyncThunk<CallInstance, { callId: string, document: any }, {rejectValue: any}>(
     "call/addDocumentCall",
     async ({callId, document}, {rejectWithValue}) => {
@@ -549,7 +566,22 @@ const callSlice = createSlice({
             })
 
             .addCase(addCallGallery.fulfilled, (state, action: PayloadAction<GalleryType>)=>{
-                state.callData
+                const call = state.callData.find((c) => c.id === action.payload.id);
+                if (call) {
+                    call.galery = [...(call.galery || []), action.payload];
+                }
+            })
+            .addCase(addCallGallery.rejected, (state, action) => {
+                state.error = action.payload || null;
+            })
+            .addCase(deleteImageGallery.fulfilled, (state, action) => {
+
+                const imageId = action.payload;
+
+                state.callData = state.callData.map((call) => ({
+                    ...call,
+                    galery: call.galery.filter((image) => image.id !== imageId),
+                }));
             })
             ;
     }
