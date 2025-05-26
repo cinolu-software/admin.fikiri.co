@@ -1,5 +1,6 @@
 .gallery-container {
   max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
 }
 
@@ -10,6 +11,40 @@
   &:hover {
     border-color: #0d6efd;
   }
+
+  .filepond--root {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .filepond--drop-label {
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    padding: 0.5rem 1rem;
+
+    .filepond--drop-label * {
+      max-width: 100%;
+    }
+  }
+
+  .filepond--wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .filepond--item {
+    flex: 1 1 150px;
+    max-width: 200px;
+  }
+
+  .filepond--panel-root {
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    padding: 0.5rem;
+  }
 }
 
 .custom-filepond .filepond--panel-root {
@@ -17,12 +52,24 @@
   background-color: #f8f9fa;
 }
 
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.gallery-grid > .col {
+  padding: 0;
+}
+
 .gallery-item {
   position: relative;
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
 
   &:hover {
     transform: translateY(-5px);
@@ -49,112 +96,93 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transition: opacity 0.3s ease;
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  transition: opacity 0.3s ease;
 }
 
 .overlay-btn {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: none;
+  color: #000;
   padding: 0.5rem;
-  width: 40px;
-  height: 40px;
+  border-radius: 50%;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease;
 
   &:hover {
-    transform: scale(1.1);
+    background: #f8d7da !important;
+    color: #dc3545;
   }
 }
 
+/* Modale d’aperçu */
 .image-preview-modal {
-  .modal-content {
-    background: rgba(0, 0, 0, 0.95);
-    border: none;
+  .modal-dialog {
+    max-width: 90%;
+    margin: auto;
   }
 
   .modal-body {
-    padding: 0;
-    height: 80vh;
-  }
-
-  .slider-btn {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: none;
-    transition: all 0.3s ease;
-    opacity: 0.8;
-    z-index: 1;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 50px;
+    background-color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.4) !important;
-      opacity: 1;
-    }
-
-    svg {
-      color: white;
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  .image-slide-container {
+    padding: 0;
     position: relative;
-    max-width: 90%;
-    margin: 0 auto;
-    overflow: hidden;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    height: 90vh;
   }
 
   .slide-image {
-    transition: opacity 0.3s ease;
-    border-radius: 8px;
     max-height: 80vh;
-    width: auto;
-    margin: 0 auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin: auto;
+  }
 
-    &.fade-in {
+  .slider-btn {
+    border: none;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    padding: 0.5rem;
+
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0.4;
+    }
+    to {
       opacity: 1;
     }
+  }
 
-    &.fade-out {
-      opacity: 0;
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.4;
     }
   }
-
-  .position-indicator {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    z-index: 2;
-  }
 }
 
-
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-@keyframes slideOut {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+/* Badge de pagination */
+.image-preview-modal .badge {
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
 }

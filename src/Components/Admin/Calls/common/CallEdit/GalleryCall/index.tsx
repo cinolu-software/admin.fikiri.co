@@ -82,7 +82,7 @@ const GalleryCall = () => {
                 </Button>
             </div>
 
-            {/* Zone d'upload */}
+
             <Card className="upload-card shadow-sm mb-5">
                 <div className="p-4">
                     <FilePond
@@ -92,13 +92,14 @@ const GalleryCall = () => {
                         maxFiles={10}
                         maxFileSize="5MB"
                         acceptedFileTypes={['image/*']}
-                        labelIdle={`
-                            <div class="text-center">
-                                <FiUploadCloud size="24" class="mb-2" />
-                                <div>Glissez-déposez ou <span class="text-primary">parcourir</span></div>
-                                <div class="text-muted small mt-1">Formats supportés : JPEG, PNG</div>
+                        labelIdle={
+                            <div className="text-center">
+                                <FiUploadCloud size="24" className="mb-2" />
+                                <div>Glissez-déposez ou <span className="text-primary">parcourir</span></div>
+                                <div className="text-muted small mt-1">Formats supportés : JPEG, PNG</div>
                             </div>
-                        `}
+                        }
+
                         stylePanelAspectRatio={0.5}
                         imagePreviewHeight={200}
                         className="custom-filepond"
@@ -123,7 +124,7 @@ const GalleryCall = () => {
                 </div>
             </Card>
 
-            {/* Galerie */}
+
             <h4 className="mb-4">Galerie ({selectedCall?.galery?.length || 0})</h4>
             {error && <Alert color="danger" className="mb-4">{error}</Alert>}
 
