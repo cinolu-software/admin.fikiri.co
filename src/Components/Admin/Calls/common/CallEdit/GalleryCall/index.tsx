@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import { fetchCallById, deleteImageGallery, addCallGallery } from "@/Redux/Reducers/CallSlice";
-import {
-    Container, Row, Col, Card, Button, Spinner, Alert, Modal, ModalHeader, ModalBody, ModalFooter
-} from 'reactstrap';
+import {Container, Row, Col, Card, Button, Spinner, Alert, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
@@ -14,7 +12,10 @@ import { useSwipeable } from 'react-swipeable';
 import './GalleryCallStyle.scss';
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginImageExifOrientation);
 
+
+
 const GalleryCall = () => {
+
     const dispatch = useAppDispatch();
     const { selectedCall, statusCall, error } = useAppSelector(state => state.call);
     const [files, setFiles] = useState([]);
@@ -22,7 +23,10 @@ const GalleryCall = () => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [imageToDelete, setImageToDelete] = useState<GalleryType| null>(null);
     const uploadButtonRef = useRef(null);
+
+    const filePondRef = useRef<FilePond>(null);
 
     useEffect(() => {
         if (selectedCall?.id) {
@@ -69,6 +73,19 @@ const GalleryCall = () => {
         trackMouse: true
     });
 
+    const handleAddPhotoClick = () => {
+        filePondRef.current?.browse();
+    }
+
+    const handleDeleteConfirm = () => {
+        if (imageToDelete?.id) {
+            dispatch(deleteImageGallery({ imageId: imageToDelete.id }));
+            setDeleteModal(false);
+            setImageToDelete(null);
+            setSelectedImage(null); 
+        }
+    }
+
     return (
         <Container fluid className="gallery-container">
             <div className="d-flex justify-content-between align-items-center mb-5">
@@ -76,7 +93,7 @@ const GalleryCall = () => {
                     <h2 className="mb-1">{selectedCall?.name}</h2>
                     <p className="text-muted">Gestion de la galerie d'appel</p>
                 </div>
-                <Button color="primary" onClick={() => uploadButtonRef.current?.click()}>
+                <Button color="primary" onClick={handleAddPhotoClick} className="d-flex align-items-center">
                     <FiUploadCloud className="me-2" /> Ajouter des photos
                 </Button>
             </div>
@@ -101,7 +118,7 @@ const GalleryCall = () => {
                         stylePanelAspectRatio={0.5}
                         imagePreviewHeight={200}
                         className="custom-filepond"
-                        ref={uploadButtonRef}
+                        ref={filePondRef}
                     />
 
                     {files.length > 0 && (
@@ -124,7 +141,7 @@ const GalleryCall = () => {
 
 
             <h4 className="mb-4">Galerie ({selectedCall?.galery?.length || 0})</h4>
-            {error && <Alert color="danger" className="mb-4">{error}</Alert>}
+            {error && <Alert color="danger" className="mb-4">{error.message}</Alert>}
 
             {selectedCall?.galery?.length ? (
                 <Row className="gallery-grid">
@@ -144,12 +161,13 @@ const GalleryCall = () => {
                                 />
                                 <div className="gallery-overlay">
                                     <Button
-                                        color="danger"
-                                        className="overlay-btn"
-                                        onClick={() => {
-                                            setSelectedImage(image);
-                                            setDeleteModal(true);
-                                        }}
+                                    color="danger"
+                                    className="overlay-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Empêche le déclenchement du click parent
+                                        setImageToDelete(image);
+                                        setDeleteModal(true);
+                                    }}
                                     >
                                         <FiTrash2 />
                                     </Button>
@@ -182,11 +200,11 @@ const GalleryCall = () => {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={() => setDeleteModal(false)}>Annuler</Button>
-                    <Button color="danger" onClick={() => handleDeleteImage(selectedImage?.id)}>Supprimer</Button>
+                    <Button color="danger" onClick={handleDeleteConfirm}>Supprimer</Button>
                 </ModalFooter>
             </Modal>
 
-            {/* Modal de preview */}
+
             <Modal
                 isOpen={!!selectedImage}
                 toggle={() => {

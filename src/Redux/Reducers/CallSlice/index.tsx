@@ -10,7 +10,7 @@ import { CallType,
     UpdateReviewerSolution,
     GalleryType,
     AddCallGalleryType
-    } from "@/Types/Call/CallType";
+} from "@/Types/Call/CallType";
 
 
 const initialState: InitialStateCallType = {
@@ -205,12 +205,12 @@ export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, 
     }
 );
 
-export const deleteImageGallery = createAsyncThunk<{}, {imageId: string }, { rejectValue: DataGetCallErrorType }>(
+export const deleteImageGallery = createAsyncThunk<{imageId: string}, {imageId: string }, { rejectValue: DataGetCallErrorType }>(
     "call/deleteImageGallery",
     async ({imageId }, { rejectWithValue }) => {
         try {
             await axiosInstance.delete(`${apiBaseUrl}/calls-galeries/${imageId}`);
-            return {};
+            return {imageId};
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de la suppression de l'image de la galerie";
             return rejectWithValue({
@@ -572,16 +572,17 @@ const callSlice = createSlice({
                 }
             })
             .addCase(addCallGallery.rejected, (state, action) => {
-                state.error = action.payload || null;
+                // state.error = action.payload || null;
+                //@ts-ignore
+                state.error = action.payload ? action.payload.message : null;
             })
             .addCase(deleteImageGallery.fulfilled, (state, action) => {
-
-                const imageId = action.payload;
-
-                state.callData = state.callData.map((call) => ({
-                    ...call,
-                    galery: call.galery.filter((image) => image.id !== imageId),
-                }));
+                const { imageId } = action.payload;
+                if (state.selectedCall) {
+                    state.selectedCall.galery = state.selectedCall.galery?.filter(
+                        img => img.id !== imageId
+                    );
+                }
             })
             ;
     }
