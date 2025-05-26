@@ -12,7 +12,6 @@ import { imageBaseUrl } from "@/Services/axios";
 import { FiTrash2, FiZoomIn, FiUploadCloud, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useSwipeable } from 'react-swipeable';
 import './GalleryCallStyle.scss';
-
 registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginImageExifOrientation);
 
 const GalleryCall = () => {
@@ -92,14 +91,13 @@ const GalleryCall = () => {
                         maxFiles={10}
                         maxFileSize="5MB"
                         acceptedFileTypes={['image/*']}
-                        labelIdle={
-                            <div className="text-center">
-                                <FiUploadCloud size="24" className="mb-2" />
-                                <div>Glissez-déposez ou <span className="text-primary">parcourir</span></div>
-                                <div className="text-muted small mt-1">Formats supportés : JPEG, PNG</div>
-                            </div>
-                        }
-
+                        labelIdle='
+                                    <div class="custom-label-idle">
+                                      <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                      <div class="instruction-text">Glissez vos fichiers ici ou <span class="browse-text">parcourir</span></div>
+                                      <div class="file-info">Formats supportés : JPEG, PNG<br/>Taille max : 5MB</div>
+                                    </div>
+                                  '
                         stylePanelAspectRatio={0.5}
                         imagePreviewHeight={200}
                         className="custom-filepond"
@@ -136,6 +134,7 @@ const GalleryCall = () => {
                                 <img
                                     src={`${imageBaseUrl}/calls/${image.image}`}
                                     alt={`Image ${image.id}`}
+                                    data-filename={image.image}
                                     className="gallery-image"
                                     loading="lazy"
                                     onClick={() => {
