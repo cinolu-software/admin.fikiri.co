@@ -572,11 +572,9 @@ const callSlice = createSlice({
             .addCase(addReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })
-
             .addCase(deleteReviewer.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })
-
             .addCase(updateReviewerSolution.fulfilled, (state, action: PayloadAction<CallInstance>) => {
                 state.selectedCall = action.payload;
             })

@@ -103,6 +103,9 @@ const GalleryCall: React.FC = () => {
                     imageFiles: files,
                 })
             ).unwrap();
+
+            await dispatch(fetchCallById(selectedCall.id));
+
             setFiles([]);
         } catch (error) {
             dispatch(
@@ -206,9 +209,9 @@ const GalleryCall: React.FC = () => {
 
             <h4 className="mb-4">Galerie ({selectedCall?.galery?.length || 0})</h4>
             {error && <Alert color="danger" className="mb-4">{error.message}</Alert>}
-
-            {selectedCall?.galery?.length ? (
-                <Row className="gallery-grid">
+            {
+                selectedCall?.galery?.length ? (
+                    <Row className="gallery-grid">
                     {selectedCall.galery.map((image, index) => (
                         <Col xl={2} lg={3} md={4} sm={6} className="mb-4" key={image.id}>
                             <div className="gallery-item">
@@ -251,12 +254,12 @@ const GalleryCall: React.FC = () => {
                     ))}
                 </Row>
             ) : (
-                <Alert color="info" className="text-center py-5">
-                    Aucune image dans la galerie. Commencez par en ajouter !
-                </Alert>
+                    <div color="info" className="text-center py-5 rounded bg-light txt-dark">
+                        Aucune image dans la galerie. Commencez par en ajouter !
+                    </div>
             )}
 
-            {/* Modal de suppression */}
+
             <Modal isOpen={deleteModal} toggle={() => setDeleteModal(false)}>
                 <ModalHeader toggle={() => setDeleteModal(false)}>Confirmer la suppression</ModalHeader>
                 <ModalBody>
