@@ -1,32 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import { fetchCallById, deleteImageGallery, addCallGallery } from "@/Redux/Reducers/CallSlice";
+import {fetchCallById, deleteImageGallery, addCallGallery, updateGalleryPreview, removeGalleryPreview} from "@/Redux/Reducers/CallSlice";
 import {Container, Row, Col, Card, Button, Spinner, Alert, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import { imageBaseUrl } from "@/Services/axios";
-import { FiTrash2, FiZoomIn, FiUploadCloud, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import {FiTrash2, FiZoomIn, FiUploadCloud, FiChevronLeft, FiChevronRight} from 'react-icons/fi';
 import { useSwipeable } from 'react-swipeable';
 import './GalleryCallStyle.scss';
-registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginImageExifOrientation);
+import { GalleryType } from '@/Types/Call/CallType';
+import type { FilePond as FilePondInstance, FilePondInitialFile } from 'filepond';
 
+registerPlugin(
+    FilePondPluginImagePreview,
+    FilePondPluginFileValidateType,
+    FilePondPluginImageExifOrientation
+);
 
-
-const GalleryCall = () => {
+const GalleryCall: React.FC = () => {
 
     const dispatch = useAppDispatch();
-    const { selectedCall, statusCall, error } = useAppSelector(state => state.call);
-    const [files, setFiles] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const { selectedCall, statusCall, error } = useAppSelector((state) => state.call);
+    // const [files, setFiles] = useState<(FilePondInitialFile | Blob | File | string)[]>([]);
+    const [files, setFiles] = useState<File[]>([]);
+    const [selectedImage, setSelectedImage] = useState<GalleryType | null>(null);
     const [deleteModal, setDeleteModal] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [imageToDelete, setImageToDelete] = useState<GalleryType| null>(null);
-    const uploadButtonRef = useRef(null);
-
-    const filePondRef = useRef<FilePond>(null);
+    const [imageToDelete, setImageToDelete] = useState<GalleryType | null>(null);
+    const uploadButtonRef = useRef<HTMLButtonElement | null>(null);
+    const filePondRef = useRef<FilePondInstance | null>(null);
 
     useEffect(() => {
         if (selectedCall?.id) {
@@ -34,57 +39,112 @@ const GalleryCall = () => {
         }
     }, [dispatch, selectedCall?.id]);
 
-    const handleDeleteImage = (imageId: string) => {
-        dispatch(deleteImageGallery({ imageId }));
-        setDeleteModal(false);
-        setSelectedImage(null);
-    };
+    // const handleUpload = async () => {
+    //     if (!selectedCall?.id) return;
+    //
+    //     const newImagesPreview = files.map((file) => ({
+    //         //@ts-ignore
+    //         id: `temp-${file.filename}`,
+    //         // @ts-ignore
+    //         image: URL.createObjectURL(file.file as Blob),
+    //         createdAt: new Date().toISOString(),
+    //     }));
+    //
+    //     dispatch(
+    //         updateGalleryPreview({
+    //             callId: selectedCall.id,
+    //             //@ts-ignore
+    //             images: newImagesPreview,
+    //         })
+    //     );
+    //
+    //     try {
+    //         await dispatch(
+    //             addCallGallery({
+    //                 id: selectedCall.id,
+    //                 // @ts-ignore
+    //                 imageFiles: files.map((f) => f.file as File),
+    //             })
+    //         ).unwrap();
+    //         setFiles([]);
+    //     } catch (error) {
+    //         dispatch(
+    //             removeGalleryPreview({
+    //                 callId: selectedCall.id,
+    //                 tempIds: newImagesPreview.map((img) => img.id),
+    //             })
+    //         );
+    //     }
+    // };
 
     const handleUpload = async () => {
-        const formData = new FormData();
-        files.forEach(file => {
-            formData.append('images', file.file);
-        });
-        if (selectedCall?.id) {
-            await dispatch(addCallGallery({ id: selectedCall.id, imageFiles: formData }));
+        if (!selectedCall?.id) return;
+
+        const newImagesPreview = files.map((file) => ({
+            // id: `temp-${file.name}`,
+            // image: URL.createObjectURL(file),
+            id: `temp-${file.name}`,
+            image: URL.createObjectURL(file),
+            createdAt: new Date().toISOString(),
+        }));
+
+        dispatch(
+            updateGalleryPreview({
+                callId: selectedCall.id,
+                //@ts-ignore
+                images: newImagesPreview,
+            })
+        );
+
+        try {
+            await dispatch(
+                addCallGallery({
+                    id: selectedCall.id,
+                    imageFiles: files,
+                })
+            ).unwrap();
             setFiles([]);
+        } catch (error) {
+            dispatch(
+                removeGalleryPreview({
+                    callId: selectedCall.id,
+                    tempIds: newImagesPreview.map((img) => img.id),
+                })
+            );
         }
     };
 
     const handleSlide = (direction: 'prev' | 'next') => {
         if (isTransitioning || !selectedCall?.galery?.length) return;
-
         setIsTransitioning(true);
         const total = selectedCall.galery.length;
-
         const newIndex =
             direction === 'prev'
                 ? (currentImageIndex - 1 + total) % total
                 : (currentImageIndex + 1) % total;
-
         setCurrentImageIndex(newIndex);
-
         setTimeout(() => setIsTransitioning(false), 300);
     };
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => handleSlide('next'),
         onSwipedRight: () => handleSlide('prev'),
-        trackMouse: true
+        trackMouse: true,
     });
 
     const handleAddPhotoClick = () => {
         filePondRef.current?.browse();
-    }
+    };
 
     const handleDeleteConfirm = () => {
         if (imageToDelete?.id) {
             dispatch(deleteImageGallery({ imageId: imageToDelete.id }));
             setDeleteModal(false);
             setImageToDelete(null);
-            setSelectedImage(null); 
+            setSelectedImage(null);
         }
-    }
+    };
+
 
     return (
         <Container fluid className="gallery-container">
@@ -103,7 +163,10 @@ const GalleryCall = () => {
                 <div className="p-4">
                     <FilePond
                         files={files}
-                        onupdatefiles={setFiles}
+                        onupdatefiles={(fileItems) => {
+                            // @ts-ignore
+                            setFiles(fileItems.map(fileItem => fileItem.file));
+                        }}
                         allowMultiple={true}
                         maxFiles={10}
                         maxFileSize="5MB"
@@ -115,9 +178,10 @@ const GalleryCall = () => {
                                       <div class="file-info">Formats supportés : JPEG, PNG<br/>Taille max : 5MB</div>
                                     </div>
                                   '
-                        stylePanelAspectRatio={0.5}
+                        stylePanelAspectRatio={"0.5"}
                         imagePreviewHeight={200}
                         className="custom-filepond"
+                        //@ts-ignore
                         ref={filePondRef}
                     />
 
@@ -164,7 +228,7 @@ const GalleryCall = () => {
                                     color="danger"
                                     className="overlay-btn"
                                     onClick={(e) => {
-                                        e.stopPropagation(); // Empêche le déclenchement du click parent
+                                        e.stopPropagation(); 
                                         setImageToDelete(image);
                                         setDeleteModal(true);
                                     }}
@@ -205,7 +269,9 @@ const GalleryCall = () => {
             </Modal>
 
 
-            <Modal
+            <
+                //@ts-ignore
+                Modal
                 isOpen={!!selectedImage}
                 toggle={() => {
                     setSelectedImage(null);

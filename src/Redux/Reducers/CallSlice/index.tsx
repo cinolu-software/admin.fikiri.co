@@ -12,7 +12,6 @@ import { CallType,
     AddCallGalleryType
 } from "@/Types/Call/CallType";
 
-
 const initialState: InitialStateCallType = {
     callData: [],
     publishedCallData: [],
@@ -178,12 +177,11 @@ export const updatedCoverCall = createAsyncThunk<CallInstance, UpdateCoverCallTy
     }
 );
 
-export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, { rejectValue: DataGetCallErrorType }>(
+export const addCallGallery = createAsyncThunk<GalleryType[], AddCallGalleryType, { rejectValue: DataGetCallErrorType }>(
     "call/addCallGallery",
     async ({ id, imageFiles }, { rejectWithValue }) => {
         try {
             const formData = new FormData();
-
             imageFiles.forEach(file => {
                 formData.append("thumbs", file);
             });
@@ -193,7 +191,8 @@ export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, 
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
-            return response.data.data as GalleryType;
+            
+            return response.data.data as GalleryType[];
         } catch (e: any) {
             const errorMessage = e.response?.data?.error?.message || "Erreur survenue lors de l'ajout de la galerie";
             return rejectWithValue({
@@ -204,6 +203,9 @@ export const addCallGallery = createAsyncThunk<GalleryType, AddCallGalleryType, 
         }
     }
 );
+
+
+
 
 export const deleteImageGallery = createAsyncThunk<{imageId: string}, {imageId: string }, { rejectValue: DataGetCallErrorType }>(
     "call/deleteImageGallery",
@@ -471,8 +473,26 @@ const callSlice = createSlice({
                     requirements: action.payload.requirements || [] ,
                 };
             }
+        },
+        updateGalleryPreview: (state, action: PayloadAction<{ callId: string; images: GalleryType[] }>) => {
+            const { callId, images } = action.payload;
+            
+            if (state.selectedCall?.id === callId) {
+                state.selectedCall.galery = [
+                    ...(state.selectedCall.galery || []),
+                    ...images
+                ];
+            }
+        },
+        removeGalleryPreview: (state, action: PayloadAction<{ callId: string; tempIds: string[] }>) => {
+            const { callId, tempIds } = action.payload;
+            
+            if (state.selectedCall?.id === callId) {
+                state.selectedCall.galery = (state.selectedCall.galery || [])
+                    .filter(img => !tempIds.includes(img.id));
+            }
         }
-    },
+        },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCall.pending, (state) => {
@@ -564,11 +584,20 @@ const callSlice = createSlice({
                 state.statusCall = "failed";
                 state.error = action.payload ?? null;
             })
+            //@ts-ignore
+            .addCase(addCallGallery.fulfilled, (state, action: PayloadAction<GalleryType>) => {
+                const updatedCallId = action.payload.id;
 
-            .addCase(addCallGallery.fulfilled, (state, action: PayloadAction<GalleryType>)=>{
-                const call = state.callData.find((c) => c.id === action.payload.id);
-                if (call) {
-                    call.galery = [...(call.galery || []), action.payload];
+                const callInList = state.callData.find(c => c.id === updatedCallId);
+                if (callInList) {
+                    callInList.galery = [...(callInList.galery || []), action.payload];
+                }
+
+                if (state.selectedCall?.id === updatedCallId) {
+                    state.selectedCall.galery = [
+                        ...(state.selectedCall.galery || []), 
+                        action.payload
+                    ];
                 }
             })
             .addCase(addCallGallery.rejected, (state, action) => {
@@ -584,7 +613,6 @@ const callSlice = createSlice({
                     );
                 }
             })
-            ;
     }
 });
 
@@ -597,7 +625,9 @@ export const {
     handleBackButton,
     setSelectedCall,
     setFormField,
-    setRequirementsAction
+    setRequirementsAction,
+    updateGalleryPreview,
+    removeGalleryPreview
 } = callSlice.actions;
 
 export default callSlice.reducer;
