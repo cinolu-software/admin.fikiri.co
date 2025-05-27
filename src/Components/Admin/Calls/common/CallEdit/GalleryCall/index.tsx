@@ -153,7 +153,7 @@ const GalleryCall: React.FC = () => {
         <Container fluid className="gallery-container">
             <div className="d-flex justify-content-between align-items-center mb-5">
                 <div>
-                    <h2 className="mb-1">{selectedCall?.name}</h2>
+                    {/*<h2 className="mb-1">{selectedCall?.name}</h2>*/}
                     <p className="text-muted">Gestion de la galerie d'appel</p>
                 </div>
                 <Button color="primary" onClick={handleAddPhotoClick} className="d-flex align-items-center">
