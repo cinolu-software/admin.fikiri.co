@@ -10,7 +10,6 @@ const StepThree: React.FC<{selectedUser?: any}> = ({selectedUser}) => {
     const dispatch = useAppDispatch();
 
     const { formValue } = useAppSelector(state => state.user);
-    // const { originalRoleData, status } = useAppSelector(state => state.role);
     const { dataRoles, statusRole } = useAppSelector(state => state.role);
     const [selectedRoles, setSelectedRoles] = useState<string[]>(
         selectedUser?.roles.map((role: DataGetRoleType) => role.id) || []

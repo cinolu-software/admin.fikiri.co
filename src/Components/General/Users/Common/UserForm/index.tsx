@@ -17,7 +17,7 @@ const UserForm: React.FC<UserFormProps> = ({ mode, initialData }) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { formValue } = useAppSelector((state) => state.user);
+    const { formValue, statusUsers } = useAppSelector((state) => state.user);
 
     const handleSubmit = () => {
         if (isFormValid && formValue) {

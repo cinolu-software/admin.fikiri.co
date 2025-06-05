@@ -20,8 +20,8 @@ const UsersListContainer: React.FC = () => {
   const [roleFilter, setRoleFilter] = useState<string>("");
 
     useEffect(() => {
-        if (statusUsers === 'idle') {
-        dispatch(fetchUsers());
+        if (statusUsers === 'idle' || statusUsers === 'loading') {
+            dispatch(fetchUsers());
         }
     }, [statusUsers, dispatch]);
 
