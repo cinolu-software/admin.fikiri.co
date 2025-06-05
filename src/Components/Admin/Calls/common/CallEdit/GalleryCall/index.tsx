@@ -39,43 +39,6 @@ const GalleryCall: React.FC = () => {
         }
     }, [dispatch, selectedCall?.id]);
 
-    // const handleUpload = async () => {
-    //     if (!selectedCall?.id) return;
-    //
-    //     const newImagesPreview = files.map((file) => ({
-    //         //@ts-ignore
-    //         id: `temp-${file.filename}`,
-    //         // @ts-ignore
-    //         image: URL.createObjectURL(file.file as Blob),
-    //         createdAt: new Date().toISOString(),
-    //     }));
-    //
-    //     dispatch(
-    //         updateGalleryPreview({
-    //             callId: selectedCall.id,
-    //             //@ts-ignore
-    //             images: newImagesPreview,
-    //         })
-    //     );
-    //
-    //     try {
-    //         await dispatch(
-    //             addCallGallery({
-    //                 id: selectedCall.id,
-    //                 // @ts-ignore
-    //                 imageFiles: files.map((f) => f.file as File),
-    //             })
-    //         ).unwrap();
-    //         setFiles([]);
-    //     } catch (error) {
-    //         dispatch(
-    //             removeGalleryPreview({
-    //                 callId: selectedCall.id,
-    //                 tempIds: newImagesPreview.map((img) => img.id),
-    //             })
-    //         );
-    //     }
-    // };
 
     const handleUpload = async () => {
         if (!selectedCall?.id) return;

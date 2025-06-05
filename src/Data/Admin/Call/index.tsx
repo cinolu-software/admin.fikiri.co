@@ -83,95 +83,95 @@ const CallListTableAction: React.FC<{ call: CallInstance; isPublished?: boolean 
 
   return (
     <div className="product-action">
-      <div className="row w-100 justify-content-center g-2">
-        <div className="col-6 col-md-3 d-flex justify-content-center">
-          <Button
-            color="primary"
-            outline
-            onClick={handleEdit}
-            disabled={loadingEdit}
-            className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
-            style={{
-                padding: '6px 10px',
-                borderRadius: '8px',
-                width: '100%',
-                fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-            }}
-          >
-            {loadingEdit ? (
-              <Spinner size="sm" className="flex-shrink-0" />
-            ) : (
-                <SVG iconId="editTable" className="d-none d-md-inline flex-shrink-0" />
-            )}
-            <span className="text-truncate">Modifier</span>
-          </Button>
+        <div className="row w-100 justify-content-center g-2">
+          <div className="col-6 col-md-3 d-flex justify-content-center">
+            <Button
+              color="primary"
+              outline
+              onClick={handleEdit}
+              disabled={loadingEdit}
+              className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+              style={{
+                  padding: '6px 10px',
+                  borderRadius: '8px',
+                  width: '100%',
+                  fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+              }}
+            >
+              {loadingEdit ? (
+                <Spinner size="sm" className="flex-shrink-0" />
+              ) : (
+                  <SVG iconId="editTable" className="d-none d-md-inline flex-shrink-0" />
+              )}
+              <span className="text-truncate">Modifier</span>
+            </Button>
+          </div>
+          <div className="col-6 col-md-3 d-flex justify-content-center">
+            <Button
+              color="info"
+              outline
+              onClick={handleDetail}
+              disabled={loadingDetail}
+              className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+              style={{
+                              padding: '6px 10px',
+                              borderRadius: '8px',
+                              width: '100%',
+                              fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                          }}
+            >
+  {loadingDetail ? (
+                              <Spinner size="sm" className="flex-shrink-0" />
+                          ) : (
+                              <SVG iconId="moreTable" className="d-none d-md-inline flex-shrink-0" />
+                          )}
+                          <span className="text-truncate">Détails</span>
+            </Button>
+          </div>
+          <div className="col-6 col-md-3 d-flex justify-content-center">
+            <Button
+              color={isPublished ? 'warning' : 'success'}
+              outline
+              onClick={handlePublish}
+              disabled={loadingPublish}
+              className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+              style={{
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      width: '100%',
+                      fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+              }}
+            >
+              {loadingPublish ? (
+                <Spinner size="sm" className="flex-shrink-0" />
+              ) : (
+                <SVG iconId={isPublished ? 'unpublish_call' : 'publish_call'} />
+              )}
+              <span className="text-truncate">{isPublished ? 'Dépublier' : 'Publier'}</span>
+            </Button>
+          </div>
+          <div className="col-6 col-md-3 d-flex justify-content-center">
+            <Button
+              color="danger"
+              outline
+              onClick={handleDelete}
+              disabled={loadingDelete}
+              className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+              style={{
+                      padding: '6px 10px',
+                      borderRadius: '8px',
+                      width: '100%',
+                      fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+              }}
+            >
+              {
+                loadingDelete ? <Spinner size="sm" className="flex-shrink-0"  /> : <SVG iconId="trashTable" className="d-none d-md-inline flex-shrink-0"/>
+                
+              }
+              <span className="text-truncate">Supprimer</span>
+            </Button>
+          </div>
         </div>
-        <div className="col-6 col-md-3 d-flex justify-content-center">
-          <Button
-            color="info"
-            outline
-            onClick={handleDetail}
-            disabled={loadingDetail}
-            className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
-            style={{
-                            padding: '6px 10px',
-                            borderRadius: '8px',
-                            width: '100%',
-                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-                        }}
-          >
-{loadingDetail ? (
-                            <Spinner size="sm" className="flex-shrink-0" />
-                        ) : (
-                            <SVG iconId="moreTable" className="d-none d-md-inline flex-shrink-0" />
-                        )}
-                        <span className="text-truncate">Détails</span>
-          </Button>
-        </div>
-        <div className="col-6 col-md-3 d-flex justify-content-center">
-          <Button
-            color={isPublished ? 'warning' : 'success'}
-            outline
-            onClick={handlePublish}
-            disabled={loadingPublish}
-            className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
-            style={{
-                    padding: '6px 10px',
-                    borderRadius: '8px',
-                    width: '100%',
-                    fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-            }}
-          >
-            {loadingPublish ? (
-              <Spinner size="sm" className="flex-shrink-0" />
-            ) : (
-              <SVG iconId={isPublished ? 'unpublish_call' : 'publish_call'} />
-            )}
-            <span className="text-truncate">{isPublished ? 'Dépublier' : 'Publier'}</span>
-          </Button>
-        </div>
-        <div className="col-6 col-md-3 d-flex justify-content-center">
-          <Button
-            color="danger"
-            outline
-            onClick={handleDelete}
-            disabled={loadingDelete}
-            className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
-            style={{
-                    padding: '6px 10px',
-                    borderRadius: '8px',
-                    width: '100%',
-                    fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
-            }}
-          >
-            {
-              loadingDelete ? <Spinner size="sm" className="flex-shrink-0"  /> : <SVG iconId="trashTable" className="d-none d-md-inline flex-shrink-0"/>
-              
-            }
-            <span className="text-truncate">Supprimer</span>
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };

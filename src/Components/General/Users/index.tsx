@@ -34,6 +34,7 @@ const UsersListContainer: React.FC = () => {
             ? user.roles.some((role) => role.name === roleFilter)
             : true;
 
+
         return matchesText && matchesRole;
     });
 

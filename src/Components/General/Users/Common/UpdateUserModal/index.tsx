@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, CardBody, Col, Input } from "reactstrap";
 import CommonModal from "@/CommonComponent/CommonModalType/CommonModal";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import {setModalUpdateUser, updateUser} from "@/Redux/Reducers/UserSlice";
+import { setModalUpdateUser } from "@/Redux/Reducers/UserSlice";
 import { toast, ToastContainer, Flip } from "react-toastify";
 import {fetchRole} from "@/Redux/Reducers/RoleSlice";
 import {DataGetRoleType} from "@/Types/Role/RoleType";
@@ -32,8 +32,6 @@ const UpdateUserModal: React.FC<{selectedUser?: DataGetUserType}> = ({selectedUs
     const handleSubmit = async () => {
         if (!selectedUser) return;
         try {
-            // await dispatch(updateUser({})).unwrap();
-
             toast.success("Rôle(s) mis à jour avec succès !", { transition: Flip });
             dispatch(setModalUpdateUser({ isOpen: false, user: null }));
         } catch (error) {

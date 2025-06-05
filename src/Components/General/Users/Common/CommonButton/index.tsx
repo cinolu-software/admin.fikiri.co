@@ -1,7 +1,6 @@
 import SVG from "@/CommonComponent/SVG";
-import { Previous } from "@/Constant";
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
-import {setNavId, setTabId} from "@/Redux/Reducers/UserSlice";
+import {setNavId} from "@/Redux/Reducers/UserSlice";
 import { Button } from "reactstrap";
 
 const CommonButton = () => {
