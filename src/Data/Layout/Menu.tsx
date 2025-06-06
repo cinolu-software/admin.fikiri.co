@@ -1,42 +1,11 @@
 import { MenuItem } from "@/Types/LayoutTypes";
 
+
 export const MenuList: MenuItem[] = [
-  {
-    title: "General",
-    lanClass: "lan-8",
-    menucontent: "General",
-    Items: [
-      {
-        title: "Accueil",
-        id: 1,
-        icon: "home",
-        type: "sub",
-        active: false,
-        children: [
-          { path: "/volunteer/homeVolunteer", type: "link", title: "Dashboard" },
-        ],
-      },
-    ],
-    requiredRoles: ['volunteer']
-  },
-  {
-    title: "Soumissions",
-    lanClass: "lan-8",
-    menucontent: "Espace des cartographes",
-    Items: [
-      {
-        title: "Espace cartographes",
-        id: 1,
-        icon: "edit",
-        type: "link",
-        active: false,
-        children: [
-          { path: "/volunteer", type: "link", title: "Assigner" },
-        ],
-      },
-    ],
-    requiredRoles: ['volunteer'],
-  },
+
+
+//curator
+
   {
     title: "Curation",
     lanClass: "lan-8",
@@ -55,6 +24,9 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: [],
   },
+
+
+//admin
   {
     title: "General",
     lanClass: "lan-8",
@@ -97,18 +69,7 @@ export const MenuList: MenuItem[] = [
         children: [
           {path: "/admin/call", type: "link", title: "Liste" },
         ]
-
       },
-      // {
-      //   title: "Galerie",
-      //   id: 1,
-      //   icon: "gallery",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     {path: "/admin/gallery", type: "link", title: "Liste" },
-      //   ]
-      // },
       {
         title: "Rôles",
         id: 2,
@@ -142,6 +103,9 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['admin']
   },
+
+//cartographer
+
   {
     title: "General",
     lanClass: "lan-8",
@@ -179,6 +143,9 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['cartograph']
   },
+
+//explorator
+
   {
     title: "General",
     lanClass: "lan-8",
@@ -215,6 +182,9 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['explorator']
   },
+
+
+//experimentor
   {
     title: "General",
     lanClass: "lan-8",
@@ -252,6 +222,11 @@ export const MenuList: MenuItem[] = [
     ],
     requiredRoles: ['experimentor']
   },
+
+
+
+//vulgarisation
+
   {
     title: "General",
     lanClass: "lan-8",
@@ -264,29 +239,65 @@ export const MenuList: MenuItem[] = [
         type: "sub",
         active: false,
         children: [
-          { path: "/user/homeUser", type: "link", title: "Dashboard" },
-          { path: "/user/vulgarisation", type: "link", title: "Vulgarisation" },
+          { path: "/cartographerAssistant/dashboard", type: "link", title: "Dashboard" },
         ],
       },
     ],
-    requiredRoles: ['user']
+    requiredRoles: ['cartographer-assistant', 'cartograph']
   },
-  // {
-  //   title: "Mon Compte",
-  //   lanClass: "lan-8",
-  //   menucontent: "Mon Compte",
-  //   Items: [
-  //     {
-  //       title: "Compte",
-  //       id: 1,
-  //       icon: "contact",
-  //       type: "link",
-  //       active: false,
-  //       children: [
-  //         {path: "/user/profile", type: "link", title: "Profil" },
-  //       ]
-  //     },
-  //   ],
-  //   requiredRoles: ['admin', 'cartograph', 'explorator', 'experimentor', 'user']
-  // },
+  {
+    title: "Vulgarisation",
+    lanClass: "lan-8",
+    menucontent: "vulgarisation",
+    Items: [
+      {
+        title: "Vulgarisation",
+        id: 1,
+        icon: "file",
+        type: "sub",
+        active: false,
+        children: [
+          {path: "/cartographerAssistant/list", type: "link", title: "Liste" },
+        ]
+      },
+    ],
+    requiredRoles: ['cartographer-assistant', "cartograph"]
+  },
+
+
+//volunteer
+  {
+    title : "General",
+    lanClass : "lan-8",
+    menucontent : "General",
+    Items : [
+      {
+        title : "Accueil",
+        id: 1,
+        icon: "home",
+        type: "sub",
+        active: false,
+        children: [{ path: "/volunteer/homeVolunteer", type: "link", title: "Dashboard" }],
+      },
+    ],
+    requiredRoles: ['volunteer']
+  },
+  {
+    title : "Soumissions",
+    lanClass : "lan-8",
+    menucontent : "Espace des cartographes",
+    Items : [
+      {
+        title : "Espace cartographes",
+        id : 1,
+        icon : "edit",
+        type : "link",
+        active : false,
+        children : [
+          { path : "/volunteer", type: "link", title: "Assigner" },
+        ],
+      },
+    ],
+    requiredRoles: ['volunteer'],
+  },
 ];
