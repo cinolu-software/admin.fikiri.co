@@ -243,7 +243,7 @@ export const MenuList: MenuItem[] = [
         ],
       },
     ],
-    requiredRoles: ['cartographer-assistant', 'cartograph']
+    requiredRoles: ['cartographer-assistant']
   },
   {
     title: "Vulgarisation",
@@ -261,7 +261,7 @@ export const MenuList: MenuItem[] = [
         ]
       },
     ],
-    requiredRoles: ['cartographer-assistant', "cartograph"]
+    requiredRoles: ['cartographer-assistant']
   },
 
 

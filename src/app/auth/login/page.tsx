@@ -39,6 +39,9 @@ const UserLogin = () => {
         if (roles.includes('user')) {
             return '/user/homeUser';
         }
+        if (roles.includes('cartographer-assistant')) {
+            return '/cartographerAssistant/dashboard';
+        }
         return process.env.NEXT_PUBLIC_HOST_CLIENT as string;
     };
 

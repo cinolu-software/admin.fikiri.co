@@ -7,6 +7,7 @@ const initialState: InitialStateUserType = {
     inscriptionsByOutreachers: [],
     outReachersStatus: 'idle',
     outReachersTotal: 0,
+    outReachersData: [],
 
 
     usersData: [],
@@ -155,6 +156,21 @@ export const fetchInscriptionsByOutreachers = createAsyncThunk<DataGetUserType[]
 )
 
 
+const filterOutreachers = (countByOutreachers: CountByOutreachersType[], usersData: DataGetUserType[]): DataGetUserType[] => {
+
+    const validEmails = new Set(
+        countByOutreachers
+            .filter((item) => item.user_outreacher !== null)
+            .map((item) => item.user_outreacher as string)
+    );
+
+    const safeUsersData = Array.isArray(usersData) ? usersData : [];
+
+    return safeUsersData.filter((user) => user.email && validEmails.has(user.email));
+};
+
+
+
 const UsersSlice = createSlice({
     name: 'users',
     initialState,
@@ -209,8 +225,15 @@ const UsersSlice = createSlice({
                 state.statusUsers = 'succeeded';
                 state.usersData = action.payload;
                 state.totalUsers = action.payload.length;
+
+                if (state.countByOutreachers.length > 0) {
+                    state.outReachersData = filterOutreachers(
+                        state.countByOutreachers,
+                        action.payload
+                    );
+                }
             })
-            .addCase(fetchUsers.rejected, (state, action) => {
+            .addCase(fetchUsers.rejected, (state) => {
                 state.statusUsers = 'failed';
             })
             .addCase(createUser.pending, (state) => {
@@ -220,7 +243,7 @@ const UsersSlice = createSlice({
                 state.statusUsers = 'succeeded';
                 state.usersData.push(action.payload);
             })
-            .addCase(createUser.rejected, (state, action) => {
+            .addCase(createUser.rejected, (state) => {
                 state.statusUsers = 'failed';
             })
             .addCase(updateUser.pending, (state) => {
@@ -232,7 +255,7 @@ const UsersSlice = createSlice({
                     state.usersData[index] = action.payload;
                 }
             })
-            .addCase(updateUser.rejected, (state, action) => {
+            .addCase(updateUser.rejected, (state) => {
                 state.statusUsers = 'failed';
             })
             .addCase(deleteUser.pending, (state) => {
@@ -242,7 +265,7 @@ const UsersSlice = createSlice({
                 state.statusUsers = 'succeeded';
                 state.usersData = state.usersData.filter((user) => user.id !== action.payload);
             })
-            .addCase(deleteUser.rejected, (state, action) => {
+            .addCase(deleteUser.rejected, (state) => {
                 state.statusUsers = 'failed';
             })
             .addCase(updateMultipleUsers.pending, (state) => {
@@ -252,7 +275,7 @@ const UsersSlice = createSlice({
                 state.statusUsers = 'succeeded';
                 state.usersData = action.payload;
             })
-            .addCase(updateMultipleUsers.rejected, (state, action) => {
+            .addCase(updateMultipleUsers.rejected, (state) => {
                 state.statusUsers = 'failed';
             })
 
@@ -263,11 +286,16 @@ const UsersSlice = createSlice({
             .addCase(fetchCountByOutreachers.fulfilled, (state, action: PayloadAction<CountByOutreachersType[]>) => {
                 state.outReachersStatus = 'succeeded';
                 state.countByOutreachers = action.payload;
-                state.outReachersTotal = action.payload.length;
+
+                if (state.usersData.length > 0) {
+                    state.outReachersData = filterOutreachers(
+                        action.payload,
+                        state.usersData
+                    );
+                }
             })
-            .addCase(fetchCountByOutreachers.rejected, (state, action) => {
+            .addCase(fetchCountByOutreachers.rejected, (state) => {
                 state.outReachersStatus = 'failed';
-                state.countByOutreachers = [];
             })
 
             .addCase(fetchInscriptionsByOutreachers.pending, (state) => {
@@ -278,13 +306,10 @@ const UsersSlice = createSlice({
                 state.outReachersStatus = 'succeeded';
                 state.inscriptionsByOutreachers = action.payload;
             })
-            .addCase(fetchInscriptionsByOutreachers.rejected, (state, action) => {
+            .addCase(fetchInscriptionsByOutreachers.rejected, (state) => {
                 state.outReachersStatus = 'failed';
                 state.inscriptionsByOutreachers = [];
             });
-
-
-
     },
 });
 
@@ -298,5 +323,6 @@ export const {
     setModalUpdateUser,
     setSelectedUser,
 } = UsersSlice.actions;
+
 
 export default UsersSlice.reducer;

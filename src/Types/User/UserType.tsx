@@ -55,6 +55,7 @@ export interface InitialStateUserType {
     inscriptionsByOutreachers: DataGetUserType[];
     outReachersTotal: number;
     outReachersStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+    outReachersData: DataGetUserType[];
 
     usersData: DataGetUserType[];
     totalUsers: number | null;

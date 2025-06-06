@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Card, CardBody, Col, Container, Input, Label, Row } from "reactstrap";
-import {fetchUsers, setModalDeleteUser, deleteUser} from "@/Redux/Reducers/UserSlice";
+import {fetchUsers, setModalDeleteUser, deleteUser, fetchCountByOutreachers} from "@/Redux/Reducers/UserSlice";
 import {DataGetUserType} from "@/Types/User/UserType";
 import {UsersListTableDataColumn} from "@/Data/Admin/Users";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
@@ -16,16 +16,19 @@ const UsersListContainer: React.FC = () => {
 
   const [filterText, setFilterText] = useState("");
   const dispatch = useAppDispatch();
-  const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
+  const {statusUsers, isOpenModalDeleteUser, selectedUser, outReachersData, outReachersStatus} = useAppSelector((state) => state.user);
   const [roleFilter, setRoleFilter] = useState<string>("");
 
     useEffect(() => {
+        if (outReachersStatus === "idle" || outReachersStatus === "loading") {
+            dispatch(fetchCountByOutreachers());
+        }
         if (statusUsers === 'idle' || statusUsers === 'loading') {
             dispatch(fetchUsers());
         }
-    }, [statusUsers, dispatch]);
+    }, [statusUsers, dispatch, outReachersStatus]);
 
-    const filteredUsers = usersData.filter((user: DataGetUserType) => {
+    const filteredUsers = outReachersData.filter((user: DataGetUserType) => {
         const matchesText =
             user.name.toLowerCase().includes(filterText.toLowerCase()) ||
             user.email.toLowerCase().includes(filterText.toLowerCase());
@@ -33,7 +36,6 @@ const UsersListContainer: React.FC = () => {
         const matchesRole = roleFilter
             ? user.roles.some((role) => role.name === roleFilter)
             : true;
-
 
         return matchesText && matchesRole;
     });
@@ -51,13 +53,16 @@ const UsersListContainer: React.FC = () => {
     );
   }, [filterText]);
 
+
+
+
     return (
       <Container fluid>
           <DeleteEntityModal
               isOpen={isOpenModalDeleteUser}
               entityName="utilisateur"
               selectedEntity={selectedUser}
-              entities={usersData}
+              entities={outReachersData}
               // @ts-ignore
               setModalAction={setModalDeleteUser}
               deleteEntityThunk={deleteUser}

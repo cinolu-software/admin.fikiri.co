@@ -10,9 +10,6 @@ const HomeAdmin = () => {
       <Row>
         <TotalSells />
       </Row>
-        {/*<Row>*/}
-        {/*    <MonthlyHistory />*/}
-        {/*</Row>*/}
     </Container>
   );
 };
