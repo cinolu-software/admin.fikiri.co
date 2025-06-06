@@ -135,6 +135,25 @@ export const fetchCountByOutreachers = createAsyncThunk<CountByOutreachersType[]
     }
 );
 
+export const fetchInscriptionsByOutreachers = createAsyncThunk<DataGetUserType[], {email: string}, { rejectValue: DataUserErrorType }>(
+    'user/fetchInscriptionsByOutreachers',
+    async ({email}, {rejectWithValue}) => {
+        try {
+            const response = await axiosInstance.get(`${apiBaseUrl}/users/find-by-outreacher/${email}`, {
+                params: { email }
+            });
+            return response.data.data as DataGetUserType[];
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération des inscriptions par outreachers";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "USER_INSCRIPTIONS_BY_OUTREACHERS_ERROR",
+                statusCode: e.response?.status || 500,
+            });
+        }
+    }
+)
+
 
 const UsersSlice = createSlice({
     name: 'users',
@@ -249,6 +268,19 @@ const UsersSlice = createSlice({
             .addCase(fetchCountByOutreachers.rejected, (state, action) => {
                 state.outReachersStatus = 'failed';
                 state.countByOutreachers = [];
+            })
+
+            .addCase(fetchInscriptionsByOutreachers.pending, (state) => {
+                state.outReachersStatus = 'loading';
+                state.inscriptionsByOutreachers = [];
+            })
+            .addCase(fetchInscriptionsByOutreachers.fulfilled, (state, action: PayloadAction<DataGetUserType[]>) => {
+                state.outReachersStatus = 'succeeded';
+                state.inscriptionsByOutreachers = action.payload;
+            })
+            .addCase(fetchInscriptionsByOutreachers.rejected, (state, action) => {
+                state.outReachersStatus = 'failed';
+                state.inscriptionsByOutreachers = [];
             });
 
 
