@@ -6,7 +6,7 @@ import { CommonDropdown } from "./CommonDropdown";
 const CommonHeader: React.FC<DashboardCommonHeaderType> = ({ title ,tagClass, dropDownFalse,children}) => {
     return (
       <CardHeader className="card-no-border pb-0 d-flex justify-content-between">
-        <h4 className={tagClass ? tagClass : ""}>{title}</h4>
+        <h5 className={tagClass ? tagClass : ""}>{title}</h5>
         {
           !dropDownFalse ? 
             // <CommonDropdown/>
