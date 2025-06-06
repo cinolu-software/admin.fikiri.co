@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance, {apiBaseUrl} from "@/Services/axios";
-import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType, UpdateManyUserType} from "@/Types/User/UserType";
+import {CreateUserType, DataGetUserType, DataUserErrorType, InitialStateUserType, UpdateUserType, UpdateManyUserType, CountByOutreachersType} from "@/Types/User/UserType";
 
 const initialState: InitialStateUserType = {
+    countByOutreachers: [],
+    inscriptionsByOutreachers: [],
+    outReachersStatus: 'idle',
+    outReachersTotal: 0,
+
+
     usersData: [],
     totalUsers: null,
     statusUsers: 'idle',
@@ -108,6 +114,28 @@ export const updateMultipleUsers = createAsyncThunk<DataGetUserType[], UpdateMan
     }
 );
 
+
+
+
+
+export const fetchCountByOutreachers = createAsyncThunk<CountByOutreachersType[], void, { rejectValue: DataUserErrorType }>(
+    "user/fetchCountByOutreachers",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`${apiBaseUrl}/users/count-by-outreachers`);
+            return response.data.data as CountByOutreachersType[];
+        } catch (e: any) {
+            const errorMessage = e.response?.data?.error?.message || "Erreur lors de la récupération des utilisateurs par outreachers";
+            return rejectWithValue({
+                message: errorMessage,
+                error: "USER_COUNT_BY_OUTREACHERS_ERROR",
+                statusCode: e.response?.status || 500,
+            });
+        }
+    }
+);
+
+
 const UsersSlice = createSlice({
     name: 'users',
     initialState,
@@ -207,7 +235,23 @@ const UsersSlice = createSlice({
             })
             .addCase(updateMultipleUsers.rejected, (state, action) => {
                 state.statusUsers = 'failed';
+            })
+
+            .addCase(fetchCountByOutreachers.pending, (state) => {
+                state.outReachersStatus = 'loading';
+                state.countByOutreachers = [];
+            })
+            .addCase(fetchCountByOutreachers.fulfilled, (state, action: PayloadAction<CountByOutreachersType[]>) => {
+                state.outReachersStatus = 'succeeded';
+                state.countByOutreachers = action.payload;
+                state.outReachersTotal = action.payload.length;
+            })
+            .addCase(fetchCountByOutreachers.rejected, (state, action) => {
+                state.outReachersStatus = 'failed';
+                state.countByOutreachers = [];
             });
+
+
 
     },
 });

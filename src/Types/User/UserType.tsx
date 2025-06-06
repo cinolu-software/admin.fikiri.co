@@ -42,7 +42,20 @@ export interface DataUserErrorType {
     statusCode: number;
 }
 
+
+export interface CountByOutreachersType {
+    user_outreacher: string;
+    count: string;
+}
+
+
+
 export interface InitialStateUserType {
+    countByOutreachers: CountByOutreachersType[];
+    inscriptionsByOutreachers: DataGetUserType[];
+    outReachersTotal: number;
+    outReachersStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+
     usersData: DataGetUserType[];
     totalUsers: number | null;
     statusUsers: 'idle' | 'loading' | 'succeeded' | 'failed';
