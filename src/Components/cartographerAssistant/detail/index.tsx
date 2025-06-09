@@ -1,14 +1,26 @@
+import React, {useEffect} from 'react';
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Badge, Container } from "reactstrap";
-import { useAppSelector } from "@/Redux/Hooks";
+import { useAppSelector, useAppDispatch } from "@/Redux/Hooks";
 import BackButton from "@/CommonComponent/BackButton";
 import { imageBaseUrl } from "@/Services/axios";
 import { ImagePath } from "@/Constant";
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaIdBadge } from 'react-icons/fa';
+import {fetchInscriptionsByOutreachers} from "@/Redux/Reducers/UserSlice";
 
 const Detail = () => {
-    const { selectedUser } = useAppSelector(state => state.user);
+
+    const { selectedUser, inscriptionsByOutreachers } = useAppSelector(state => state.user);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (selectedUser && selectedUser.id) {
+            dispatch(fetchInscriptionsByOutreachers({email: selectedUser.email}));
+        }
+    }, [selectedUser, dispatch]);
 
     if (!selectedUser) return <div>Chargement...</div>;
+
+    console.log(inscriptionsByOutreachers);
 
 
     const formatDate = (dateString: string) => {
@@ -19,6 +31,8 @@ const Detail = () => {
             day: 'numeric'
         });
     };
+
+    const sponsoredCount = inscriptionsByOutreachers?.length || 0;
 
     return (
         <Container fluid className="py-3">
@@ -49,6 +63,13 @@ const Detail = () => {
                                         border: "1px solid #eee"
                                     }}
                                 />
+                                <Badge
+                                    color="primary"
+                                    className="position-absolute top-0 end-0 mt-2 me-2"
+                                    pill
+                                >
+                                    {sponsoredCount} parrainés
+                                </Badge>
                             </div>
                         </Col>
 
