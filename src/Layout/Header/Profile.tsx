@@ -78,11 +78,13 @@ export const Profile = () => {
                                 minWidth: 0,
                             }}
                         >
-                  {userData?.roles &&
-                  Array.isArray(userData.roles) &&
-                  userData.roles.length > 0
-                      ? userData.roles.join(", ")
-                      : null}
+                  {
+                      userData?.roles &&
+                      Array.isArray(userData.roles) &&
+                      userData.roles.length > 0
+                          ? truncateName(userData.roles.join(", "))
+                          : null
+                  }
                 </span>
                                 <i className="ms-2 fa fa-angle-down"></i>
                             </p>

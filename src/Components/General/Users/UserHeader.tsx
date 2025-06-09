@@ -18,11 +18,11 @@ export const UserHeader = () => {
     <div>
       <div className="light-box" onClick={handleFilterToggle}>
         <a>
-          <Filter className={`filter-icon ${filterToggle ? "hide" : "show"}`} />
+          {/*<Filter className={`filter-icon ${filterToggle ? "hide" : "show"}`} />*/}
           {/* <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} /> */}
         </a>
       </div>
-        <ManageButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />
+        {/*<ManageButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />*/}
     </div>
   );
 

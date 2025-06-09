@@ -8,6 +8,7 @@ import {Row} from "reactstrap";
 const TotalSells = () => {
 
     const {outReachersStatus, outReachersTotal, statusUsers  } = useAppSelector(state => state.user);
+
     const dispatch = useAppDispatch();
 
     useEffect(
@@ -21,7 +22,6 @@ const TotalSells = () => {
         }, 
         [outReachersStatus, statusUsers]
     )
-
 
     return (
         <Row>

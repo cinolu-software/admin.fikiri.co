@@ -123,6 +123,144 @@ const UsersListTableAction: React.FC<{ user: DataGetUserType }> = ({ user }) => 
     );
 };
 
+const OutreacherListTableAction: React.FC<{ user: DataGetUserType }> = ({ user }) => {
+
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const [loadingEdit, setLoadingEdit] = useState(false);
+    const [loadingDetail, setLoadingDetail] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
+
+    const handleDelete = () => {
+        dispatch(setModalDeleteUser({ isOpen: true, user }));
+    };
+
+    const handleViewDetail = () => {
+        setLoadingDetail(true);
+        router.push('/general/users/edit_user');
+        dispatch(setSelectedUser({ user }));
+    };
+
+    const handleModifiedUser = () => {
+        setLoadingEdit(true);
+        setTimeout(() => {
+            router.push('/general/users/edit_user');
+            setLoadingEdit(false);
+        }, 1000);
+        dispatch(setSelectedUser({ user }));
+    };
+
+    return (
+        <div className="product-action w-100">
+            <div className="row w-100 g-2">
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="primary"
+                        outline
+                        onClick={handleModifiedUser}
+                        disabled
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingEdit ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="editTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Modifier</span>
+                    </Button>
+                </div>
+
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="info"
+                        outline
+                        onClick={handleViewDetail}
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingDetail ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="moreTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Détails</span>
+                    </Button>
+                </div>
+
+
+                <div className="col-12 col-md-4">
+                    <Button
+                        color="danger"
+                        outline
+                        onClick={handleDelete}
+                        disabled
+                        className="d-flex align-items-center justify-content-center gap-1 text-nowrap"
+                        style={{
+                            padding: '6px 10px',
+                            borderRadius: '8px',
+                            width: '100%',
+                            fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                        }}
+                    >
+                        {loadingDelete ? (
+                            <Spinner size="sm" className="flex-shrink-0" />
+                        ) : (
+                            <SVG iconId="trashTable" className="d-none d-md-inline flex-shrink-0" />
+                        )}
+                        <span className="text-truncate">Supprimer</span>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const OutreacherListTableDataColumn = [
+    {
+        name: "Nom",
+        cell: (row: UsersListTableColumnType) => (
+            <UsersListTableName
+                image={
+                    row?.profile ?
+                        `${imageBaseUrl}/profiles/${row?.profile}` :
+                        row?.google_image
+                            ? row.google_image
+                            : "/assets/images/avtar/avatar.jpg"
+                }
+                name={row.name}
+            />
+        ),
+        sortable: true,
+        grow: 2
+    },
+    {
+        name: "Email",
+        selector: (row: UsersListTableColumnType) => row.email,
+        sortable: true,
+        grow: 2
+    },
+    {
+        name: "Actions",
+        cell: (row: UsersListTableColumnType) => (
+            <OutreacherListTableAction user={row}/>
+        ),
+        grow: 2
+    }
+];
 
 export const UsersListTableDataColumn = [
     {
@@ -169,38 +307,5 @@ export const AddUser = [
         icon: "user_role",
         title: "Rôle de l'utilisateur",
         detail: "Sélectionner le rôle de l'utilisateur"
-    },
-];
-
-export const AddProjectAndUpload = [
-    {
-        date: "28 May 2023",
-        status: "Completed",
-        statusClass: "bg-success",
-        price: "$56,908",
-    },
-    {
-        date: "12 June 2023",
-        status: "On going",
-        statusClass: "bg-danger",
-        price: "$45,087",
-    },
-    {
-        date: "12 July 2023",
-        status: "Pending",
-        statusClass: "bg-warning",
-        price: "$60,123",
-    },
-    {
-        date: "14 June 2023",
-        status: "Pending",
-        statusClass: "bg-warning",
-        price: "$70,435",
-    },
-    {
-        date: "25 June 2023",
-        status: "Completed",
-        statusClass: "bg-success",
-        price: "$15,987",
     },
 ];

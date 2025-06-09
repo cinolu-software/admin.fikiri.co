@@ -3,9 +3,8 @@ import DataTable from "react-data-table-component";
 import { Card, CardBody, Col, Container, Input, Label, Row } from "reactstrap";
 import {fetchUsers, setModalDeleteUser, deleteUser, fetchCountByOutreachers} from "@/Redux/Reducers/UserSlice";
 import {DataGetUserType} from "@/Types/User/UserType";
-import {UsersListTableDataColumn} from "@/Data/Admin/Users";
+import {OutreacherListTableDataColumn} from "@/Data/Admin/Users";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
-import {UserHeader} from "@/Components/General/Users/UserHeader";
 import {CollapseFilterData} from "@/Components/General/Users/CollapseFilterData";
 import DeleteEntityModal from "@/CommonComponent/DeleteEntityModal";
 import UpdateUserModal from "@/Components/General/Users/Common/UpdateUserModal";
@@ -19,7 +18,7 @@ const UsersListContainer: React.FC = () => {
   const {statusUsers, isOpenModalDeleteUser, selectedUser, outReachersData, outReachersStatus} = useAppSelector((state) => state.user);
   const [roleFilter, setRoleFilter] = useState<string>("");
 
-    useEffect(() => {
+  useEffect(() => {
         if (outReachersStatus === "idle" || outReachersStatus === "loading") {
             dispatch(fetchCountByOutreachers());
         }
@@ -47,12 +46,11 @@ const UsersListContainer: React.FC = () => {
           <Input
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
               type="search"
-              value={filterText} 
+              value={filterText}
           />
         </div>
     );
   }, [filterText]);
-
 
 
 
@@ -78,7 +76,6 @@ const UsersListContainer: React.FC = () => {
                                 <CardBody>
                                     <div className="list-product-header">
                                         <h5>Liste d'utilisateurs</h5>
-                                        <UserHeader/>
                                         <CollapseFilterData setRoleFilter={setRoleFilter} />
                                     </div>
                                     <div className="list-user">
@@ -86,7 +83,7 @@ const UsersListContainer: React.FC = () => {
                                             <DataTable
                                                 className="theme-scrollbar"
                                                 data={filteredUsers}
-                                                columns={UsersListTableDataColumn}
+                                                columns={OutreacherListTableDataColumn}
                                                 striped
                                                 highlightOnHover
                                                 pagination

@@ -286,6 +286,7 @@ const UsersSlice = createSlice({
             .addCase(fetchCountByOutreachers.fulfilled, (state, action: PayloadAction<CountByOutreachersType[]>) => {
                 state.outReachersStatus = 'succeeded';
                 state.countByOutreachers = action.payload;
+                state.outReachersTotal = action.payload.length
 
                 if (state.usersData.length > 0) {
                     state.outReachersData = filterOutreachers(
