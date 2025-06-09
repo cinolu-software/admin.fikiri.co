@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Badge, Container } from "reactstrap";
+import { Card, CardBody, CardTitle, CardSubtitle, Row, Col, Badge, Container, Table } from "reactstrap";
 import { useAppSelector, useAppDispatch } from "@/Redux/Hooks";
 import BackButton from "@/CommonComponent/BackButton";
 import { imageBaseUrl } from "@/Services/axios";
 import { ImagePath } from "@/Constant";
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaIdBadge } from 'react-icons/fa';
+import { FaUsers, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaIdBadge, FaUserPlus } from 'react-icons/fa';
 import {fetchInscriptionsByOutreachers} from "@/Redux/Reducers/UserSlice";
 
 const Detail = () => {
@@ -19,8 +19,6 @@ const Detail = () => {
     }, [selectedUser, dispatch]);
 
     if (!selectedUser) return <div>Chargement...</div>;
-
-    console.log(inscriptionsByOutreachers);
 
 
     const formatDate = (dateString: string) => {
@@ -42,7 +40,7 @@ const Detail = () => {
 
             <Card >
                 <CardBody>
-                    <Row className="align-items-start">
+                    <Row className="align-items-start border p-3 rounded">
                         <Col md={2} className="text-center mb-4 mb-md-0">
                             <div className="d-flex justify-content-center">
                                 <img
@@ -112,6 +110,73 @@ const Detail = () => {
                         </Col>
                     </Row>
                 </CardBody>
+
+                <div className='px-5'>
+                    <div className="d-flex align-items-center mb-4 mt-5">
+                        <h4 className="mb-0">Liste des Parrainés</h4>
+                    </div>
+
+                    {
+                    
+                        sponsoredCount > 0 ? (
+                            <div className="table-responsive">
+                                <Table hover bordered>
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Inscrit le</th>
+                                        <th>Adresse</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {inscriptionsByOutreachers.map((user, index) => (
+                                            <tr key={user.id}>
+                                            <td>{index + 1}</td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                <img
+                                                    src={
+                                                    user.profile
+                                                        ? `${imageBaseUrl}/profiles/${user.profile}`
+                                                        : user.google_image
+                                                        ? user.google_image
+                                                        : `${ImagePath}/avtar/avatar_.jpg`
+                                                    }
+                                                    alt="Profil"
+                                                    style={{
+                                                    width: "40px",
+                                                    height: "40px",
+                                                    borderRadius: "50%",
+                                                    objectFit: "cover",
+                                                    marginRight: "10px"
+                                                    }}
+                                                />
+                                                {user.name}
+                                                </div>
+                                            </td>
+                                            <td>{user.email}</td>
+                                            <td>{user.phone_number || "-"}</td>
+                                            <td>{formatDate(user.created_at)}</td>
+                                            <td>
+                                                {user.address}
+                                            </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        ) : (
+                            <div className="text-center py-5">
+                            <FaUserPlus className="text-muted mb-3" size={48} />
+                            <h5>Aucun parrainé trouvé</h5>
+                            <p className="text-muted">Cet utilisateur n'a pas encore parrainé d'autres membres.</p>
+                            </div>
+                        )
+                    }
+                </div>
             </Card>
         </Container>
     );
