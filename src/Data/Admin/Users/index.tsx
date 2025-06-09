@@ -138,7 +138,7 @@ const OutreacherListTableAction: React.FC<{ user: DataGetUserType }> = ({ user }
 
     const handleViewDetail = () => {
         setLoadingDetail(true);
-        router.push('/general/users/edit_user');
+        router.push('/cartographerAssistant/detail');
         dispatch(setSelectedUser({ user }));
     };
 
