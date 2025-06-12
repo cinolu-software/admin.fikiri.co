@@ -1,24 +1,27 @@
+
 import React, { useMemo, useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { Card, CardBody, Col, Container, Input, Label, Row } from "reactstrap";
-import {fetchUsers, setModalDeleteUser, deleteUser, fetchCountByOutreachers} from "@/Redux/Reducers/UserSlice";
+import {fetchUsers, fetchCountByOutreachers} from "@/Redux/Reducers/UserSlice";
 import {DataGetUserType} from "@/Types/User/UserType";
 import {OutreacherListTableDataColumn} from "@/Data/Admin/Users";
 import {useAppSelector, useAppDispatch} from "@/Redux/Hooks";
 import {CollapseFilterData} from "@/Components/General/Users/CollapseFilterData";
-import DeleteEntityModal from "@/CommonComponent/DeleteEntityModal";
-import UpdateUserModal from "@/Components/General/Users/Common/UpdateUserModal";
 import TableSkeleton from "@/CommonComponent/TableSkeleton";
 
-
 const UsersListContainer: React.FC = () => {
+    const [filterText, setFilterText] = useState("");
+    const dispatch = useAppDispatch();
+    const {
+        statusUsers,
+        outReachersData,
+        outReachersStatus,
+        countByOutreachers
+    } = useAppSelector((state) => state.user);
 
-  const [filterText, setFilterText] = useState("");
-  const dispatch = useAppDispatch();
-  const {statusUsers, isOpenModalDeleteUser, selectedUser, outReachersData, outReachersStatus} = useAppSelector((state) => state.user);
-  const [roleFilter, setRoleFilter] = useState<string>("");
+    const [roleFilter, setRoleFilter] = useState<string>("");
 
-  useEffect(() => {
+    useEffect(() => {
         if (outReachersStatus === "idle" || outReachersStatus === "loading") {
             dispatch(fetchCountByOutreachers());
         }
@@ -27,7 +30,22 @@ const UsersListContainer: React.FC = () => {
         }
     }, [statusUsers, dispatch, outReachersStatus]);
 
-    const filteredUsers = outReachersData.filter((user: DataGetUserType) => {
+
+    const countMap = useMemo(() => {
+        const map = new Map<string, number>();
+        countByOutreachers.forEach(item => {
+            if (item.user_outreacher) {
+                //@ts-ignore
+                map.set(item.user_outreacher, item.count);
+            }
+        });
+        return map;
+    }, [countByOutreachers]);
+
+    const filteredUsers = outReachersData.map(user => ({
+        ...user,
+        sponsoredCount: countMap.get(user.email) || 0
+    })).filter((user: DataGetUserType & { sponsoredCount: number }) => {
         const matchesText =
             user.name.toLowerCase().includes(filterText.toLowerCase()) ||
             user.email.toLowerCase().includes(filterText.toLowerCase());
@@ -39,34 +57,50 @@ const UsersListContainer: React.FC = () => {
         return matchesText && matchesRole;
     });
 
-  const subHeaderComponentMemo = useMemo(() => {
+    const subHeaderComponentMemo = useMemo(() => {
+        return (
+            <div className="dataTables_filter d-flex align-items-center">
+                <Label className="me-2">Chercher:</Label>
+                <Input
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+                    type="search"
+                    value={filterText}
+                />
+            </div>
+        );
+    }, [filterText]);
+
+
+    const columns = useMemo(() => {
+        const emailIndex = OutreacherListTableDataColumn.findIndex(
+            (col) => col.name === "Email"
+        );
+
+        const sponsoredColumn = {
+            name: "Nombre de parrainés",
+            selector: (row: any) => row.sponsoredCount,
+            cell: (row: any) => (
+                <div className="text-center d-flex justify-content-center align-items-center">
+                    <div>
+                        <span className="badge bg-primary">{row.sponsoredCount}</span>
+                    </div>
+                </div>
+            ),
+            sortable: true,
+            grow: 1
+        };
+
+        const columnsBefore = OutreacherListTableDataColumn.slice(0, emailIndex + 1);
+        const columnsAfter = OutreacherListTableDataColumn.slice(emailIndex + 1);
+
+        return [...columnsBefore, sponsoredColumn, ...columnsAfter];
+    }, []);
+
+
     return (
-        <div className="dataTables_filter d-flex align-items-center">
-          <Label className="me-2">Chercher:</Label>
-          <Input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
-              type="search"
-              value={filterText}
-          />
-        </div>
-    );
-  }, [filterText]);
+        <Container fluid>
 
-
-
-    return (
-      <Container fluid>
-          <DeleteEntityModal
-              isOpen={isOpenModalDeleteUser}
-              entityName="utilisateur"
-              selectedEntity={selectedUser}
-              entities={outReachersData}
-              // @ts-ignore
-              setModalAction={setModalDeleteUser}
-              deleteEntityThunk={deleteUser}
-          />
-          <UpdateUserModal selectedUser={selectedUser as DataGetUserType}/>
-          {
+            {
                 statusUsers !== 'succeeded' ? (
                     <TableSkeleton/>
                 ) : (
@@ -83,7 +117,8 @@ const UsersListContainer: React.FC = () => {
                                             <DataTable
                                                 className="theme-scrollbar"
                                                 data={filteredUsers}
-                                                columns={OutreacherListTableDataColumn}
+                                                // @ts-ignore
+                                                columns={columns}
                                                 striped
                                                 highlightOnHover
                                                 pagination
@@ -97,9 +132,9 @@ const UsersListContainer: React.FC = () => {
                         </Col>
                     </Row>
                 )
-          }
-      </Container>
-  );
+            }
+        </Container>
+    );
 };
 
 export default UsersListContainer;

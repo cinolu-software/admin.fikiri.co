@@ -70,4 +70,6 @@ export interface InitialStateUserType {
     formValue: any;
 }
 
-export interface UsersListTableColumnType extends DataGetUserType {}
+export interface UsersListTableColumnType extends DataGetUserType {
+    outreachersNumber: string;
+}
