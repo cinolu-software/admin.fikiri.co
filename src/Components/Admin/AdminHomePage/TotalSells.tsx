@@ -44,9 +44,9 @@ const TotalSells = () => {
 
     return (
         <Row>
-            <Stat className={"total-sells"} title={"Nombre Total d'appels"} image={"opportunity.png"} count={totalAllCall} icon={"fa-arrow-up"} color={"success"}/>
-            <Stat className={"total-sells-2"} title={"Nombre Total d'appels publiés"} image={"bublishedOpportunity.png"} count={totalPublishedCall} icon={"fa-arrow-down"} color={"danger"}/>
-            <Stat className={"total-sells-4"} title={"Nombre Total d'utilisateurs"} image={"users.png"} count={totalUsers} icon={"fa-arrow-down"} color={"danger"}/>
+            <Stat className={"total-sells"} title={"Nombre Total d'appels"} image={"opportunity.png"} count={Number(statData.calls)} icon={"fa-arrow-up"} color={"success"}/>
+            <Stat className={"total-sells-2"} title={"Nombre Total d'appels publiés"} image={"bublishedOpportunity.png"} count={Number(statData.publishedCalls)} icon={"fa-arrow-down"} color={"danger"}/>
+            <Stat className={"total-sells-4"} title={"Nombre Total d'utilisateurs"} image={"users.png"} count={Number(statData.users)} icon={"fa-arrow-down"} color={"danger"}/>
             <Stat className={"total-sells-3"} title={"Nombre Total de solutions"} image={"applications.png"} count={Number(statData.solutions)} icon={"fa-arrow-down"} color={"danger"}/>
         </Row>
     );
