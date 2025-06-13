@@ -76,6 +76,7 @@ const UsersListContainer: React.FC = () => {
                                         <div className="table-responsive">
                                             <DataTable
                                                 className="theme-scrollbar"
+                                                // @ts-ignore
                                                 data={filteredUsers}
                                                 columns={UsersListTableDataColumn}
                                                 striped
