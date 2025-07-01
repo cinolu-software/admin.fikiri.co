@@ -11,7 +11,7 @@ export const Profile = () => {
 
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { userData } = useAppSelector((state) => state.authentication);
+    const { userData, statusAuthentication } = useAppSelector((state) => state.authentication);
 
     useEffect(() => {
         try {
@@ -30,6 +30,12 @@ export const Profile = () => {
             router.push(process.env.NEXT_PUBLIC_URL_HOST_CLIENT as string);
         }
     }, [userData]);
+
+    useEffect(() => {
+        if (statusAuthentication === "failed") {
+            router.push(process.env.NEXT_PUBLIC_HOST_CLIENT as string);
+        }
+    }, [statusAuthentication, router]);
 
     const LogOutUser = async () => {
         await dispatch(logOut());
