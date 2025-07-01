@@ -19,6 +19,7 @@ const UsersListContainer: React.FC = () => {
   const {usersData, statusUsers, isOpenModalDeleteUser, selectedUser} = useAppSelector((state) => state.user);
   const [roleFilter, setRoleFilter] = useState<string>("");
 
+
     useEffect(() => {
         if (statusUsers === 'idle' || statusUsers === 'loading') {
             dispatch(fetchUsers());
@@ -38,7 +39,7 @@ const UsersListContainer: React.FC = () => {
         return matchesText && matchesRole;
     });
 
-  const subHeaderComponentMemo = useMemo(() => {
+    const subHeaderComponentMemo = useMemo(() => {
     return (
         <div className="dataTables_filter d-flex align-items-center">
           <Label className="me-2">Chercher:</Label>
@@ -50,6 +51,40 @@ const UsersListContainer: React.FC = () => {
         </div>
     );
   }, [filterText]);
+
+    const handleExportCSV = () => {
+        const headers = [
+            'ID', 'Nom', 'Email', 'Téléphone', 'Adresse',
+            'Rôles', 'Date de création', 'Dernière modification'
+        ];
+
+        const csvContent = [
+            headers.join(';'),
+            ...filteredUsers.map(user => {
+                const roles = user.roles.map(role => role.name).join(', ');
+                return [
+                    `"${user.id}"`,
+                    `"${user.name}"`,
+                    `"${user.email}"`,
+                    `"${user.phone_number || ''}"`,
+                    `"${user.address || ''}"`,
+                    `"${roles}"`,
+                    `"${new Date(user.created_at).toLocaleString()}"`,
+                    `"${user.updated_at ? new Date(user.updated_at).toLocaleString() : ''}"`
+                ].join(';');
+            })
+        ].join('\n');
+
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `utilisateurs_${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
 
     return (
       <Container fluid>
@@ -73,7 +108,7 @@ const UsersListContainer: React.FC = () => {
                                 <CardBody>
                                     <div className="list-product-header">
                                         <h5>Liste d'utilisateurs</h5>
-                                        <UserHeader/>
+                                        <UserHeader onExportCSV={handleExportCSV} />
                                         <CollapseFilterData setRoleFilter={setRoleFilter} />
                                     </div>
                                     <div className="list-user">

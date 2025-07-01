@@ -45,5 +45,4 @@ export const CollapseFilterData: React.FC<{setRoleFilter: any}> =  ({setRoleFilt
           </Card>
       </Collapse>
   );
-
 };

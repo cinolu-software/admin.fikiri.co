@@ -261,7 +261,7 @@ export const MenuList: MenuItem[] = [
         ]
       },
     ],
-    requiredRoles: ['cartographer-assistant']
+    requiredRoles: ['cartographer-assistant', 'admin']
   },
 
 

@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/Redux/Hooks";
 import {setFilterToggle} from "@/Redux/Reducers/UserSlice";
-import { Filter } from "react-feather";
+import { Filter, Download } from "react-feather";
 import React from "react";
 import ManageButton from "@/CommonComponent/ManageButton";
 
-export const UserHeader = () => {
+
+export const UserHeader = ({ onExportCSV }: { onExportCSV?: () => void }) => {
 
   const {filterToggle} = useAppSelector(state=>state.user)
 
@@ -22,8 +23,12 @@ export const UserHeader = () => {
            <i className={`icon-close filter-close ${filterToggle ? "show" : "hide"}`} />
         </a>
       </div>
+
+        <button className={'btn btn-outline-primary'} onClick={onExportCSV} >
+            <Download size={16} className="me-1" />
+            Exporter CSV
+        </button>
         <ManageButton link={'/general/users/add_user'} name={"gestion d'utilisateur"} />
     </div>
   );
-
 };

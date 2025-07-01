@@ -115,10 +115,6 @@ export const updateMultipleUsers = createAsyncThunk<DataGetUserType[], UpdateMan
     }
 );
 
-
-
-
-
 export const fetchCountByOutreachers = createAsyncThunk<CountByOutreachersType[], void, { rejectValue: DataUserErrorType }>(
     "user/fetchCountByOutreachers",
     async (_, { rejectWithValue }) => {

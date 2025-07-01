@@ -109,7 +109,7 @@ const UsersListContainer: React.FC = () => {
                             <Card>
                                 <CardBody>
                                     <div className="list-product-header">
-                                        <h5>Liste d'utilisateurs</h5>
+                                        <h5>Liste de vulgarisateurs</h5>
                                         <CollapseFilterData setRoleFilter={setRoleFilter} />
                                     </div>
                                     <div className="list-user">
